@@ -1,12 +1,12 @@
 Name:		cmake
-Version:	2.2.3
-Release:	4%{?dist}
+Version:	2.4.2
+Release:	1%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
-Source0:	http://www.cmake.org/files/v2.2/cmake-%{version}.tar.gz
+Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
 Source1:        cmake-init-fedora
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
@@ -54,6 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/%{name}-%{version}/
 %{_bindir}/ccmake
 %{_bindir}/cmake
+%{_bindir}/cpack
 %{_bindir}/ctest
 %{_datadir}/%{name}/
 %{_mandir}/man1/*.1*
@@ -62,6 +63,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jun 30 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.2-1
+- Update to 2.4.2
+
 * Thu Apr  6 2006 Orion Poplawski <orion@cora.nwra.com> - 2.2.3-4
 - Update for vim 7.0c
 
