@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -8,6 +8,7 @@ License:	BSD
 URL:		http://www.cmake.org
 Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
 Source1:        cmake-init-fedora
+Patch0:         cmake-2.4.2-fedora.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
 
@@ -22,6 +23,7 @@ generation, code generation, and template instantiation.
 
 %prep
 %setup -q
+%patch -p1 -b .fedora
 
 
 %build
@@ -63,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 11 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.2-2
+- Patch FindRuby and FindSWIG to work on Fedora (bug #198103)
+
 * Fri Jun 30 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.2-1
 - Update to 2.4.2
 
