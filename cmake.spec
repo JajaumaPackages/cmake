@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -38,12 +38,12 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/vim/vim70c/syntax
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/vim/vim70c/indent
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/vim/vim70/syntax
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/vim/vim70/indent
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
 cp -a Example $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
-install -m 0644 Docs/cmake-syntax.vim $RPM_BUILD_ROOT%{_datadir}/vim/vim70c/syntax/cmake.vim
-install -m 0644 Docs/cmake-indent.vim $RPM_BUILD_ROOT%{_datadir}/vim/vim70c/indent/cmake.vim
+install -m 0644 Docs/cmake-syntax.vim $RPM_BUILD_ROOT%{_datadir}/vim/vim70/syntax/cmake.vim
+install -m 0644 Docs/cmake-indent.vim $RPM_BUILD_ROOT%{_datadir}/vim/vim70/indent/cmake.vim
 install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 
 
@@ -65,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 31 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.2-3
+- Update for vim 7.0
+
 * Tue Jul 11 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.2-2
 - Patch FindRuby and FindSWIG to work on Fedora (bug #198103)
 
