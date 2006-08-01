@@ -1,6 +1,6 @@
 Name:		cmake
-Version:	2.4.2
-Release:	3%{?dist}
+Version:	2.4.3
+Release:	1%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -65,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Aug  1 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-1
+- Update to 2.4.3
+
 * Mon Jul 31 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.2-3
 - Update for vim 7.0
 
