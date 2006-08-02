@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -9,6 +9,7 @@ URL:		http://www.cmake.org
 Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
 Source1:        cmake-init-fedora
 Patch0:         cmake-2.4.2-fedora.patch
+Patch1:         cmake-2.4.3-soname.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
 
@@ -24,6 +25,7 @@ generation, code generation, and template instantiation.
 %prep
 %setup -q
 %patch -p1 -b .fedora
+%patch1 -p0 -b .soname
 
 
 %build
@@ -38,12 +40,8 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/vim/vim70/syntax
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/vim/vim70/indent
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
 cp -a Example $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
-install -m 0644 Docs/cmake-syntax.vim $RPM_BUILD_ROOT%{_datadir}/vim/vim70/syntax/cmake.vim
-install -m 0644 Docs/cmake-indent.vim $RPM_BUILD_ROOT%{_datadir}/vim/vim70/indent/cmake.vim
 install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 
 
@@ -61,10 +59,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 %{_mandir}/man1/*.1*
 %{_datadir}/emacs/
-%{_datadir}/vim/
 
 
 %changelog
+* Wed Aug  2 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-2
+- vim 7.0 now ships cmake files, so don't ship ours (bug #201018)
+- Add patch to Linux.cmake for Fortran soname support for plplot
+
 * Tue Aug  1 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-1
 - Update to 2.4.3
 
