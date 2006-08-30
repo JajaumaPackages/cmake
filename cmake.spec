@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -62,6 +62,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Aug 29 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-3
+- Rebuild for FC6
+
 * Wed Aug  2 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-2
 - vim 7.0 now ships cmake files, so don't ship ours (bug #201018)
 - Add patch to Linux.cmake for Fortran soname support for plplot
