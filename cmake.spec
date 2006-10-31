@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -62,6 +62,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 31 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-4
+- Add /usr/lib/jvm/java to FindJNI search paths
+
 * Tue Aug 29 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-3
 - Rebuild for FC6
 
