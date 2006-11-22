@@ -1,6 +1,6 @@
 Name:		cmake
-Version:	2.4.3
-Release:	4%{?dist}
+Version:	2.4.4
+Release:	1%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -9,7 +9,6 @@ URL:		http://www.cmake.org
 Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
 Source1:        cmake-init-fedora
 Patch0:         cmake-2.4.2-fedora.patch
-Patch1:         cmake-2.4.3-soname.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
 
@@ -25,7 +24,6 @@ generation, code generation, and template instantiation.
 %prep
 %setup -q
 %patch -p1 -b .fedora
-%patch1 -p0 -b .soname
 
 
 %build
@@ -62,6 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Nov 21 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.4-1
+- Update to 2.4.4
+
 * Tue Oct 31 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.3-4
 - Add /usr/lib/jvm/java to FindJNI search paths
 
