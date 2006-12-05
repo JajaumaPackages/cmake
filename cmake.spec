@@ -1,5 +1,5 @@
 Name:		cmake
-Version:	2.4.4
+Version:	2.4.5
 Release:	1%{?dist}
 Summary:	Cross-platform make system
 
@@ -60,6 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Dec  5 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.5-1
+- Update to 2.4.5
+
 * Tue Nov 21 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.4-1
 - Update to 2.4.4
 
