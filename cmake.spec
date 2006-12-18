@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -9,8 +9,11 @@ URL:		http://www.cmake.org
 Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
 Source1:        cmake-init-fedora
 Patch0:         cmake-2.4.2-fedora.patch
+Patch1:         cmake-2.4.5-xmlrpc.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
+BuildRequires:  curl-devel, expat-devel, xmlrpc-c-devel, zlib-devel
+
 
 %description
 CMake is used to control the software compilation process using simple 
@@ -24,13 +27,15 @@ generation, code generation, and template instantiation.
 %prep
 %setup -q
 %patch -p1 -b .fedora
+%patch1 -p1 -b .xmlrpc
 
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$RPM_OPT_FLAGS"
 ./bootstrap --init=%SOURCE1 --prefix=%{_prefix} --datadir=/share/%{name} \
-            --docdir=/share/doc/%{name}-%{version} --mandir=/share/man
+            --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
+            --system-libs
 make %{?_smp_mflags}
 
 
@@ -60,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Dec 18 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.5-2
+- Use system libraries (bootstrap --system-libs)
+
 * Tue Dec  5 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.5-1
 - Update to 2.4.5
 
