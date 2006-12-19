@@ -8,3 +8,16 @@
          )
        MARK_AS_ADVANCED(XMLRPC_${name}_LIBRARY)
  
+--- cmake-2.4.5/Utilities/cm_xmlrpc.h.xmlrpc	2006-12-04 09:04:06.000000000 -0700
++++ cmake-2.4.5/Utilities/cm_xmlrpc.h	2006-12-18 17:00:01.000000000 -0700
+@@ -20,8 +20,8 @@
+ /* Use the xmlrpc library configured for CMake.  */
+ #include "cmThirdParty.h"
+ #ifdef CMAKE_USE_SYSTEM_XMLRPC
+-# include <xmlrpc.h>
+-# include <xmlrpc_client.h>
++# include <xmlrpc-c/base.h>
++# include <xmlrpc-c/client.h>
+ #else
+ # include <cmxmlrpc/xmlrpc.h>
+ # include <cmxmlrpc/xmlrpc_client.h>
