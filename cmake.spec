@@ -1,6 +1,6 @@
 Name:		cmake
-Version:	2.4.5
-Release:	2%{?dist}
+Version:	2.4.6
+Release:	1%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -65,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 11 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.6-1
+- Update to 2.4.6
+
 * Mon Dec 18 2006 Orion Poplawski <orion@cora.nwra.com> - 2.4.5-2
 - Use system libraries (bootstrap --system-libs)
 
