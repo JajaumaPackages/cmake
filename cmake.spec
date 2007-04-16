@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -11,6 +11,7 @@ Source1:        cmake-init-fedora
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
+Patch2:         cmake-2.4.6-soexe.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  curl-devel, expat-devel, xmlrpc-c-devel, zlib-devel
@@ -30,6 +31,7 @@ generation, code generation, and template instantiation.
 %setup -q
 %patch -p1 -b .fedora
 %patch1 -p1 -b .xmlrpc
+%patch2 -p1 -b .soexe
 
 
 %build
@@ -71,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Apr 16 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.6-3
+- Apply patch from upstream CVS to fix .so install permissions (bug #235673)
+
 * Fri Apr 06 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.6-2
 - Add rpm macros
 

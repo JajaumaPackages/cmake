@@ -1,0 +1,121 @@
+Index: CMake/Source/cmFileCommand.cxx
+===================================================================
+RCS file: /cvsroot/CMake/CMake/Source/cmFileCommand.cxx,v
+retrieving revision 1.75
+retrieving revision 1.76
+diff -u -r1.75 -r1.76
+--- CMake/Source/cmFileCommand.cxx	12 Mar 2007 18:15:25 -0000	1.75
++++ CMake/Source/cmFileCommand.cxx	10 Apr 2007 15:22:15 -0000	1.76
+@@ -1184,6 +1184,9 @@
+       }
+     }
+ 
++  // Choose a default for shared library permissions.
++  bool install_so_no_exe = this->Makefile->IsOn("CMAKE_INSTALL_SO_NO_EXE");
++
+   // If file permissions were not specified set default permissions
+   // for this target type.
+   if(!use_given_permissions_file && !use_source_permissions)
+@@ -1192,15 +1195,16 @@
+       {
+       case cmTarget::SHARED_LIBRARY:
+       case cmTarget::MODULE_LIBRARY:
+-#if defined(__linux__)
+-        // Use read/write permissions.
+-        permissions_file = 0;
+-        permissions_file |= mode_owner_read;
+-        permissions_file |= mode_owner_write;
+-        permissions_file |= mode_group_read;
+-        permissions_file |= mode_world_read;
+-        break;
+-#endif
++        if(install_so_no_exe)
++          {
++          // Use read/write permissions.
++          permissions_file = 0;
++          permissions_file |= mode_owner_read;
++          permissions_file |= mode_owner_write;
++          permissions_file |= mode_group_read;
++          permissions_file |= mode_world_read;
++          break;
++          }
+       case cmTarget::EXECUTABLE:
+       case cmTarget::INSTALL_PROGRAMS:
+         // Use read/write/executable permissions.
+Index: CMake/Source/cmLocalGenerator.cxx
+===================================================================
+RCS file: /cvsroot/CMake/CMake/Source/cmLocalGenerator.cxx,v
+retrieving revision 1.207
+retrieving revision 1.208
+diff -u -r1.207 -r1.208
+--- CMake/Source/cmLocalGenerator.cxx	30 Mar 2007 14:53:02 -0000	1.207
++++ CMake/Source/cmLocalGenerator.cxx	10 Apr 2007 15:22:15 -0000	1.208
+@@ -393,6 +393,18 @@
+     "ENDIF(NOT CMAKE_INSTALL_COMPONENT)\n"
+     "\n";
+ 
++  // Copy user-specified install options to the install code.
++  if(const char* so_no_exe =
++     this->Makefile->GetDefinition("CMAKE_INSTALL_SO_NO_EXE"))
++    {
++    fout <<
++      "# Install shared libraries without execute permission?\n"
++      "IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)\n"
++      "  SET(CMAKE_INSTALL_SO_NO_EXE \"" << so_no_exe << "\")\n"
++      "ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)\n"
++      "\n";
++    }
++
+   // Ask each install generator to write its code.
+   std::vector<cmInstallGenerator*> const& installers =
+     this->Makefile->GetInstallGenerators();
+Index: CMake/Modules/Platform/Linux.cmake
+===================================================================
+RCS file: /cvsroot/CMake/CMake/Modules/Platform/Linux.cmake,v
+retrieving revision 1.11
+retrieving revision 1.12
+diff -u -r1.11 -r1.12
+--- CMake/Modules/Platform/Linux.cmake	15 Sep 2006 18:08:39 -0000	1.11
++++ CMake/Modules/Platform/Linux.cmake	10 Apr 2007 15:22:15 -0000	1.12
+@@ -18,4 +18,41 @@
+   SET(CMAKE_${type}_LINK_DYNAMIC_C_FLAGS "-Wl,-Bdynamic")
+ ENDFOREACH(type)
+ 
++# Debian policy requires that shared libraries be installed without
++# executable permission.  Fedora policy requires that shared libraries
++# be installed with the executable permission.  Since the native tools
++# create shared libraries with execute permission in the first place a
++# reasonable policy seems to be to install with execute permission by
++# default.  In order to support debian packages we provide an option
++# here.  The option default is based on the current distribution, but
++# packagers can set it explicitly on the command line.
++IF(DEFINED CMAKE_INSTALL_SO_NO_EXE)
++  # Store the decision variable in the cache.  This preserves any
++  # setting the user provides on the command line.
++  SET(CMAKE_INSTALL_SO_NO_EXE "${CMAKE_INSTALL_SO_NO_EXE}" CACHE INTERNAL
++    "Install .so files without execute permission.")
++ELSE(DEFINED CMAKE_INSTALL_SO_NO_EXE)
++  # Detect the linux distribution.
++  SET(CMAKE_LINUX_DISTRO)
++  IF(EXISTS "/proc/version")
++    FILE(READ "/proc/version" CMAKE_LINUX_DISTRO)
++  ENDIF(EXISTS "/proc/version")
++
++  # List the distributions that require shared libraries to not have
++  # execute permission.
++  SET(CMAKE_INSTALL_SO_NO_EXE_DISTRO "(Debian|Ubuntu)")
++
++  # Store the decision variable as an internal cache entry to avoid
++  # checking the platform every time.  This option is advanced enough
++  # that only package maintainers should need to adjust it.  They are
++  # capable of providing a setting on the command line.
++  IF("${CMAKE_LINUX_DISTRO}" MATCHES "${CMAKE_INSTALL_SO_NO_EXE_DISTRO}")
++    SET(CMAKE_INSTALL_SO_NO_EXE 1 CACHE INTERNAL
++      "Install .so files without execute permission.")
++  ELSE("${CMAKE_LINUX_DISTRO}" MATCHES "${CMAKE_INSTALL_SO_NO_EXE_DISTRO}")
++    SET(CMAKE_INSTALL_SO_NO_EXE 0 CACHE INTERNAL
++      "Install .so files without execute permission.")
++  ENDIF("${CMAKE_LINUX_DISTRO}" MATCHES "${CMAKE_INSTALL_SO_NO_EXE_DISTRO}")
++ENDIF(DEFINED CMAKE_INSTALL_SO_NO_EXE)
++
+ INCLUDE(Platform/UnixPaths)
