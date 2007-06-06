@@ -69,15 +69,9 @@ diff -u -r1.207 -r1.208
    // Ask each install generator to write its code.
    std::vector<cmInstallGenerator*> const& installers =
      this->Makefile->GetInstallGenerators();
-Index: CMake/Modules/Platform/Linux.cmake
-===================================================================
-RCS file: /cvsroot/CMake/CMake/Modules/Platform/Linux.cmake,v
-retrieving revision 1.11
-retrieving revision 1.12
-diff -u -r1.11 -r1.12
---- CMake/Modules/Platform/Linux.cmake	15 Sep 2006 18:08:39 -0000	1.11
-+++ CMake/Modules/Platform/Linux.cmake	10 Apr 2007 15:22:15 -0000	1.12
-@@ -18,4 +18,41 @@
+--- CMake/Modules/Platform/Linux.cmake	13 Oct 2006 14:52:01 -0000	1.8.2.2
++++ CMake/Modules/Platform/Linux.cmake	7 May 2007 22:17:32 -0000	1.14
+@@ -18,4 +20,31 @@
    SET(CMAKE_${type}_LINK_DYNAMIC_C_FLAGS "-Wl,-Bdynamic")
  ENDFOREACH(type)
  
@@ -95,27 +89,17 @@ diff -u -r1.11 -r1.12
 +  SET(CMAKE_INSTALL_SO_NO_EXE "${CMAKE_INSTALL_SO_NO_EXE}" CACHE INTERNAL
 +    "Install .so files without execute permission.")
 +ELSE(DEFINED CMAKE_INSTALL_SO_NO_EXE)
-+  # Detect the linux distribution.
-+  SET(CMAKE_LINUX_DISTRO)
-+  IF(EXISTS "/proc/version")
-+    FILE(READ "/proc/version" CMAKE_LINUX_DISTRO)
-+  ENDIF(EXISTS "/proc/version")
-+
-+  # List the distributions that require shared libraries to not have
-+  # execute permission.
-+  SET(CMAKE_INSTALL_SO_NO_EXE_DISTRO "(Debian|Ubuntu)")
-+
 +  # Store the decision variable as an internal cache entry to avoid
 +  # checking the platform every time.  This option is advanced enough
 +  # that only package maintainers should need to adjust it.  They are
 +  # capable of providing a setting on the command line.
-+  IF("${CMAKE_LINUX_DISTRO}" MATCHES "${CMAKE_INSTALL_SO_NO_EXE_DISTRO}")
++  IF(EXISTS "/etc/debian_version")
 +    SET(CMAKE_INSTALL_SO_NO_EXE 1 CACHE INTERNAL
 +      "Install .so files without execute permission.")
-+  ELSE("${CMAKE_LINUX_DISTRO}" MATCHES "${CMAKE_INSTALL_SO_NO_EXE_DISTRO}")
++  ELSE(EXISTS "/etc/debian_version")
 +    SET(CMAKE_INSTALL_SO_NO_EXE 0 CACHE INTERNAL
 +      "Install .so files without execute permission.")
-+  ENDIF("${CMAKE_LINUX_DISTRO}" MATCHES "${CMAKE_INSTALL_SO_NO_EXE_DISTRO}")
++  ENDIF(EXISTS "/etc/debian_version")
 +ENDIF(DEFINED CMAKE_INSTALL_SO_NO_EXE)
 +
  INCLUDE(Platform/UnixPaths)
