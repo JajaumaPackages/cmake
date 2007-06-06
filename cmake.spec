@@ -1,12 +1,12 @@
 Name:		cmake
-Version:	2.4.6
-Release:	3%{?dist}
+Version:	2.4.7
+Release:	0.rc10%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
-Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
+Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}-RC-10.tar.gz
 Source1:        cmake-init-fedora
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
@@ -28,7 +28,7 @@ generation, code generation, and template instantiation.
 
 
 %prep
-%setup -q
+%setup -q -n cmake-%{version}-RC-10
 %patch -p1 -b .fedora
 %patch1 -p1 -b .xmlrpc
 %patch2 -p1 -b .soexe
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun 06 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-0.rc10
+- Update to 2.4.7-RC-10
+
 * Mon Apr 16 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.6-3
 - Apply patch from upstream CVS to fix .so install permissions (bug #235673)
 
