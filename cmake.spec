@@ -1,6 +1,6 @@
 Name:		cmake
-Version:	2.4.7
-Release:	0.rc10%{?dist}
+Version:	2.4.6
+Release:	4%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -73,8 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Jun 06 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-0.rc10
-- Update to 2.4.7-RC-10
+* Wed Jun 27 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.6-4
+- Update macros.cmake to add CMAKE_INSTALL_LIBDIR, INCLUDE_INSTALL_DIR,
+  LIB_INSTALL_DIR, SYSCONF_INSTALL_DIR, and SHARE_INSTALL_PREFIX
 
 * Mon Apr 16 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.6-3
 - Apply patch from upstream CVS to fix .so install permissions (bug #235673)

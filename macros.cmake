@@ -9,8 +9,13 @@
   CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
   FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
   %__cmake \\\
+        -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \\\
+        -DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir} \\\
+        -DINCLUDE_INSTALL_DIR:PATH=%{_includedir} \\\
+        -DLIB_INSTALL_DIR:PATH=%{_libdir} \\\
+        -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \\\
+        -DSHARE_INSTALL_PREFIX:PATH=%{_datadir} \\\
 %if "%{?_lib}" == "lib64" \
         %{?_cmake_lib_suffix64} \\\
 %endif \
-        -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \\\
         -DBUILD_SHARED_LIBS:BOOL=ON
