@@ -1,17 +1,16 @@
 Name:		cmake
-Version:	2.4.6
-Release:	4%{?dist}
+Version:	2.4.7
+Release:	0.rc11%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
-Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
+Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}-RC-11.tar.gz
 Source1:        cmake-init-fedora
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
-Patch2:         cmake-2.4.6-soexe.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  curl-devel, expat-devel, xmlrpc-c-devel, zlib-devel
@@ -28,10 +27,9 @@ generation, code generation, and template instantiation.
 
 
 %prep
-%setup -q -n cmake-%{version}
+%setup -q -n cmake-%{version}-RC-11
 %patch -p1 -b .fedora
 %patch1 -p1 -b .xmlrpc
-%patch2 -p1 -b .soexe
 
 
 %build
@@ -73,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jun 29 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-0.rc11
+- Update to 2.4.7 RC-11
+
 * Wed Jun 27 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.6-4
 - Update macros.cmake to add CMAKE_INSTALL_LIBDIR, INCLUDE_INSTALL_DIR,
   LIB_INSTALL_DIR, SYSCONF_INSTALL_DIR, and SHARE_INSTALL_PREFIX
