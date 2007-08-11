@@ -1,12 +1,12 @@
 Name:		cmake
 Version:	2.4.7
-Release:	0.rc11%{?dist}
+Release:	1%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
-Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}-RC-11.tar.gz
+Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
 Source1:        cmake-init-fedora
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
@@ -27,7 +27,7 @@ generation, code generation, and template instantiation.
 
 
 %prep
-%setup -q -n cmake-%{version}-RC-11
+%setup -q
 %patch -p1 -b .fedora
 %patch1 -p1 -b .xmlrpc
 
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 23 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-1
+- Update to 2.4.7
+
 * Fri Jun 29 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-0.rc11
 - Update to 2.4.7 RC-11
 
