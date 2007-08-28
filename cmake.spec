@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Aug 28 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-3
+- Rebuild for new expat
+
 * Wed Aug 22 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-2
 - Rebuild for BuildID
 
