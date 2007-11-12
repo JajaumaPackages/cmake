@@ -1,2 +1,0 @@
-SET (CMAKE_SKIP_RPATH "YES" CACHE BOOL
-     "If set, runtime paths are not added when using shared libraries.")

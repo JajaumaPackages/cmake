@@ -1,13 +1,12 @@
 Name:		cmake
 Version:	2.4.7
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
 Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
-Source1:        cmake-init-fedora
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
@@ -35,7 +34,7 @@ generation, code generation, and template instantiation.
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$RPM_OPT_FLAGS"
-./bootstrap --init=%SOURCE1 --prefix=%{_prefix} --datadir=/share/%{name} \
+./bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
             --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
             --system-libs
 make VERBOSE=1 %{?_smp_mflags}
@@ -71,6 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 12 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-4
+- No longer set CMAKE_SKIP_RPATH
+
 * Tue Aug 28 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-3
 - Rebuild for new expat
 
