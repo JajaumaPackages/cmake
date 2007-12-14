@@ -1,12 +1,13 @@
 Name:		cmake
-Version:	2.4.7
-Release:	4%{?dist}
+Version:	2.4.8
+Release:	0.rc4%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
-Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
+#Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
+Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}-RC-4.tar.gz
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
@@ -26,7 +27,7 @@ generation, code generation, and template instantiation.
 
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-RC-4
 %patch -p1 -b .fedora
 %patch1 -p1 -b .xmlrpc
 
@@ -70,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 14 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.8-0.rc4
+- Update to 2.4.8 RC-4
+
 * Mon Nov 12 2007 Orion Poplawski <orion@cora.nwra.com> - 2.4.7-4
 - No longer set CMAKE_SKIP_RPATH
 
