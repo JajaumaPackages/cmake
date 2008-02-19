@@ -1,6 +1,6 @@
 Name:		cmake
 Version:	2.4.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
@@ -70,6 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 2.4.8-2
+- Autorebuild for GCC 4.3
+
 * Tue Jan 22 2008 Orion Poplawski <orion@cora.nwra.com> - 2.4.8-1
 - Update to 2.4.8
 
