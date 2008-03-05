@@ -1,18 +1,25 @@
 Name:		cmake
 Version:	2.4.8
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Cross-platform make system
 
 Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
 Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
+Source1:        cmake-init-fedora
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
+Patch2:         cmake-2.4.8-CMakeSetup-unicode.patch
+Patch3:         cmake-2.4.8-wxdialog.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
-BuildRequires:  curl-devel, expat-devel, xmlrpc-c-devel, zlib-devel
+BuildRequires:  curl-devel, expat-devel, zlib-devel, wxGTK-devel
+# To bootstrap on a new architecture/release, you must comment out the
+# xmlrpc-c-devel BR and xmlrpc patch.  Build cmake then xmlrpc-c.  Then
+# undo the cmake changes and rebuild cmake.
+BuildRequires:  xmlrpc-c-devel
 Requires:       rpm
 
 
@@ -25,16 +32,27 @@ to support complex environments requiring system configuration, pre-processor
 generation, code generation, and template instantiation.
 
 
+%package         -n cmakesetup
+Summary:         CMakeSetup
+Group:           Development/Tools
+Requires:        %{name} = %{version}-%{release}
+
+%description     -n cmakesetup
+wxWidgets based CMake tool.
+
+
 %prep
 %setup -q
 %patch -p1 -b .fedora
 %patch1 -p1 -b .xmlrpc
+%patch2 -p1 -b .unicode
+%patch3 -p1 -b .wxdialog
 
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$RPM_OPT_FLAGS"
-./bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
+./bootstrap --init=%SOURCE1 --prefix=%{_prefix} --datadir=/share/%{name} \
             --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
             --system-libs
 make VERBOSE=1 %{?_smp_mflags}
@@ -68,8 +86,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 %{_datadir}/emacs/
 
+%files -n cmakesetup
+%defattr(-,root,root,-)
+%{_bindir}/CMakeSetup
+
 
 %changelog
+* Fri Feb  8 2008 Laurent Rineau <laurent.rineau__fedora@normalesup.org> - 2.4.8-3
+- Enable the wxWidgets version of CMakeSetup (bug #431953).
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 2.4.8-2
 - Autorebuild for GCC 4.3
 
