@@ -47,7 +47,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch1 -p1 -b .xmlrpc
 %patch2 -p1 -b .systemlibs
 # Fixup permissions
-find -name \*.h -o -name \*.cxx | xargs chmod -x
+find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
 
 %build
