@@ -11,7 +11,6 @@ Group:		Development/Tools
 License:	BSD
 URL:		http://www.cmake.org
 Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
-Source1:        cmake-init-fedora
 Source2:        macros.cmake
 Patch0:         cmake-2.4.2-fedora.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
@@ -58,6 +57,10 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
 install -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/
 
 
+%check
+ctest -V
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -78,6 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Mar 7 2008 Orion Poplawski <orion@cora.nwra.com> - 2.4.8-3
 - Add macro for bootstrapping new release/architecture
+- Add %%check section
 
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 2.4.8-2
 - Autorebuild for GCC 4.3
