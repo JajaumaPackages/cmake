@@ -2,20 +2,22 @@
 # or architecture
 %bcond_with bootstrap
 
-Name:		cmake
-Version:	2.4.8
-Release:	3%{?dist}
-Summary:	Cross-platform make system
+Name:           cmake
+Version:        2.6.0
+Release:        0.rc5.1%{?dist}
+Summary:        Cross-platform make system
 
-Group:		Development/Tools
-License:	BSD
-URL:		http://www.cmake.org
-Source0:	http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
+Group:          Development/Tools
+License:        BSD
+URL:            http://www.cmake.org
+Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}-RC-5.tar.gz
 Source2:        macros.cmake
-Patch0:         cmake-2.4.2-fedora.patch
+Patch0:         cmake-2.6.0-jni.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Patch2:         cmake-2.6.0-systemlibs.patch
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
+BuildRequires:  qt-devel, desktop-file-utils
 BuildRequires:  curl-devel, expat-devel, zlib-devel
 %{?!with_bootstrap:BuildRequires: xmlrpc-c-devel}
 Requires:       rpm
@@ -30,18 +32,32 @@ to support complex environments requiring system configuration, pre-processor
 generation, code generation, and template instantiation.
 
 
+%package        gui
+Summary:        Qt GUI for %{name}
+Group:          Development/Tools
+Requires:       %{name} = %{version}-%{release}
+
+%description    gui
+The %{name}-gui package contains the Qt based GUI for CMake.
+
+
 %prep
-%setup -q
-%patch -p1 -b .fedora
+%setup -q -n %{name}-%{version}-RC-5
+%patch -p1 -b .jni
 %patch1 -p1 -b .xmlrpc
+%patch2 -p1 -b .systemlibs
+# Fixup permissions
+find -name \*.h -o -name \*.cxx | xargs chmod -x
 
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$RPM_OPT_FLAGS"
-./bootstrap --init=%SOURCE1 --prefix=%{_prefix} --datadir=/share/%{name} \
+./bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
             --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
-            --%{?with_bootstrap:no-}system-libs
+            --%{?with_bootstrap:no-}system-libs \
+            --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
+            --qt-gui
 make VERBOSE=1 %{?_smp_mflags}
 
 
@@ -55,14 +71,27 @@ install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 # RPM macros
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
 install -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/
+# Desktop file
+desktop-file-install --delete-original \
+  --dir=%{buildroot}%{_datadir}/applications \
+  %{buildroot}/%{_datadir}/applications/CMake.desktop
 
 
 %check
-ctest -V
+bin/ctest -V
 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+
+%post gui
+update-desktop-database &> /dev/null || :
+update-mime-database %{_datadir}/mime &> /dev/null || :
+
+%postun gui
+update-desktop-database &> /dev/null || :
+update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %files
@@ -77,8 +106,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 %{_datadir}/emacs/
 
+%files gui
+%defattr(-,root,root,-)
+%{_bindir}/cmake-gui
+%{_datadir}/applications/CMake.desktop
+%{_datadir}/mime/packages/cmakecache.xml
+%{_datadir}/pixmaps/CMakeSetup.png
+
 
 %changelog
+* Fri Mar 28 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.0-0.rc5.1
+- Update to 2.6.0-RC-5
+- Add gui sub-package for Qt frontend
+
 * Fri Mar 7 2008 Orion Poplawski <orion@cora.nwra.com> - 2.4.8-3
 - Add macro for bootstrapping new release/architecture
 - Add %%check section
