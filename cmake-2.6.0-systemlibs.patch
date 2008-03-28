@@ -1,0 +1,7 @@
+--- cmake-2.6.0-RC-5/Source/CMakeLists.txt.systemlibs	2008-03-27 10:08:21.000000000 -0600
++++ cmake-2.6.0-RC-5/Source/CMakeLists.txt	2008-03-28 11:47:10.000000000 -0600
+@@ -1,3 +1,4 @@
++INCLUDE(CheckIncludeFile) 
+ # Check if we can build support for ELF parsing.
+ CHECK_INCLUDE_FILE("elf.h" HAVE_ELF_H)
+ IF(HAVE_ELF_H)
