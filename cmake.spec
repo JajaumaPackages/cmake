@@ -4,20 +4,19 @@
 
 Name:           cmake
 Version:        2.6.0
-Release:        0.rc5.1%{?dist}
+Release:        0.rc6.1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
 License:        BSD
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}-RC-5.tar.gz
+Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}-RC-6.tar.gz
 Source2:        macros.cmake
 Patch0:         cmake-2.6.0-jni.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
-Patch2:         cmake-2.6.0-systemlibs.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
-BuildRequires:  qt-devel, desktop-file-utils
+BuildRequires:  qt4-devel, desktop-file-utils
 BuildRequires:  curl-devel, expat-devel, zlib-devel
 %{?!with_bootstrap:BuildRequires: xmlrpc-c-devel}
 Requires:       rpm
@@ -42,10 +41,9 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 
 %prep
-%setup -q -n %{name}-%{version}-RC-5
+%setup -q -n %{name}-%{version}-RC-6
 %patch -p1 -b .jni
 %patch1 -p1 -b .xmlrpc
-%patch2 -p1 -b .systemlibs
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -78,6 +76,7 @@ desktop-file-install --delete-original \
 
 
 %check
+unset DISPLAY
 bin/ctest -V
 
 
@@ -115,6 +114,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Apr 3 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.0-0.rc6.1
+- Update to 2.6.0-RC-6
+
 * Fri Mar 28 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.0-0.rc5.1
 - Update to 2.6.0-RC-5
 - Add gui sub-package for Qt frontend
