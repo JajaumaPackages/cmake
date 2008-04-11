@@ -4,13 +4,13 @@
 
 Name:           cmake
 Version:        2.6.0
-Release:        0.rc6.1%{?dist}
+Release:        0.rc8.1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
 License:        BSD
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}-RC-6.tar.gz
+Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}-RC-8.tar.gz
 Source2:        macros.cmake
 Patch0:         cmake-2.6.0-jni.patch
 Patch1:         cmake-2.4.5-xmlrpc.patch
@@ -41,7 +41,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 
 %prep
-%setup -q -n %{name}-%{version}-RC-6
+%setup -q -n %{name}-%{version}-RC-8
 %patch -p1 -b .jni
 %patch1 -p1 -b .xmlrpc
 # Fixup permissions
@@ -114,6 +114,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Apr 11 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.0-0.rc8.1
+- Update to 2.6.0-RC-8
+
 * Thu Apr 3 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.0-0.rc6.1
 - Update to 2.6.0-RC-6
 
