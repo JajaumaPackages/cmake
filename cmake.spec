@@ -3,7 +3,7 @@
 %bcond_with bootstrap
 
 Name:           cmake
-Version:        2.6.0
+Version:        2.6.1
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -12,8 +12,9 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}.tar.gz
 Source2:        macros.cmake
+#Patch to look for jni files where Fedora puts them.
+#Submitted upstream: http://public.kitware.com/Bug/view.php?id=7333
 Patch0:         cmake-2.6.0-jni.patch
-Patch1:         cmake-2.4.5-xmlrpc.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  qt4-devel, desktop-file-utils
@@ -43,7 +44,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %prep
 %setup -q -n %{name}-%{version}
 %patch -p1 -b .jni
-%patch1 -p1 -b .xmlrpc
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -114,6 +114,13 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Aug 5 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.1-1
+- Update to 2.6.1
+
+* Mon Jul 14 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.1-0.rc8.1
+- Update to 2.6.1-RC-8
+- Drop xmlrpc patch fixed upstream
+
 * Tue May 6 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.0-1
 - Update to 2.6.0
 
