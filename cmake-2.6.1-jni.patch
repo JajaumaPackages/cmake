@@ -1,0 +1,19 @@
+diff -up cmake-2.6.1/Modules/FindJNI.cmake.jni cmake-2.6.1/Modules/FindJNI.cmake
+--- cmake-2.6.1/Modules/FindJNI.cmake.jni	2008-08-01 10:34:50.000000000 -0500
++++ cmake-2.6.1/Modules/FindJNI.cmake	2008-08-26 15:15:01.000000000 -0500
+@@ -23,6 +23,7 @@ SET(JAVA_AWT_LIBRARY_DIRECTORIES
+   $ENV{JAVA_HOME}/jre/lib/amd64
+   $ENV{JAVA_HOME}/jre/lib/ppc
+   /usr/lib
++  /usr/lib/jvm/java/lib
+   /usr/local/lib
+   /usr/lib/jvm/java/lib
+   /usr/lib/java/jre/lib/i386
+@@ -61,6 +62,7 @@ SET(JAVA_AWT_INCLUDE_DIRECTORIES
+   "[HKEY_LOCAL_MACHINE\\SOFTWARE\\JavaSoft\\Java Development Kit\\${java_install_version};JavaHome]/include"
+   $ENV{JAVA_HOME}/include
+   /usr/include 
++  /usr/lib/jvm/java/include
+   /usr/local/include
+   /usr/lib/java/include
+   /usr/local/lib/java/include

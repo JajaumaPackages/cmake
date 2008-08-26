@@ -14,7 +14,7 @@ Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}.tar.gz
 Source2:        macros.cmake
 #Patch to look for jni files where Fedora puts them.
 #Submitted upstream: http://public.kitware.com/Bug/view.php?id=7333
-Patch0:         cmake-2.6.0-jni.patch
+Patch0:         cmake-2.6.1-jni.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # fix a crasher, see 
