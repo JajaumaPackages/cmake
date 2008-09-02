@@ -4,7 +4,7 @@
 
 Name:           cmake
 Version:        2.6.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -12,13 +12,8 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}.tar.gz
 Source2:        macros.cmake
-#Patch to look for jni files where Fedora puts them.
-#Submitted upstream: http://public.kitware.com/Bug/view.php?id=7333
-Patch0:         cmake-2.6.1-jni.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-# fix a crasher, see 
-# http://www.redhat.com/archives/fedora-devel-list/2008-August/msg01145.html
+#See http://public.kitware.com/Bug/view.php?id=7392
 Patch1:         cmake-2.6.1-parens.patch   
 
 BuildRequires:  ncurses-devel, libX11-devel
@@ -48,10 +43,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}
-
-%patch0 -p1 -b .jni
 %patch1 -p1 -b .parens
-
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -122,6 +114,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Sep 2 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.1-3
+- Drop jni patch, applied upstream.
+
 * Tue Aug 26 2008 Rex Dieter <rdieter@fedoraproject.org> - 2.6.1-2
 - attempt to patch logic error, crasher
 
