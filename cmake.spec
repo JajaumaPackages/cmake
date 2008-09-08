@@ -1,20 +1,20 @@
 # Set to bcond_without or use --with bootstrap if bootstrapping a new release
 # or architecture
 %bcond_with bootstrap
+# Set to RC version if building RC, else %{nil}
+%define rcver -RC-3
 
 Name:           cmake
-Version:        2.6.1
-Release:        3%{?dist}
+Version:        2.6.2
+Release:        0.rc3.1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
 License:        BSD
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}.tar.gz
+Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}%{rcver}.tar.gz
 Source2:        macros.cmake
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-#See http://public.kitware.com/Bug/view.php?id=7392
-Patch1:         cmake-2.6.1-parens.patch   
 
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  qt4-devel, desktop-file-utils
@@ -42,8 +42,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch1 -p1 -b .parens
+%setup -q -n %{name}-%{version}%{rcver}
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -114,6 +113,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Sep 8 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-0.rc3.1
+- Update to 2.6.2-RC-2
+- Drop parens patch fixed upstream
+
 * Tue Sep 2 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.1-3
 - Drop jni patch, applied upstream.
 
