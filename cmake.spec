@@ -114,7 +114,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %changelog
 * Mon Sep 29 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-1
-- Uupdate to 2.6.2
+- Update to 2.6.2
 
 * Mon Sep 8 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-0.rc3.1
 - Update to 2.6.2-RC-2
