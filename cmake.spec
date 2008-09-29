@@ -2,11 +2,11 @@
 # or architecture
 %bcond_with bootstrap
 # Set to RC version if building RC, else %{nil}
-%define rcver -RC-3
+%define rcver %{nil}
 
 Name:           cmake
 Version:        2.6.2
-Release:        0.rc3.1%{?dist}
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -113,6 +113,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Sep 29 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-1
+- Uupdate to 2.6.2
+
 * Mon Sep 8 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-0.rc3.1
 - Update to 2.6.2-RC-2
 - Drop parens patch fixed upstream
