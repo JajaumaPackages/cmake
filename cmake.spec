@@ -1,12 +1,14 @@
 # Set to bcond_without or use --with bootstrap if bootstrapping a new release
 # or architecture
 %bcond_with bootstrap
+# Set to bcond_with or use --without gui to disable qt4 gui build
+%bcond_without gui
 # Set to RC version if building RC, else %{nil}
 %define rcver %{nil}
 
 Name:           cmake
 Version:        2.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -17,9 +19,16 @@ Source2:        macros.cmake
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  ncurses-devel, libX11-devel
-BuildRequires:  qt4-devel, desktop-file-utils
 BuildRequires:  curl-devel, expat-devel, zlib-devel
-%{?!with_bootstrap:BuildRequires: xmlrpc-c-devel}
+%if %{without bootstrap}
+BuildRequires: xmlrpc-c-devel
+%endif
+%if %{with gui}
+BuildRequires: qt4-devel, desktop-file-utils
+%define qt_gui --qt-gui
+%else
+%define qt_gui %{nil}
+%endif
 Requires:       rpm
 
 
@@ -32,6 +41,7 @@ to support complex environments requiring system configuration, pre-processor
 generation, code generation, and template instantiation.
 
 
+%if %{with gui}
 %package        gui
 Summary:        Qt GUI for %{name}
 Group:          Development/Tools
@@ -39,6 +49,7 @@ Requires:       %{name} = %{version}-%{release}
 
 %description    gui
 The %{name}-gui package contains the Qt based GUI for CMake.
+%endif
 
 
 %prep
@@ -54,7 +65,7 @@ export CXXFLAGS="$RPM_OPT_FLAGS"
             --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
             --%{?with_bootstrap:no-}system-libs \
             --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
-            --qt-gui
+            %{qt_gui}
 make VERBOSE=1 %{?_smp_mflags}
 
 
@@ -68,10 +79,12 @@ install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 # RPM macros
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
 install -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/
+%if %{with gui}
 # Desktop file
 desktop-file-install --delete-original \
   --dir=%{buildroot}%{_datadir}/applications \
   %{buildroot}/%{_datadir}/applications/CMake.desktop
+%endif
 
 
 %check
@@ -83,6 +96,7 @@ bin/ctest -V
 rm -rf $RPM_BUILD_ROOT
 
 
+%if %{with gui}
 %post gui
 update-desktop-database &> /dev/null || :
 update-mime-database %{_datadir}/mime &> /dev/null || :
@@ -90,6 +104,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %postun gui
 update-desktop-database &> /dev/null || :
 update-mime-database %{_datadir}/mime &> /dev/null || :
+%endif
 
 
 %files
@@ -104,15 +119,20 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man1/*.1*
 %{_datadir}/emacs/
 
+%if %{with gui}
 %files gui
 %defattr(-,root,root,-)
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
 %{_datadir}/pixmaps/CMakeSetup.png
+%endif
 
 
 %changelog
+* Tue Oct 21 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-2
+- Allow conditional build of gui
+
 * Mon Sep 29 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-1
 - Update to 2.6.2
 
