@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.6.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
