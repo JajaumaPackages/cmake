@@ -9,6 +9,7 @@
   CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
   FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
   %__cmake \\\
+        -DCMAKE_VERBOSE_MAKEFILE=ON \\\
         -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \\\
         -DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir} \\\
         -DINCLUDE_INSTALL_DIR:PATH=%{_includedir} \\\

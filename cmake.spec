@@ -26,8 +26,6 @@ BuildRequires: xmlrpc-c-devel
 %if %{with gui}
 BuildRequires: qt4-devel, desktop-file-utils
 %define qt_gui --qt-gui
-%else
-%define qt_gui %{nil}
 %endif
 Requires:       rpm
 
@@ -41,7 +39,6 @@ to support complex environments requiring system configuration, pre-processor
 generation, code generation, and template instantiation.
 
 
-%if %{with gui}
 %package        gui
 Summary:        Qt GUI for %{name}
 Group:          Development/Tools
@@ -49,7 +46,6 @@ Requires:       %{name} = %{version}-%{release}
 
 %description    gui
 The %{name}-gui package contains the Qt based GUI for CMake.
-%endif
 
 
 %prep
@@ -65,7 +61,7 @@ export CXXFLAGS="$RPM_OPT_FLAGS"
             --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
             --%{?with_bootstrap:no-}system-libs \
             --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
-            %{qt_gui}
+            %{?qt_gui}
 make VERBOSE=1 %{?_smp_mflags}
 
 
@@ -77,8 +73,7 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
 cp -a Example $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
 install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 # RPM macros
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
-install -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/
+install -p -m0644 -D %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
 %if %{with gui}
 # Desktop file
 desktop-file-install --delete-original \
@@ -130,6 +125,11 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Dec 2 2008 Rex Dieter <rdieter@fedoraproject.org> - 2.6.2-3
+- Add -DCMAKE_VERBOSE_MAKEFILE=ON to %%cmake (#474053)
+- preserve timestamp of macros.cmake
+- cosmetics
+
 * Tue Oct 21 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.2-2
 - Allow conditional build of gui
 
