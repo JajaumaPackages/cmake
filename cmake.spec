@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -RC-5
 
 Name:           cmake
-Version:        2.6.2
-Release:        3%{?dist}
+Version:        2.6.3
+Release:        0.rc5.1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -125,6 +125,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Dec 10 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.3-0.rc5.1
+- Update to 2.6.3-RC-5
+
 * Tue Dec 2 2008 Rex Dieter <rdieter@fedoraproject.org> - 2.6.2-3
 - Add -DCMAKE_VERBOSE_MAKEFILE=ON to %%cmake (#474053)
 - preserve timestamp of macros.cmake
