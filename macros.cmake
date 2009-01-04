@@ -2,6 +2,7 @@
 # Macros for cmake
 #
 %_cmake_lib_suffix64 -DLIB_SUFFIX=64
+%_cmake_skip_rpath -DCMAKE_SKIP_RPATH:BOOL=ON
 %__cmake %{_bindir}/cmake
 
 %cmake \
@@ -19,4 +20,5 @@
 %if "%{?_lib}" == "lib64" \
         %{?_cmake_lib_suffix64} \\\
 %endif \
+        %{?_cmake_skip_rpath} \\\
         -DBUILD_SHARED_LIBS:BOOL=ON

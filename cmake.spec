@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.6.3
-Release:        0.rc5.1%{?dist}
+Release:        0.2.rc5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -125,6 +125,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Jan 04 2008 Rex Dieter <rdieter@fedoraproject.org> - 2.6.3-0.2.rc5
+- macros.cmake: add -DCMAKE_SKIP_RPATH:BOOL=ON
+- fix Release tag
+
 * Wed Dec 10 2008 Orion Poplawski <orion@cora.nwra.com> - 2.6.3-0.rc5.1
 - Update to 2.6.3-RC-5
 
