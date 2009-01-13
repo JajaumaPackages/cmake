@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -RC-5
+%define rcver -RC-8
 
 Name:           cmake
 Version:        2.6.3
-Release:        0.2.rc5%{?dist}
+Release:        0.rc8.1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -125,6 +125,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jan 13 2009 Orion Poplawski <orion@cora.nwra.com> - 2.6.3-0.rc8.1
+- Update to 2.6.3-RC-8
+
 * Sun Jan 04 2009 Rex Dieter <rdieter@fedoraproject.org> - 2.6.3-0.2.rc5
 - macros.cmake: add -DCMAKE_SKIP_RPATH:BOOL=ON
 - fix Release tag
