@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.6.3
-Release:        0.rc8.1%{?dist}
+Release:        0.3.rc8%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -125,7 +125,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Tue Jan 13 2009 Orion Poplawski <orion@cora.nwra.com> - 2.6.3-0.rc8.1
+* Tue Jan 13 2009 Orion Poplawski <orion@cora.nwra.com> - 2.6.3-0.3.rc8
 - Update to 2.6.3-RC-8
 
 * Sun Jan 04 2009 Rex Dieter <rdieter@fedoraproject.org> - 2.6.3-0.2.rc5
