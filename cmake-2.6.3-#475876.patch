@@ -1,0 +1,19 @@
+diff -ur cmake-2.6.3/Source/cmIncludeDirectoryCommand.cxx cmake-2.6.3-#475876/Source/cmIncludeDirectoryCommand.cxx
+--- cmake-2.6.3/Source/cmIncludeDirectoryCommand.cxx	2009-02-21 21:36:52.000000000 +0100
++++ cmake-2.6.3-#475876/Source/cmIncludeDirectoryCommand.cxx	2009-03-09 02:55:46.000000000 +0100
+@@ -95,13 +95,13 @@
+ 
+   // remove any leading or trailing spaces and \r
+   pos = ret.size()-1;
+-  while(ret[pos] == ' ' || ret[pos] == '\r')
++  while(ret.size() && (ret[pos] == ' ' || ret[pos] == '\r'))
+     {
+     ret.erase(pos);
+     pos--;
+     }
+   pos = 0;
+-  while(ret.size() && ret[pos] == ' ' || ret[pos] == '\r')
++  while(ret.size() && (ret[pos] == ' ' || ret[pos] == '\r'))
+     {
+     ret.erase(pos,1);
+     }

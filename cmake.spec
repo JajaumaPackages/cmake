@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.6.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,6 +16,9 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}%{rcver}.tar.gz
 Source2:        macros.cmake
+# fix crash during kdepimlibs build
+# https://bugzilla.redhat.com/show_bug.cgi?id=475876
+Patch0:         cmake-2.6.3-#475876.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  ncurses-devel, libX11-devel
@@ -50,6 +53,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{rcver}
+%patch0 -p1 -b .475876
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -125,6 +129,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Mar 09 2009 Kevin Kofler <Kevin@tigcc.ticalc.org> - 2.6.3-2
+- Fix crash during kdepimlibs build (#475876)
+
 * Mon Feb 23 2009 Orion Poplawski <orion@cora.nwra.com> - 2.6.3-1
 - Update to 2.6.3 final
 
