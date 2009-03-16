@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.6.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -78,6 +78,9 @@ cp -a Example $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
 install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 # RPM macros
 install -p -m0644 -D %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
+sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
+touch -r %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
+
 %if %{with gui}
 # Desktop file
 desktop-file-install --delete-original \
@@ -129,6 +132,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Mar 16 2009 Rex Dieter <rdieter@fedoraproject.org> - 2.6.3-3
+- macros.cmake: +%%_cmake_version
+
 * Mon Mar 09 2009 Kevin Kofler <Kevin@tigcc.ticalc.org> - 2.6.3-2
 - Fix crash during kdepimlibs build (#475876)
 
