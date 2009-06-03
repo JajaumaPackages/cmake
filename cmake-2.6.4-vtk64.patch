@@ -1,0 +1,16 @@
+--- cmake-2.6.4/Modules/FindVTK.cmake.vtk64	2009-04-28 14:22:59.000000000 -0600
++++ cmake-2.6.4/Modules/FindVTK.cmake	2009-06-03 10:01:25.580512670 -0600
+@@ -45,9 +45,13 @@
+   SET(VTK_DIR_SEARCH "")
+   FOREACH(dir ${VTK_DIR_SEARCH2})
+     SET(VTK_DIR_SEARCH ${VTK_DIR_SEARCH}
++      ${dir}/../lib64/vtk-5.2
+       ${dir}/../lib/vtk-5.2
++      ${dir}/../lib64/vtk-5.1
+       ${dir}/../lib/vtk-5.1
++      ${dir}/../lib64/vtk-5.0
+       ${dir}/../lib/vtk-5.0
++      ${dir}/../lib64/vtk
+       ${dir}/../lib/vtk
+       )
+   ENDFOREACH(dir)

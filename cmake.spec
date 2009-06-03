@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.6.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,8 +16,9 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}%{rcver}.tar.gz
 Source2:        macros.cmake
-# fix crash during kdepimlibs build
-# https://bugzilla.redhat.com/show_bug.cgi?id=475876
+#Find UseVTK.cmake in /usr/lib64/vtk-* on 64-bit machines
+#http://public.kitware.com/mantis/view.php?id=9105
+Patch0:         cmake-2.6.4-vtk64.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  ncurses-devel, libX11-devel
@@ -52,6 +53,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{rcver}
+%patch0 -p1 -b .vtk64
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -130,6 +132,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Jun 3 2009 Orion Poplawski <orion@cora.nwra.com> - 2.6.4-2
+- Add patch to find VTK on 64-bit machines (bug #503945)
+
 * Wed Apr 29 2009 Orion Poplawski <orion@cora.nwra.com> - 2.6.4-1
 - Update to 2.6.4
 - Drop patch for bug #475876 fixed upstream
