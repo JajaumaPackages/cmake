@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.6.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -132,6 +132,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.6.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Wed Jun 3 2009 Orion Poplawski <orion@cora.nwra.com> - 2.6.4-2
 - Add patch to find VTK on 64-bit machines (bug #503945)
 
