@@ -4,7 +4,7 @@
 %_cmake_lib_suffix64 -DLIB_SUFFIX=64
 %_cmake_skip_rpath -DCMAKE_SKIP_RPATH:BOOL=ON
 %_cmake_version @@CMAKE_VERSION@@
-%__cmake %{_bindir}/cmake
+%__cmake /usr/bin/cmake
 
 %cmake \
   CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
