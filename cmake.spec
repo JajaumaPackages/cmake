@@ -4,21 +4,21 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 Name:           cmake
-Version:        2.6.4
-Release:        4%{?dist}
+Version:        2.8.0
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
 License:        BSD
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v2.6/cmake-%{version}%{rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
 #Find UseVTK.cmake in /usr/lib64/vtk-* on 64-bit machines
 #http://public.kitware.com/mantis/view.php?id=9105
-Patch0:         cmake-2.6.4-vtk64.patch
+Patch0:         cmake-2.8.0-vtk64.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  ncurses-devel, libX11-devel
@@ -52,7 +52,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 
 %prep
-%setup -q -n %{name}-%{version}%{rcver}
+%setup -q -n %{name}-%{version}%{?rcver}
 %patch0 -p1 -b .vtk64
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
@@ -132,6 +132,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Sep 29 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.1.rc1
+- Update to 2.8.0 RC 1
+
 * Thu Sep 17 2009 Rex Dieter <rdieter@fedoraproject.org> - 2.6.4-4
 - macro.cmake: prefixes cmake with the package being builts bindir (#523878)
 
