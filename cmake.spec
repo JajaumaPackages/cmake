@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc1
+%define rcver -rc2
 
 Name:           cmake
 Version:        2.8.0
-Release:        0.1.rc1%{?dist}
+Release:        0.2.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -91,7 +91,7 @@ desktop-file-install --delete-original \
 
 %check
 unset DISPLAY
-bin/ctest -V
+bin/ctest -V %{?_smp_mflags}
 
 
 %clean
@@ -132,6 +132,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Oct 8 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.1.rc2
+- Update to 2.8.0 RC 2
+- Use parallel ctest in %%check
+
 * Tue Sep 29 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.1.rc1
 - Update to 2.8.0 RC 1
 
