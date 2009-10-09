@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.0
-Release:        0.2.rc2%{?dist}
+Release:        0.3.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -61,20 +61,24 @@ find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$RPM_OPT_FLAGS"
-./bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
-            --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
-            --%{?with_bootstrap:no-}system-libs \
-            --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
-            %{?qt_gui}
+mkdir build
+pushd build
+../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
+             --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
+             --%{?with_bootstrap:no-}system-libs \
+             --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
+             %{?qt_gui}
 make VERBOSE=1 %{?_smp_mflags}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
+pushd build
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
+popd
 cp -a Example $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
 install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 # RPM macros
 install -p -m0644 -D %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
@@ -91,6 +95,7 @@ desktop-file-install --delete-original \
 
 %check
 unset DISPLAY
+pushd build
 bin/ctest -V %{?_smp_mflags}
 
 
@@ -132,7 +137,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Thu Oct 8 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.1.rc2
+* Fri Oct 9 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.3.rc2
+- Do out of tree build, needed for ExternalProject test
+
+* Thu Oct 8 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.2.rc2
 - Update to 2.8.0 RC 2
 - Use parallel ctest in %%check
 
