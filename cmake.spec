@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc2
+%define rcver -rc3
 
 Name:           cmake
 Version:        2.8.0
-Release:        0.3.rc2%{?dist}
+Release:        0.4.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,9 +16,6 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
-#Find UseVTK.cmake in /usr/lib64/vtk-* on 64-bit machines
-#http://public.kitware.com/mantis/view.php?id=9105
-Patch0:         cmake-2.8.0-vtk64.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  ncurses-devel, libX11-devel
@@ -53,7 +50,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
-%patch0 -p1 -b .vtk64
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -137,6 +133,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Oct 13 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.4.rc3
+- Update to 2.8.0 RC 3
+- Drop vtk64 patch fixed upstream
+
 * Fri Oct 9 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.3.rc2
 - Do out of tree build, needed for ExternalProject test
 
