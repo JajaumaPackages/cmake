@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc4
+%define rcver -rc5
 
 Name:           cmake
 Version:        2.8.0
-Release:        0.5.rc4%{?dist}
+Release:        0.6.rc5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,8 +16,6 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
-Patch0:         jni_include_path.patch
-Patch1:         cmake-2.8.0-test.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  ncurses-devel, libX11-devel
@@ -52,8 +50,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
-%patch0 -p0
-%patch1 -p0
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -137,7 +133,11 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Fri Oct 30 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.4.rc4
+* Wed Nov 4 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.6.rc5
+- Update to 2.8.0 RC 5
+- Drop patches fixed upstream
+
+* Fri Oct 30 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.5.rc4
 - Update to 2.8.0 RC 4
 - Add FindJNI patch
 - Add test patch from cvs to fix Fedora build test build error
