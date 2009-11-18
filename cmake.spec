@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc7
+%define rcver %{nil}
 
 Name:           cmake
 Version:        2.8.0
-Release:        0.8.rc7%{?dist}
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -133,6 +133,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Nov 18 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-1
+- Update to 2.8.0 final
+
 * Wed Nov 18 2009 Rex Dieter <rdieter@fedoraproject.org> - 2.8.0-0.8.rc7
 - rebuild (for qt-4.6.0-rc1)
 
