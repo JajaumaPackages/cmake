@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.0
-Release:        0.7.rc7%{?dist}
+Release:        0.8.rc7%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -133,6 +133,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Nov 18 2009 Rex Dieter <rdieter@fedoraproject.org> - 2.8.0-0.8.rc7
+- rebuild (for qt-4.6.0-rc1)
+
 * Wed Nov 11 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.7.rc7
 - Update to 2.8.0 RC 7
 
