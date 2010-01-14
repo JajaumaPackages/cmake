@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -133,6 +133,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jan 14 2010 Rex Dieter <rdieter@fedorproject.org> - 2.8.0-2
+- macros.cmake: drop -DCMAKE_SKIP_RPATH:BOOL=ON from %%cmake
+
 * Wed Nov 18 2009 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-1
 - Update to 2.8.0 final
 

@@ -21,5 +21,4 @@
 %if "%{?_lib}" == "lib64" \
         %{?_cmake_lib_suffix64} \\\
 %endif \
-        %{?_cmake_skip_rpath} \\\
         -DBUILD_SHARED_LIBS:BOOL=ON
