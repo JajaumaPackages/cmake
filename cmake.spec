@@ -128,7 +128,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
-%{_datadir}/pixmaps/CMakeSetup.png
+%{_datadir}/pixmaps/CMakeSetup32.png
 %endif
 
 
