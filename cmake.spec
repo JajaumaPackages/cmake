@@ -133,7 +133,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Fri Feb 19 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.0-0.1.rc3
+* Fri Feb 19 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-0.1.rc3
 - Update to 2.8.1 RC 3
 
 * Thu Jan 14 2010 Rex Dieter <rdieter@fedorproject.org> - 2.8.0-2
