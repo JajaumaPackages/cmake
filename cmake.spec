@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.1
-Release:        0.2.rc5%{?dist}
+Release:        0.3.rc5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -80,6 +80,7 @@ install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 install -p -m0644 -D %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
 touch -r %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{name}
 
 %if %{with gui}
 # Desktop file
@@ -121,6 +122,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_datadir}/%{name}/
 %{_mandir}/man1/*.1*
 %{_datadir}/emacs/
+%{_libdir}/%{name}/
 
 %if %{with gui}
 %files gui
@@ -133,6 +135,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Mar 23 2010 Kevin Kofler <Kevin@tigcc.ticalc.org> - 2.8.1-0.3.rc5
+- Own /usr/lib(64)/cmake/
+
 * Fri Mar 12 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-0.2.rc5
 - Update to 2.8.1 RC 5
 
