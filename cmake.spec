@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -93,7 +93,8 @@ desktop-file-install --delete-original \
 %check
 unset DISPLAY
 pushd build
-bin/ctest -V %{?_smp_mflags}
+bin/ctest -V
+#ModuleNoticesTest is not parallel safe  %{?_smp_mflags}
 
 
 %clean
@@ -135,6 +136,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Mar 30 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-2
+- Disable parallel ctest checks for now
+
 * Tue Mar 23 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-1
 - Update to 2.8.1 final
 
