@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -18,6 +18,7 @@ Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:  gcc-gfortran
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  curl-devel, expat-devel, zlib-devel
 %if %{without bootstrap}
@@ -136,6 +137,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Jun 2 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-4
+- Add BR gcc-gfortran so Fortran support is built
+
 * Wed Apr 21 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-3
 - Disable ModuleNotices test, re-enable parallel ctest
 
