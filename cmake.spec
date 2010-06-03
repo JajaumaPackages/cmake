@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -137,6 +137,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jun 3 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-5
+- Upstream published a newer 2.8.1 tar ball
+
 * Wed Jun 2 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-4
 - Add BR gcc-gfortran so Fortran support is built
 
