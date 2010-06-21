@@ -95,7 +95,8 @@ desktop-file-install --delete-original \
 unset DISPLAY
 pushd build
 #ModuleNotices fails for some unknown reason, and we don't care
-bin/ctest -V -E ModuleNotices %{?_smp_mflags}
+#CMake.HTML currently requires internet access
+bin/ctest -V -E ModuleNotices -E CMake.HTML %{?_smp_mflags}
 
 
 %clean
