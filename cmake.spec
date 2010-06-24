@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc2
+%define rcver -rc4
 
 Name:           cmake
 Version:        2.8.2
-Release:        0.1.rc2%{?dist}
+Release:        0.3.rc4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -22,7 +22,7 @@ BuildRequires:  gcc-gfortran
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  curl-devel, expat-devel, zlib-devel
 %if %{without bootstrap}
-BuildRequires: xmlrpc-c-devel
+#BuildRequires: xmlrpc-c-devel
 %endif
 %if %{with gui}
 BuildRequires: qt4-devel, desktop-file-utils
@@ -138,6 +138,12 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jun 23 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-0.3.rc4
+- Update to 2.8.2 RC 4
+
+* Wed Jun 23 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-0.2.rc3
+- Update to 2.8.2 RC 3
+
 * Mon Jun 21 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-0.1.rc2
 - Update to 2.8.2 RC 2
 
