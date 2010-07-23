@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,6 +16,10 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
+
+# add support for Python 2.7 to FindPythonLibs.cmake (Orcan Ogetbil)
+Patch0:         cmake-2.8.2-python27.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -51,6 +55,8 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
+# Python 2.7 patch (don't use -b as the backup would get installed)
+%patch0 -p1
 # Fixup permissions
 find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
@@ -138,6 +144,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jul 23 2010 Kevin Kofler <Kevin@tigcc.ticalc.org> - 2.8.2-2
+- add support for Python 2.7 to FindPythonLibs.cmake (Orcan Ogetbil)
+
 * Tue Jul 6 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-1
 - Update to 2.8.2 final
 
