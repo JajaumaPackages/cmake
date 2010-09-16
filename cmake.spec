@@ -24,7 +24,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
 BuildRequires:  ncurses-devel, libX11-devel
-BuildRequires:  curl-devel, expat-devel, zlib-devel
+BuildRequires:  bzip2-devel
+BuildRequires:  curl-devel
+BuildRequires:  expat-devel
+BuildRequires:  libarchive-devel
+BuildRequires:  zlib-devel
 %if %{without bootstrap}
 #BuildRequires: xmlrpc-c-devel
 %endif
@@ -146,6 +150,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %changelog
 * Thu Sep 16 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-0.1.rc1
 - Update to 2.8.3 RC 1
+- Add BR bzip2-devel and libarchive-devel
 
 * Fri Jul 23 2010 Kevin Kofler <Kevin@tigcc.ticalc.org> - 2.8.2-2
 - add support for Python 2.7 to FindPythonLibs.cmake (Orcan Ogetbil)
