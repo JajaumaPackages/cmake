@@ -128,22 +128,35 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/rpm/macros.cmake
 %{_datadir}/doc/%{name}-%{version}/
+%exclude %{_datadir}/doc/%{name}-%{version}/cmake-gui.*
 %{_bindir}/ccmake
 %{_bindir}/cmake
 %{_bindir}/cpack
 %{_bindir}/ctest
 %{_datadir}/%{name}/
-%{_mandir}/man1/*.1*
+%{_mandir}/man1/ccmake.1.gz
+%{_mandir}/man1/cmake-gui.1.gz
+%{_mandir}/man1/cmake.1.gz
+%{_mandir}/man1/cmakecommands.1.gz
+%{_mandir}/man1/cmakecompat.1.gz
+%{_mandir}/man1/cmakemodules.1.gz
+%{_mandir}/man1/cmakepolicies.1.gz
+%{_mandir}/man1/cmakeprops.1.gz
+%{_mandir}/man1/cmakevars.1.gz
+%{_mandir}/man1/cpack.1.gz
+%{_mandir}/man1/ctest.1.gz
 %{_datadir}/emacs/
 %{_libdir}/%{name}/
 
 %if %{with gui}
 %files gui
 %defattr(-,root,root,-)
+%{_datadir}/doc/%{name}-%{version}/cmake-gui.*
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
 %{_datadir}/pixmaps/CMakeSetup32.png
+%{_mandir}/man1/cmake-gui.1.gz
 %endif
 
 
