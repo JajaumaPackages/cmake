@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc1
+%define rcver -rc3
 
 Name:           cmake
 Version:        2.8.3
-Release:        0.1.rc1%{?dist}
+Release:        0.2.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -161,6 +161,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Oct 22 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-0.2.rc3
+- Update to 2.8.3 RC 3
+
 * Thu Sep 16 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-0.1.rc1
 - Update to 2.8.3 RC 1
 - Add BR bzip2-devel and libarchive-devel
