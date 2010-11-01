@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc3
+%define rcver -rc4
 
 Name:           cmake
 Version:        2.8.3
-Release:        0.2.rc3%{?dist}
+Release:        0.3.rc4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,9 +16,6 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
-
-# add support for Python 2.7 to FindPythonLibs.cmake (Orcan Ogetbil)
-Patch0:         cmake-2.8.2-python27.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -59,10 +56,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
-# Python 2.7 patch (don't use -b as the backup would get installed)
-%patch0 -p1
-# Fixup permissions
-find -name \*.h -o -name \*.cxx -print0 | xargs -0 chmod -x
 
 
 %build
@@ -161,6 +154,11 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Nov 1 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-0.3.rc4
+- Update to 2.8.3 RC 4
+- Drop python 2.7 patch fixed upstream
+- No need to fixup source file permissions anymore
+
 * Fri Oct 22 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-0.2.rc3
 - Update to 2.8.3 RC 3
 
