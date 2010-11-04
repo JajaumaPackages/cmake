@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc4
+%define rcver %{nil}
 
 Name:           cmake
 Version:        2.8.3
-Release:        0.3.rc4%{?dist}
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -154,6 +154,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Nov 4 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-1
+- Update to 2.8.3 final
+
 * Mon Nov 1 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-0.3.rc4
 - Update to 2.8.3 RC 4
 - Drop python 2.7 patch fixed upstream
