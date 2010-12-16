@@ -16,6 +16,8 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
+#Patch from upstream git to fix bug 652886
+Patch0:         cmake-2.8.3-qt4.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -56,6 +58,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
+%patch0 -p1
 
 
 %build
@@ -154,6 +157,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Dec 16 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-2
+- Add patch from upstream git to fix bug 652886 (qt3/qt4 detection)
+
 * Thu Nov 4 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-1
 - Update to 2.8.3 final
 
