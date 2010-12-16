@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
