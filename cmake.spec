@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 Name:           cmake
-Version:        2.8.3
-Release:        2%{?dist}
+Version:        2.8.4
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,8 +16,6 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
-#Patch from upstream git to fix bug 652886
-Patch0:         cmake-2.8.3-qt4.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -58,7 +56,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
-%patch0 -p1
 
 
 %build
@@ -157,6 +154,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jan 18 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.4-0.1.rc1
+- Update to 2.8.4 RC 1
+- Drop qt4 patch
+
 * Thu Dec 16 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.3-2
 - Add patch from upstream git to fix bug 652886 (qt3/qt4 detection)
 
