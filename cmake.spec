@@ -121,14 +121,15 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/rpm/macros.cmake
 %{_datadir}/doc/%{name}-%{version}/
+%if %{with gui}
 %exclude %{_datadir}/doc/%{name}-%{version}/cmake-gui.*
+%endif
 %{_bindir}/ccmake
 %{_bindir}/cmake
 %{_bindir}/cpack
 %{_bindir}/ctest
 %{_datadir}/%{name}/
 %{_mandir}/man1/ccmake.1.gz
-%{_mandir}/man1/cmake-gui.1.gz
 %{_mandir}/man1/cmake.1.gz
 %{_mandir}/man1/cmakecommands.1.gz
 %{_mandir}/man1/cmakecompat.1.gz
