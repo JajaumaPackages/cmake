@@ -99,7 +99,8 @@ unset DISPLAY
 pushd build
 #ModuleNotices fails for some unknown reason, and we don't care
 #CMake.HTML currently requires internet access
-bin/ctest -V -E ModuleNotices -E CMake.HTML %{?_smp_mflags}
+#CTestTestUpload requires internet access
+bin/ctest -V -E ModuleNotices -E CMake.HTML -E CTestTestUpload %{?_smp_mflags}
 
 
 %clean
@@ -157,6 +158,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %changelog
 * Tue May 31 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.5-0.1.rc1
 - Update to 2.8.5 RC 1
+- Disable CTestTestUpload test, needs internet access
 
 * Thu Feb 17 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.4-1
 - Update to 2.8.4 final
