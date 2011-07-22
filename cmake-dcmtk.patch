@@ -1,0 +1,12 @@
+--- cmake-2.8.5/Modules/FindDCMTK.cmake.dcmtk	2011-07-08 06:21:44.000000000 -0600
++++ cmake-2.8.5/Modules/FindDCMTK.cmake	2011-07-22 16:55:28.616947321 -0600
+@@ -66,7 +66,8 @@
+     ${DCMTK_DIR}/${lib}/libsrc/Debug
+     ${DCMTK_DIR}/${lib}/Release
+     ${DCMTK_DIR}/${lib}/Debug
+-    ${DCMTK_DIR}/lib)
++    ${DCMTK_DIR}/lib
++    /usr/lib/dcmtk)
+ 
+   mark_as_advanced(DCMTK_${lib}_LIBRARY)
+ 

@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -16,6 +16,8 @@ License:        BSD
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
+# Patch to find DCMTK in Fedora (bug #720140)
+Patch0:         cmake-dcmtk.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -56,6 +58,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
+%patch0 -p1 -b .dcmtk
 
 
 %build
@@ -156,6 +159,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jul 22 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.5-2
+- Add patch to find dcmtk in Fedora (Bug #720140)
+
 * Fri Jul 22 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.5-1
 - Update to 2.8.5 final
 - Drop issue 12307 patch
