@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -159,6 +159,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jul 28 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.5-3
+- Updated patch to find dcmtk in Fedora (Bug #720140)
+
 * Fri Jul 22 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.5-2
 - Add patch to find dcmtk in Fedora (Bug #720140)
 
