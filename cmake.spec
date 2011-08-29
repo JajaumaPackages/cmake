@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 Name:           cmake
-Version:        2.8.5
-Release:        3%{?dist}
+Version:        2.8.6
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -159,6 +159,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Aug 29 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.6-0.1.rc1
+- Update to 2.8.6 RC 1
+- Update dcmtk patch
+
 * Thu Jul 28 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.5-3
 - Updated patch to find dcmtk in Fedora (Bug #720140)
 
