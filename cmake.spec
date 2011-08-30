@@ -18,6 +18,8 @@ Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
 # Patch to find DCMTK in Fedora (bug #720140)
 Patch0:         cmake-dcmtk.patch
+# Upstream patch to fix aclocal install location
+Patch1:         cmake-aclocal.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -59,6 +61,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
 %patch0 -p1 -b .dcmtk
+%patch1 -p1 -b .aclocal
 
 
 %build
@@ -132,6 +135,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_bindir}/cmake
 %{_bindir}/cpack
 %{_bindir}/ctest
+%{_datadir}/aclocal/cmake.m4
 %{_datadir}/%{name}/
 %{_mandir}/man1/ccmake.1.gz
 %{_mandir}/man1/cmake.1.gz
@@ -162,6 +166,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 * Mon Aug 29 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.6-0.1.rc1
 - Update to 2.8.6 RC 1
 - Update dcmtk patch
+- Add upstream patch to fix aclocal install location
 
 * Thu Jul 28 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.5-3
 - Updated patch to find dcmtk in Fedora (Bug #720140)

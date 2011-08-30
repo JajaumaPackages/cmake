@@ -1,0 +1,29 @@
+From a2a0a8e0d5f8ad5e464363b952220f716c8fba14 Mon Sep 17 00:00:00 2001
+From: David Cole <david.cole@kitware.com>
+Date: Fri, 26 Aug 2011 13:51:32 -0400
+Subject: [PATCH] cmake.m4: Use modern signature of install(FILES ...)
+
+The older install_files command uses a leading slash in front
+of the destination directory, whereas the modern signature does
+not. Use the modern signature since that's what the CMake devs
+are now used to.
+---
+ Utilities/CMakeLists.txt |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/Utilities/CMakeLists.txt b/Utilities/CMakeLists.txt
+index 85db367..798c163 100644
+--- a/Utilities/CMakeLists.txt
++++ b/Utilities/CMakeLists.txt
+@@ -126,7 +126,7 @@ ADD_CUSTOM_COMMAND(
+ 
+ INSTALL_FILES(${CMAKE_MAN_DIR}/man1 FILES ${MAN_FILES})
+ INSTALL_FILES(${CMAKE_DOC_DIR} FILES ${HTML_FILES} ${TEXT_FILES})
+-INSTALL_FILES(share/aclocal FILES cmake.m4)
++INSTALL(FILES cmake.m4 DESTINATION share/aclocal)
+ 
+ # Drive documentation generation.
+ ADD_CUSTOM_TARGET(documentation ALL DEPENDS ${DOC_FILES} ${CMake_BINARY_DIR}/Docs/cmake.txt )
+-- 
+1.7.0
+
