@@ -9,7 +9,8 @@
 %cmake \
   CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
-  FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
+  FFLAGS="${FFLAGS:-%optflags%{?_fmoddir: -I%_fmoddir}}" ; export FFLAGS ; \
+  %{?__global_ldflags:LDFLAGS="${LDFLAGS:-%__global_ldflags}" ; export LDFLAGS ;} \
   %__cmake \\\
         -DCMAKE_VERBOSE_MAKEFILE=ON \\\
         -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \\\

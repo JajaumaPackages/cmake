@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.6
-Release:        0.2.rc2%{?dist}
+Release:        0.3.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -160,6 +160,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Sep 11 2011 Ville Skyttä <ville.skytta@iki.fi> - 2.8.6-0.3.rc2
+- Sync FFLAGS and LDFLAGS in the %%cmake macro with redhat-rpm-config.
+
 * Tue Sep 6 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.6-0.2.rc2
 - Update to 2.8.6 RC 2
 - Drop aclocal patch
