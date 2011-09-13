@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc2
+%define rcver -rc3
 
 Name:           cmake
 Version:        2.8.6
-Release:        0.3.rc2%{?dist}
+Release:        0.4.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -160,6 +160,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Sep 13 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.6-0.4.rc3
+- Update to 2.8.6 RC 3
+
 * Sun Sep 11 2011 Ville Skyttä <ville.skytta@iki.fi> - 2.8.6-0.3.rc2
 - Sync FFLAGS and LDFLAGS in the %%cmake macro with redhat-rpm-config.
 
