@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc4
+%define rcver %{nil}
 
 Name:           cmake
 Version:        2.8.6
-Release:        0.5.rc4%{?dist}
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -160,6 +160,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Oct 5 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.6-1
+- Update to 2.8.6 final
+
 * Thu Sep 22 2011 Orion Poplawski <orion@cora.nwra.com> - 2.8.6-0.5.rc4
 - Update to 2.8.6 RC 4
 
