@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -160,6 +160,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.8.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Sun Jan 1 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.7-1
 - Update to 2.8.7 final
 
