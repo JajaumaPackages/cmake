@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -160,6 +160,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jan 26 2012 Tomas Bzatek <tbzatek@redhat.com> - 2.8.7-4
+- Rebuilt for new libarchive
+
 * Wed Jan 17 2012 Jaroslav Reznik <jreznik@redhat.com> - 2.8.7-3
 - Rebuild for libarchive
 
