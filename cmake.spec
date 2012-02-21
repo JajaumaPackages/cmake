@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -160,6 +160,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Feb 21 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.7-5
+- Strip CMAKE_INSTALL_LIBDIR and others from %%cmake macro (bug 795542)
+
 * Thu Jan 26 2012 Tomas Bzatek <tbzatek@redhat.com> - 2.8.7-4
 - Rebuilt for new libarchive
 
