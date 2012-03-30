@@ -3,7 +3,7 @@
 %bcond_with bootstrap
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
-# Set to RC version if building RC, else %{nil}
+# Set to RC version if building RC, else %%{nil}
 %define rcver -rc1
 
 Name:           cmake
@@ -43,7 +43,7 @@ CMake is used to control the software compilation process using simple
 platform and compiler independent configuration files. CMake generates 
 native makefiles and workspaces that can be used in the compiler 
 environment of your choice. CMake is quite sophisticated: it is possible 
-to support complex environments requiring system configuration, pre-processor 
+to support complex environments requiring system configuration, preprocessor
 generation, code generation, and template instantiation.
 
 
@@ -124,7 +124,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %files
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/rpm/macros.cmake
-%{_datadir}/doc/%{name}-%{version}/
+%doc %{_datadir}/doc/%{name}-%{version}/
 %if %{with gui}
 %exclude %{_datadir}/doc/%{name}-%{version}/cmake-gui.*
 %endif
