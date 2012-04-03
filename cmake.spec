@@ -3,7 +3,7 @@
 %bcond_with bootstrap
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
-# Set to RC version if building RC, else %%{nil}
+# Set to RC version if building RC, else %{nil}
 %define rcver -rc1
 
 Name:           cmake
@@ -80,7 +80,7 @@ pushd build
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 popd
-cp -a Example $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
+cp -a Example $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
 install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
 # RPM macros
@@ -124,9 +124,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %files
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/rpm/macros.cmake
-%doc %{_datadir}/doc/%{name}-%{version}/
+%{_docdir}/%{name}-%{version}/
 %if %{with gui}
-%exclude %{_datadir}/doc/%{name}-%{version}/cmake-gui.*
+%exclude %{_docdir}/doc/%{name}-%{version}/cmake-gui.*
 %endif
 %{_bindir}/ccmake
 %{_bindir}/cmake
@@ -150,7 +150,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %if %{with gui}
 %files gui
 %defattr(-,root,root,-)
-%{_datadir}/doc/%{name}-%{version}/cmake-gui.*
+%{_docdir}/%{name}-%{version}/cmake-gui.*
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
