@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.8
-Release:        0.3.rc2%{?dist}
+Release:        0.4.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -18,7 +18,7 @@ Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
 # Patch to find DCMTK in Fedora (bug #720140)
 Patch0:         cmake-dcmtk.patch
-# Upstream patch to fix setting PKG_CONFIG_FOUND (bug #812188)
+# (modified) Upstream patch to fix setting PKG_CONFIG_FOUND (bug #812188)
 Patch1:         cmake-pkgconfig.patch
 
 
@@ -165,6 +165,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Apr 14 2012 Rex Dieter <rdieter@fedoraproject.org> 2.8.8-0.4.rc2
+- adjust pkgconfig patch (#812188)
+
 * Fri Apr 13 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.8-0.3.rc2
 - Add upstream patch to set PKG_CONFIG_FOUND (bug #812188)
 
