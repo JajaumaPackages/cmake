@@ -108,6 +108,7 @@ pushd build
 #CMake.HTML currently requires internet access
 #CTestTestUpload requires internet access
 bin/ctest -V -E ModuleNotices -E CMake.HTML -E CTestTestUpload %{?_smp_mflags}
+popd
 
 
 %clean
@@ -130,7 +131,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %config(noreplace) %{_sysconfdir}/rpm/macros.cmake
 %{_docdir}/%{name}-%{version}/
 %if %{with gui}
-%exclude %{_docdir}/doc/%{name}-%{version}/cmake-gui.*
+%exclude %{_docdir}/%{name}-%{version}/cmake-gui.*
 %endif
 %{_bindir}/ccmake
 %{_bindir}/cmake
