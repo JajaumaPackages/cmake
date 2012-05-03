@@ -83,20 +83,19 @@ make VERBOSE=1 %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 pushd build
-make install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
+make install DESTDIR=%{buildroot}
+find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 popd
-cp -a Example $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/cmake
-install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/cmake
-%{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/cmake/cmake-mode.el
+cp -a Example %{buildroot}%{_docdir}/%{name}-%{version}/
+mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
+install -m 0644 Docs/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}
+%{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/cmake-mode.el
 # RPM macros
-install -p -m0644 -D %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
-sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
-touch -r %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{name}
+install -p -m0644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/rpm/macros.cmake
+sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{_sysconfdir}/rpm/macros.cmake
+touch -r %{SOURCE2} %{buildroot}%{_sysconfdir}/rpm/macros.cmake
+mkdir -p %{buildroot}%{_libdir}/%{name}
 
 %if %{with gui}
 # Desktop file
@@ -116,10 +115,6 @@ bin/ctest -V -E ModuleNotices -E CMake.HTML -E CTestTestUpload %{?_smp_mflags}
 popd
 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
 %if %{with gui}
 %post gui
 update-desktop-database &> /dev/null || :
@@ -132,7 +127,6 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %files
-%defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/rpm/macros.cmake
 %{_docdir}/%{name}-%{version}/
 %if %{with gui}
@@ -154,12 +148,11 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man1/cmakevars.1.gz
 %{_mandir}/man1/cpack.1.gz
 %{_mandir}/man1/ctest.1.gz
-%{_datadir}/emacs/cmake
+%{_emacs_sitelispdir}/%{name}
 %{_libdir}/%{name}/
 
 %if %{with gui}
 %files gui
-%defattr(-,root,root,-)
 %{_docdir}/%{name}-%{version}/cmake-gui.*
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
