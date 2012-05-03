@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -31,6 +31,7 @@ BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  libarchive-devel
 BuildRequires:  zlib-devel
+BuildRequires:  emacs
 %if %{without bootstrap}
 #BuildRequires: xmlrpc-c-devel
 %endif
@@ -40,6 +41,9 @@ BuildRequires: qt4-devel, desktop-file-utils
 %endif
 Requires:       rpm
 
+%if (0%{?fedora} >= 16)
+Requires: emacs-filesystem >= %{_emacs_version}
+%endif
 
 %description
 CMake is used to control the software compilation process using simple 
@@ -85,8 +89,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 popd
 cp -a Example $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
-install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/cmake
+install -m 0644 Docs/cmake-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/cmake
+%{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/cmake/cmake-mode.el
 # RPM macros
 install -p -m0644 -D %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.cmake
@@ -149,7 +154,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man1/cmakevars.1.gz
 %{_mandir}/man1/cpack.1.gz
 %{_mandir}/man1/ctest.1.gz
-%{_datadir}/emacs/
+%{_datadir}/emacs/cmake
 %{_libdir}/%{name}/
 
 %if %{with gui}
@@ -165,6 +170,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu May 3 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.8-2
+- Comply with Emacs packaging guidlines (bug #818658)
+
 * Thu Apr 19 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.8-1
 - Update to 2.8.8 final
 
