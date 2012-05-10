@@ -8,11 +8,15 @@
 
 Name:           cmake
 Version:        2.8.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
-License:        BSD
+# most sources are BSD
+# Source/CursesDialog/form/ a bunch is MIT 
+# Source/kwsys/MD5.c is zlib 
+# some GPL-licensed bison-generated files, these all include an exception granting redistribution under terms of your choice
+License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
 Source2:        macros.cmake
@@ -20,8 +24,6 @@ Source2:        macros.cmake
 Patch0:         cmake-dcmtk.patch
 # (modified) Upstream patch to fix setting PKG_CONFIG_FOUND (bug #812188)
 Patch1:         cmake-pkgconfig.patch
-
-
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -39,11 +41,16 @@ BuildRequires:  emacs
 BuildRequires: qt4-devel, desktop-file-utils
 %define qt_gui --qt-gui
 %endif
+
 Requires:       rpm
 
 %if (0%{?fedora} >= 16)
 Requires: emacs-filesystem >= %{_emacs_version}
 %endif
+
+# Source/kwsys/MD5.c
+# see https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries
+Provides: bundled(md5-deutsch)
 
 %description
 CMake is used to control the software compilation process using simple 
@@ -163,6 +170,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu May 10 2012 Rex Dieter <rdieter@fedoraproject.org> 2.8.8-3
+- Incorrect license tag in spec file (#820334)
+
 * Thu May 3 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.8-2
 - Comply with Emacs packaging guidlines (bug #818658)
 
