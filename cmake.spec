@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -24,6 +24,10 @@ Source2:        macros.cmake
 Patch0:         cmake-dcmtk.patch
 # (modified) Upstream patch to fix setting PKG_CONFIG_FOUND (bug #812188)
 Patch1:         cmake-pkgconfig.patch
+# Patch to fix RindRuby vendor settings
+# http://public.kitware.com/Bug/view.php?id=12965
+# https://bugzilla.redhat.com/show_bug.cgi?id=822796
+Patch2:         cmake-findruby.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -74,6 +78,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %setup -q -n %{name}-%{version}%{?rcver}
 %patch0 -p1 -b .dcmtk
 %patch1 -p1 -b .pkgconfig
+%patch2 -p1 -b .findruby
 
 
 %build
@@ -170,6 +175,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon May 21 2012 Orion Poplawski <orion@cora.nwra.com> 2.8.8-4
+- Add patch to fix FindRuby (bug 822796)
+
 * Thu May 10 2012 Rex Dieter <rdieter@fedoraproject.org> 2.8.8-3
 - Incorrect license tag in spec file (#820334)
 
