@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.8
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -28,6 +28,10 @@ Patch1:         cmake-pkgconfig.patch
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         cmake-findruby.patch
+# Patch to fix FindPostgreSQL
+# https://bugzilla.redhat.com/show_bug.cgi?id=828467
+# http://public.kitware.com/Bug/view.php?id=13378
+Patch3:         cmake-FindPostgreSQL.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -79,6 +83,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch0 -p1 -b .dcmtk
 %patch1 -p1 -b .pkgconfig
 %patch2 -p1 -b .findruby
+%patch3 -p1 -b .findpostgresql
 
 
 %build
@@ -175,6 +180,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jul 5 2012 Orion Poplawski <orion@cora.nwra.com> 2.8.8-5
+- Add patch to fix FindPostgreSQL (bug 828467)
+
 * Mon May 21 2012 Orion Poplawski <orion@cora.nwra.com> 2.8.8-4
 - Add patch to fix FindRuby (bug 822796)
 
