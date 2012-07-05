@@ -36,7 +36,7 @@
 -)
 +macro (fail_if)
 +  if (${ARGV})
-+    message (SEND_ERROR "Couldn't determine PostgreSQL configuration.")
++    message (WARNING "Couldn't determine PostgreSQL configuration.")
 +    unset (PostgreSQL_CONFIG_DIR)
 +    break ()
 +  endif ()
