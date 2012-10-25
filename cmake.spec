@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.10
-Release:        0.1.rc3%{?dist}
+Release:        0.2.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -30,6 +30,10 @@ Patch2:         cmake-findruby.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=828467
 # http://public.kitware.com/Bug/view.php?id=13378
 Patch3:         cmake-FindPostgreSQL.patch
+# Patch to fix ccmake DEL issue
+# https://bugzilla.redhat.com/show_bug.cgi?id=869769
+# http://public.kitware.com/Bug/view.php?id=13604
+Patch4:         cmake-ccmake-del-in-first-column.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -81,6 +85,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch0 -p1 -b .dcmtk
 %patch2 -p1 -b .findruby
 %patch3 -p1 -b .findpostgresql
+%patch4 -p1 -b .ccmake-del
 
 
 %build
@@ -177,6 +182,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Oct 24 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-0.2.rc3
+- Add patch to fix DEL key in ccmake (bug 869769)
+
 * Wed Oct 24 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-0.1.rc3
 - Update to 2.8.10 RC 3
 - Rebase FindRuby and FindPostgreSQL patches
