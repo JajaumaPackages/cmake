@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc3
 
 Name:           cmake
-Version:        2.8.9
-Release:        1%{?dist}
+Version:        2.8.10
+Release:        0.1.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -177,6 +177,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Oct 24 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-0.1.rc3
+- Update to 2.8.10 RC 3
+- Rebase FindRuby and FindPostgreSQL patches
+
 * Thu Aug 9 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.9-1
 - Update to 2.8.9 final
 

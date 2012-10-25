@@ -1,6 +1,7 @@
---- cmake-2.8.8/Modules/FindPostgreSQL.cmake	2012-04-18 20:10:54.000000000 +0200
-+++ cmake-2.8.8/Modules/FindPostgreSQL.cmake	2012-07-04 23:05:30.532090522 +0200
-@@ -97,76 +97,101 @@ set( PostgreSQL_ROOT_DIRECTORIES
+diff -up cmake-2.8.10-rc3/Modules/FindPostgreSQL.cmake.findpostgresql cmake-2.8.10-rc3/Modules/FindPostgreSQL.cmake
+--- cmake-2.8.10-rc3/Modules/FindPostgreSQL.cmake.findpostgresql	2012-10-24 11:12:01.000000000 -0600
++++ cmake-2.8.10-rc3/Modules/FindPostgreSQL.cmake	2012-10-24 19:49:54.189433358 -0600
+@@ -92,77 +92,99 @@ set( PostgreSQL_ROOT_DIRECTORIES
  #
  # Look for an installation.
  #
@@ -28,12 +29,22 @@
 -   # Look in other places.
 -   ${PostgreSQL_ROOT_DIRECTORIES}
 -  PATH_SUFFIXES
+-    postgresql
 -    pgsql/server
 -    postgresql/server
 -    include/server
 -  # Help the user find it if we cannot.
 -  DOC "The ${PostgreSQL_INCLUDE_DIR_MESSAGE}"
 -)
+-
+-# The PostgreSQL library.
+-set (PostgreSQL_LIBRARY_TO_FIND pq)
+-# Setting some more prefixes for the library
+-set (PostgreSQL_LIB_PREFIX "")
+-if ( WIN32 )
+-  set (PostgreSQL_LIB_PREFIX ${PostgreSQL_LIB_PREFIX} "lib")
+-  set ( PostgreSQL_LIBRARY_TO_FIND ${PostgreSQL_LIB_PREFIX}${PostgreSQL_LIBRARY_TO_FIND})
+-endif()
 +macro (fail_if)
 +  if (${ARGV})
 +    message (WARNING "Couldn't determine PostgreSQL configuration.")
@@ -96,15 +107,6 @@
 +  fail_if (NOT PostgreSQL_LIBRARY_FOUND)
 +  set (PostgreSQL_LIBRARIES ${PostgreSQL_LIBRARY_TO_FIND})
  
--# The PostgreSQL library.
--set (PostgreSQL_LIBRARY_TO_FIND pq)
--# Setting some more prefixes for the library
--set (PostgreSQL_LIB_PREFIX "")
--if ( WIN32 )
--  set (PostgreSQL_LIB_PREFIX ${PostgreSQL_LIB_PREFIX} "lib")
--  set ( PostgreSQL_LIBRARY_TO_FIND ${PostgreSQL_LIB_PREFIX}${PostgreSQL_LIBRARY_TO_FIND})
--endif()
--
 -find_library( PostgreSQL_LIBRARY
 - NAMES ${PostgreSQL_LIBRARY_TO_FIND}
 - PATHS
@@ -122,10 +124,10 @@
 -         PostgreSQL_VERSION_STRING "${pgsql_version_str}")
 -  unset(pgsql_version_str)
 -endif()
-+endforeach ()
++endforeach()
  
  # Did we find anything?
--include(FindPackageHandleStandardArgs)
+-include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
 -find_package_handle_standard_args(PostgreSQL
 -                                  REQUIRED_VARS PostgreSQL_LIBRARY PostgreSQL_INCLUDE_DIR PostgreSQL_TYPE_INCLUDE_DIR
 -                                  VERSION_VAR PostgreSQL_VERSION_STRING)
@@ -156,8 +158,6 @@
 +  message (STATUS "PostgreSQL include dirs: ${PostgreSQL_INCLUDE_DIRS}")
 +  message (STATUS "PostgreSQL library dirs: ${PostgreSQL_LIBRARY_DIRS}")
 +  message (STATUS "PostgreSQL libraries:    ${PostgreSQL_LIBRARIES}")
- endif(PostgreSQL_FOUND)
+ endif()
  
 -mark_as_advanced(PostgreSQL_INCLUDE_DIR PostgreSQL_TYPE_INCLUDE_DIR PostgreSQL_LIBRARY )
-+mark_as_advanced (PostgreSQL_CONFIG_DIR PostgreSQL_LIB_DIR
-+                  PostgreSQL_INCLUDE_DIR PostgreSQL_TYPE_INCLUDE_DIR)
