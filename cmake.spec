@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc3
+%define rcver %{nil}
 
 Name:           cmake
 Version:        2.8.10
-Release:        0.2.rc3%{?dist}
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -182,6 +182,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Nov 1 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-1
+- Update to 2.8.10 final
+
 * Thu Oct 24 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-0.2.rc3
 - Add patch to fix DEL key in ccmake (bug 869769)
 
