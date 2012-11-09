@@ -7,7 +7,7 @@
 %define rcver %{nil}
 
 Name:           cmake
-Version:        2.8.10
+Version:        2.8.10.1
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -182,6 +182,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Nov 8 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.1-1
+- Update to 2.8.10.1
+
 * Thu Nov 1 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-1
 - Update to 2.8.10 final
 
