@@ -7,7 +7,7 @@
 %define rcver %{nil}
 
 Name:           cmake
-Version:        2.8.10.1
+Version:        2.8.10.2
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -182,6 +182,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Nov 27 2012 Rex Dieter <rdieter@fedoraproject.org> 2.8.10.2-1
+- 2.8.10.2
+
 * Thu Nov 8 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.1-1
 - Update to 2.8.10.1
 
