@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.10.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -182,6 +182,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jan 17 2013 Tomas Bzatek <tbzatek@redhat.com> - 2.8.10.2-2
+- Rebuilt for new libarchive
+
 * Tue Nov 27 2012 Rex Dieter <rdieter@fedoraproject.org> 2.8.10.2-1
 - 2.8.10.2
 
