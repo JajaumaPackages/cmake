@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.10.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -182,6 +182,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jan 24 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.1-3
+- Update FindPostgreSQL patch to use PostgreSQL_LIBRARY (bug #903757)
+
 * Thu Jan 17 2013 Tomas Bzatek <tbzatek@redhat.com> - 2.8.10.2-2
 - Rebuilt for new libarchive
 
