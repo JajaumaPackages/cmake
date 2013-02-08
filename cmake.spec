@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.10.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -25,6 +25,9 @@ Patch0:         cmake-dcmtk.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
+# Patch to use ninja-build instead of ninja (renamed in Fedora)
+# https://bugzilla.redhat.com/show_bug.cgi?id=886184
+Patch1:         cmake-ninja.patch
 Patch2:         cmake-findruby.patch
 # Patch to fix FindPostgreSQL
 # https://bugzilla.redhat.com/show_bug.cgi?id=828467
@@ -83,6 +86,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
 %patch0 -p1 -b .dcmtk
+%patch1 -p1 -b .ninja
 %patch2 -p1 -b .findruby
 %patch3 -p1 -b .findpostgresql
 %patch4 -p1 -b .ccmake-del
@@ -182,7 +186,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Thu Jan 24 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.1-3
+* Fri Feb 8 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.2-4
+- Add patch to use ninja-build (bug #886184)
+
+* Thu Jan 24 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.2-3
 - Update FindPostgreSQL patch to use PostgreSQL_LIBRARY (bug #903757)
 
 * Thu Jan 17 2013 Tomas Bzatek <tbzatek@redhat.com> - 2.8.10.2-2
