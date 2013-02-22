@@ -186,6 +186,8 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+- Define FCFLAGS in cmake macro
+
 * Fri Feb 8 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.2-4
 - Add patch to use ninja-build (bug #886184)
 
