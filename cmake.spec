@@ -8,7 +8,7 @@
 
 Name:           cmake
 Version:        2.8.10.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -37,6 +37,9 @@ Patch3:         cmake-FindPostgreSQL.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=869769
 # http://public.kitware.com/Bug/view.php?id=13604
 Patch4:         cmake-ccmake-del-in-first-column.patch
+# Upstream patch to use absolute paths to fix UsrMove handling
+# https://bugzilla.redhat.com/show_bug.cgi?id=917407
+Patch5:         cmake-usrmove.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -90,6 +93,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch2 -p1 -b .findruby
 %patch3 -p1 -b .findpostgresql
 %patch4 -p1 -b .ccmake-del
+%patch5 -p1 -b .usrmove
 
 
 %build
@@ -186,6 +190,8 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Mar 13 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.2-5
+- Add patch from upstream to fix UsrMove handling (bug #917407)
 - Drop %%config from rpm macros
 - Define FCFLAGS in cmake macro
 
