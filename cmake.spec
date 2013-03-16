@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 Name:           cmake
-Version:        2.8.10.2
-Release:        5%{?dist}
+Version:        2.8.11
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -33,13 +33,6 @@ Patch2:         cmake-findruby.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=828467
 # http://public.kitware.com/Bug/view.php?id=13378
 Patch3:         cmake-FindPostgreSQL.patch
-# Patch to fix ccmake DEL issue
-# https://bugzilla.redhat.com/show_bug.cgi?id=869769
-# http://public.kitware.com/Bug/view.php?id=13604
-Patch4:         cmake-ccmake-del-in-first-column.patch
-# Upstream patch to use absolute paths to fix UsrMove handling
-# https://bugzilla.redhat.com/show_bug.cgi?id=917407
-Patch5:         cmake-usrmove.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -92,8 +85,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch1 -p1 -b .ninja
 %patch2 -p1 -b .findruby
 %patch3 -p1 -b .findpostgresql
-%patch4 -p1 -b .ccmake-del
-%patch5 -p1 -b .usrmove
 
 
 %build
@@ -190,6 +181,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Mar 14 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.1.rc1
+- Update to 2.8.11-rc1
+- Drop upstream ccmake and usrmove patches
+
 * Wed Mar 13 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.10.2-5
 - Add patch from upstream to fix UsrMove handling (bug #917407)
 - Drop %%config from rpm macros
