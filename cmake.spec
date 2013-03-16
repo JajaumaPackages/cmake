@@ -6,9 +6,14 @@
 # Set to RC version if building RC, else %{nil}
 %define rcver -rc1
 
+%define rpm_macros_dir %{_sysconfdir}/rpm
+%if 0%{?fedora} > 18
+%define rpm_macros_dir %{_rpmconfigdir}/macros.d
+%endif
+
 Name:           cmake
 Version:        2.8.11
-Release:        0.1.rc1%{?dist}
+Release:        0.2.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -110,9 +115,9 @@ mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
 install -m 0644 Docs/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}
 %{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/cmake-mode.el
 # RPM macros
-install -p -m0644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/rpm/macros.cmake
-sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{_sysconfdir}/rpm/macros.cmake
-touch -r %{SOURCE2} %{buildroot}%{_sysconfdir}/rpm/macros.cmake
+install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
+sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{rpm_macros_dir}/macros.cmake
+touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
 mkdir -p %{buildroot}%{_libdir}/%{name}
 
 %if %{with gui}
@@ -145,7 +150,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %files
-%{_sysconfdir}/rpm/macros.cmake
+%{rpm_macros_dir}/macros.cmake
 %{_docdir}/%{name}-%{version}/
 %if %{with gui}
 %exclude %{_docdir}/%{name}-%{version}/cmake-gui.*
@@ -181,6 +186,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Mar 16 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.2.rc1
+- use %%{_rpmconfigdir}/macros.d on f19+
+
 * Fri Mar 14 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.1.rc1
 - Update to 2.8.11-rc1
 - Drop upstream ccmake and usrmove patches
