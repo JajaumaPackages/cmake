@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11
-Release:        0.2.rc1%{?dist}
+Release:        0.3.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -38,6 +38,9 @@ Patch2:         cmake-findruby.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=828467
 # http://public.kitware.com/Bug/view.php?id=13378
 Patch3:         cmake-FindPostgreSQL.patch
+# Patch FindImageMagick.cmake for newer ImageMagick versions
+# http://public.kitware.com/Bug/view.php?id=14012
+Patch4:         cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -90,6 +93,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch1 -p1 -b .ninja
 %patch2 -p1 -b .findruby
 %patch3 -p1 -b .findpostgresql
+%patch4 -p1 -b .IM_pkgconfig_hints
 
 
 %build
@@ -186,6 +190,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Mar 16 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.3.rc1
+- Patch FindImageMagick.cmake for newer ImageMagick versions
+
 * Sat Mar 16 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.2.rc1
 - use %%{_rpmconfigdir}/macros.d on f19+
 
