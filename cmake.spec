@@ -89,11 +89,11 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
-%patch0 -p1 -b .dcmtk
-%patch1 -p1 -b .ninja
-%patch2 -p1 -b .findruby
-%patch3 -p1 -b .findpostgresql
-%patch4 -p1 -b .IM_pkgconfig_hints
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 
 %build
@@ -192,6 +192,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %changelog
 * Mon Mar 18 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.4.rc1
 - respin cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
+- drop/omit backup files when applying patches
 
 * Sat Mar 16 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.3.rc1
 - Patch FindImageMagick.cmake for newer ImageMagick versions
