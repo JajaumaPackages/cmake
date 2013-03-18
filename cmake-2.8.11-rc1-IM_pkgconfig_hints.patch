@@ -1,7 +1,15 @@
 diff -up cmake-2.8.11-rc1/Modules/FindImageMagick.cmake.IM_pkgconfig_hints cmake-2.8.11-rc1/Modules/FindImageMagick.cmake
---- cmake-2.8.11-rc1/Modules/FindImageMagick.cmake.IM_pkgconfig_hints	2013-03-16 20:17:26.927416851 -0500
-+++ cmake-2.8.11-rc1/Modules/FindImageMagick.cmake	2013-03-16 20:22:10.797867982 -0500
-@@ -77,11 +77,16 @@ find_package(PkgConfig)
+--- cmake-2.8.11-rc1/Modules/FindImageMagick.cmake.IM_pkgconfig_hints	2013-03-14 13:10:40.000000000 -0500
++++ cmake-2.8.11-rc1/Modules/FindImageMagick.cmake	2013-03-18 09:18:09.453420248 -0500
+@@ -69,17 +69,24 @@
+ # (To distribute this file outside of CMake, substitute the full
+ #  License text for the above reference.)
+ 
++find_package(PkgConfig QUIET)
++
+ #---------------------------------------------------------------------
+ # Helper functions
+ #---------------------------------------------------------------------
  function(FIND_IMAGEMAGICK_API component header)
    set(ImageMagick_${component}_FOUND FALSE PARENT_SCOPE)
  
@@ -18,7 +26,7 @@ diff -up cmake-2.8.11-rc1/Modules/FindImageMagick.cmake.IM_pkgconfig_hints cmake
      PATH_SUFFIXES
        ImageMagick
      DOC "Path to the ImageMagick include dir."
-@@ -90,6 +95,9 @@ function(FIND_IMAGEMAGICK_API component
+@@ -88,6 +95,9 @@ function(FIND_IMAGEMAGICK_API component
      NAMES ${ARGN}
      PATHS
        "[HKEY_LOCAL_MACHINE\\SOFTWARE\\ImageMagick\\Current;BinPath]/lib"
@@ -28,7 +36,7 @@ diff -up cmake-2.8.11-rc1/Modules/FindImageMagick.cmake.IM_pkgconfig_hints cmake
      DOC "Path to the ImageMagick Magick++ library."
      )
  
-@@ -149,17 +157,17 @@ foreach(component ${ImageMagick_FIND_COM
+@@ -147,17 +157,17 @@ foreach(component ${ImageMagick_FIND_COM
      )
    if(component STREQUAL "Magick++")
      FIND_IMAGEMAGICK_API(Magick++ Magick++.h

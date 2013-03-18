@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11
-Release:        0.3.rc1%{?dist}
+Release:        0.4.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -190,6 +190,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Mar 18 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.4.rc1
+- respin cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
+
 * Sat Mar 16 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.3.rc1
 - Patch FindImageMagick.cmake for newer ImageMagick versions
 
