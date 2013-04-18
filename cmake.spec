@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11
-Release:        0.5.rc2%{?dist}
+Release:        0.6.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -190,6 +190,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Apr 18 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.6.rc2
+- Drop -O3 from default release build type flags in cmake rpm macro (bug 875954)
+
 * Wed Apr 17 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.5.rc2
 - Update to 2.8.11-rc2
 - Rebase ImageMagick patch
