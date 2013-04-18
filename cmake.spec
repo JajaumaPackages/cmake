@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc1
+%define rcver -rc2
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11
-Release:        0.4.rc1%{?dist}
+Release:        0.5.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -190,6 +190,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Apr 17 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.5.rc2
+- Update to 2.8.11-rc2
+- Rebase ImageMagick patch
+
 * Mon Mar 18 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.4.rc1
 - respin cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
 - drop/omit backup files when applying patches
