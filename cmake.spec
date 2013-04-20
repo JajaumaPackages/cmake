@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc2
+%define rcver -rc3
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11
-Release:        0.6.rc2%{?dist}
+Release:        0.7.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -190,6 +190,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Apr 19 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.7.rc3
+- Update to 2.8.11-rc3
+
 * Thu Apr 18 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.6.rc2
 - Drop -O3 from default release build type flags in cmake rpm macro (bug 875954)
 
