@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11
-Release:        0.8.rc4%{?dist}
+Release:        0.9.rc4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -41,6 +41,8 @@ Patch3:         cmake-FindPostgreSQL.patch
 # Patch FindImageMagick.cmake for newer ImageMagick versions
 # http://public.kitware.com/Bug/view.php?id=14012
 Patch4:         cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
+# Add FindLua52.cmake
+Patch5:		cmake-2.8.11-rc4-lua-5.2.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -94,6 +96,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 
 %build
@@ -190,6 +193,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon May 13 2013 Tom Callaway <spot@fedoraproject.org> - 2.8.11-0.9.rc4
+- add FindLua52.cmake
+
 * Thu May 9 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.8.rc4
 - Update to 2.8.11-rc4
 
