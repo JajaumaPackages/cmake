@@ -12,7 +12,7 @@
 %endif
 
 Name:           cmake
-Version:        2.8.11
+Version:        2.8.11.1
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -193,6 +193,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Jun 10 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11.1-1
+- Update to 2.8.11.1 release
+
 * Sat May 18 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-1
 - Update to 2.8.11 release
 
