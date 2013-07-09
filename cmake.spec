@@ -12,7 +12,7 @@
 %endif
 
 Name:           cmake
-Version:        2.8.11.1
+Version:        2.8.11.2
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -193,6 +193,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jul 9 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11.2-1
+- Update to 2.8.11.2 release
+
 * Mon Jun 10 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11.1-1
 - Update to 2.8.11.1 release
 
@@ -225,7 +228,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 * Sat Mar 16 2013 Rex Dieter <rdieter@fedoraproject.org> 2.8.11-0.2.rc1
 - use %%{_rpmconfigdir}/macros.d on f19+
 
-* Fri Mar 14 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.1.rc1
+* Fri Mar 15 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11-0.1.rc1
 - Update to 2.8.11-rc1
 - Drop upstream ccmake and usrmove patches
 
@@ -252,7 +255,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 * Thu Nov 1 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-1
 - Update to 2.8.10 final
 
-* Thu Oct 24 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-0.2.rc3
+* Thu Oct 25 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-0.2.rc3
 - Add patch to fix DEL key in ccmake (bug 869769)
 
 * Wed Oct 24 2012 Orion Poplawski <orion@cora.nwra.com> - 2.8.10-0.1.rc3
@@ -311,7 +314,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 * Thu Jan 26 2012 Tomas Bzatek <tbzatek@redhat.com> - 2.8.7-4
 - Rebuilt for new libarchive
 
-* Wed Jan 17 2012 Jaroslav Reznik <jreznik@redhat.com> - 2.8.7-3
+* Wed Jan 18 2012 Jaroslav Reznik <jreznik@redhat.com> - 2.8.7-3
 - Rebuild for libarchive
 
 * Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.8.7-2
@@ -407,7 +410,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 * Tue Jul 6 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-1
 - Update to 2.8.2 final
 
-* Thu Jun 23 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-0.3.rc4
+* Thu Jun 24 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-0.3.rc4
 - Update to 2.8.2 RC 4
 
 * Wed Jun 23 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.2-0.2.rc3
