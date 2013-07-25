@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -44,7 +44,11 @@ Patch4:         cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
 # Add FindLua52.cmake
 Patch5:		cmake-2.8.11-rc4-lua-5.2.patch
 # Add -fno-strict-aliasing when compiling cm_sha2.c
+# http://www.cmake.org/Bug/view.php?id=14314
 Patch6:         cmake-strict_aliasing.patch
+# Patch away .png extension in icon name in desktop file.
+# http://www.cmake.org/Bug/view.php?id=14315
+Patch7:         cmake-desktop_icon.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -100,6 +104,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 
 %build
@@ -196,6 +201,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jul 25 2013 Petr Machata <pmachata@redhat.com> - 2.8.11.2-3
+- Icon name in desktop file should be sans .png extension.
+
 * Thu Jul 25 2013 Petr Machata <pmachata@redhat.com> - 2.8.11.2-2
 - Pass -fno-strict-aliasing to cm_sha2.c to avoid strict aliasing
   problems that GCC warns about.
