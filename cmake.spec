@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -43,6 +43,8 @@ Patch3:         cmake-FindPostgreSQL.patch
 Patch4:         cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
 # Add FindLua52.cmake
 Patch5:		cmake-2.8.11-rc4-lua-5.2.patch
+# Add -fno-strict-aliasing when compiling cm_sha2.c
+Patch6:         cmake-strict_aliasing.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -97,6 +99,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 
 %build
@@ -193,6 +196,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jul 25 2013 Petr Machata <pmachata@redhat.com> - 2.8.11.2-2
+- Pass -fno-strict-aliasing to cm_sha2.c to avoid strict aliasing
+  problems that GCC warns about.
+
 * Tue Jul 9 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11.2-1
 - Update to 2.8.11.2 release
 
