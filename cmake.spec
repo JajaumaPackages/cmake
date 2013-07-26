@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.11.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -113,7 +113,7 @@ export CXXFLAGS="$RPM_OPT_FLAGS"
 mkdir build
 pushd build
 ../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
-             --docdir=/share/doc/%{name}-%{version} --mandir=/share/man \
+             --docdir=/share/doc/%{name} --mandir=/share/man \
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
              %{?qt_gui}
@@ -166,9 +166,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %files
 %{rpm_macros_dir}/macros.cmake
-%{_docdir}/%{name}-%{version}/
+%{_docdir}/%{name}/
 %if %{with gui}
-%exclude %{_docdir}/%{name}-%{version}/cmake-gui.*
+%exclude %{_docdir}/%{name}/cmake-gui.*
 %endif
 %{_bindir}/ccmake
 %{_bindir}/cmake
@@ -191,7 +191,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %if %{with gui}
 %files gui
-%{_docdir}/%{name}-%{version}/cmake-gui.*
+%{_docdir}/%{name}/cmake-gui.*
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
@@ -201,6 +201,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jul 26 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11.2-4
+- Use version-less docdir
+
 * Thu Jul 25 2013 Petr Machata <pmachata@redhat.com> - 2.8.11.2-3
 - Icon name in desktop file should be sans .png extension.
 
