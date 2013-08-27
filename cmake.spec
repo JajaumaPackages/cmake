@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        2.8.11.2
-Release:        4%{?dist}
+Version:        2.8.12
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -38,9 +38,6 @@ Patch2:         cmake-findruby.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=828467
 # http://public.kitware.com/Bug/view.php?id=13378
 Patch3:         cmake-FindPostgreSQL.patch
-# Patch FindImageMagick.cmake for newer ImageMagick versions
-# http://public.kitware.com/Bug/view.php?id=14012
-Patch4:         cmake-2.8.11-rc1-IM_pkgconfig_hints.patch
 # Add FindLua52.cmake
 Patch5:		cmake-2.8.11-rc4-lua-5.2.patch
 # Add -fno-strict-aliasing when compiling cm_sha2.c
@@ -101,7 +98,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
@@ -201,6 +197,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Aug 26 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.1.rc1
+- Update to 2.8.12-rc1
+- Drop ImageMagick patch - not needed
+
 * Fri Jul 26 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.11.2-4
 - Use version-less docdir
 
