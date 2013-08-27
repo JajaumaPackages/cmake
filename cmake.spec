@@ -121,7 +121,7 @@ pushd build
 make install DESTDIR=%{buildroot}
 find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 popd
-cp -a Example %{buildroot}%{_docdir}/%{name}-%{version}/
+cp -a Example %{buildroot}%{_docdir}/%{name}/
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
 install -m 0644 Docs/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}
 %{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/cmake-mode.el
