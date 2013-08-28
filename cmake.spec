@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12
-Release:        0.1.rc1%{?dist}
+Release:        0.2.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -38,6 +38,10 @@ Patch2:         cmake-findruby.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=828467
 # http://public.kitware.com/Bug/view.php?id=13378
 Patch3:         cmake-FindPostgreSQL.patch
+# Fix issue with finding consistent python versions
+# http://public.kitware.com/Bug/view.php?id=13794
+# https://bugzilla.redhat.com/show_bug.cgi?id=876118
+Patch4:         cmake-FindPythonLibs.patch
 # Add FindLua52.cmake
 Patch5:		cmake-2.8.11-rc4-lua-5.2.patch
 # Add -fno-strict-aliasing when compiling cm_sha2.c
@@ -98,6 +102,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
@@ -197,6 +202,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Aug 28 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.2.rc1
+- Add patch to fix FindPythonLibs issues (bug #876118)
+
 * Mon Aug 26 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.1.rc1
 - Update to 2.8.12-rc1
 - Drop ImageMagick patch - not needed
