@@ -87,6 +87,15 @@ to support complex environments requiring system configuration, preprocessor
 generation, code generation, and template instantiation.
 
 
+%package        doc
+Summary:        Documentation for %{name}
+Group:          Development/Tools
+Requires:       %{name} = %{version}-%{release}
+
+%description    doc
+This package contains documentation for CMake.
+
+
 %package        gui
 Summary:        Qt GUI for %{name}
 Group:          Development/Tools
@@ -106,6 +115,15 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+# Setup copyright docs for main package
+mkdir _doc
+find Source Utilities -type f -iname copy\* | while read f
+do
+  fname=$(basename $f)
+  dir=$(dirname $f)
+  dname=$(basename $dir)
+  cp -p $f _doc/${fname}_${dname}
+done
 
 
 %build
@@ -166,8 +184,8 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %files
+%doc Copyright.txt _doc/*
 %{rpm_macros_dir}/macros.cmake
-%{_docdir}/%{name}/
 %if %{with gui}
 %exclude %{_docdir}/%{name}/cmake-gui.*
 %endif
@@ -190,6 +208,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_emacs_sitelispdir}/%{name}
 %{_libdir}/%{name}/
 
+%files doc
+%{_docdir}/%{name}/
+
 %if %{with gui}
 %files gui
 %{_docdir}/%{name}/cmake-gui.*
@@ -204,6 +225,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %changelog
 * Wed Aug 28 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.2.rc1
 - Add patch to fix FindPythonLibs issues (bug #876118)
+- Split docs into separate -doc sub-package
 
 * Mon Aug 26 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.1.rc1
 - Update to 2.8.12-rc1
