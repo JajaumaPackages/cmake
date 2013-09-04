@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc1
+%define rcver -rc2
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12
-Release:        0.2.rc1%{?dist}
+Release:        0.3.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -223,6 +223,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Sep 4 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.3.rc2
+- Update to 2.8.12-rc2
+
 * Wed Aug 28 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.2.rc1
 - Add patch to fix FindPythonLibs issues (bug #876118)
 - Split docs into separate -doc sub-package
