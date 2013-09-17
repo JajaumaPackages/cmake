@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc2
+%define rcver -rc3
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12
-Release:        0.3.rc2%{?dist}
+Release:        0.4.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -223,6 +223,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Sep 17 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.4.rc3
+- Update to 2.8.12-rc3
+
 * Wed Sep 4 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.3.rc2
 - Update to 2.8.12-rc2
 
