@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12
-Release:        0.4.rc3%{?dist}
+Release:        0.5.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -50,6 +50,8 @@ Patch6:         cmake-strict_aliasing.patch
 # Patch away .png extension in icon name in desktop file.
 # http://www.cmake.org/Bug/view.php?id=14315
 Patch7:         cmake-desktop_icon.patch
+# Patch to fix FindHDF5
+Patch8:         cmake-findhdf5.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -115,6 +117,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 # Setup copyright docs for main package
 mkdir _doc
 find Source Utilities -type f -iname copy\* | while read f
@@ -223,6 +226,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Sep 19 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.5.rc3
+- Add patch to fix FindHDF5
+
 * Tue Sep 17 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.4.rc3
 - Update to 2.8.12-rc3
 
