@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc4
+%define rcver %{nil}
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12
-Release:        0.6.rc4%{?dist}
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -223,6 +223,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Oct 8 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-1
+- Update to 2.8.12 final
+
 * Tue Oct 1 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-0.6.rc4
 - Update to 2.8.12-rc4
 - Drop upstreamed FindHD5 patch
