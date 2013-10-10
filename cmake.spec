@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -24,6 +24,7 @@ Group:          Development/Tools
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
+Source1:        cmake-init.el
 Source2:        macros.cmake
 # Patch to find DCMTK in Fedora (bug #720140)
 Patch0:         cmake-dcmtk.patch
@@ -146,8 +147,10 @@ find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 popd
 cp -a Example %{buildroot}%{_docdir}/%{name}/
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
-install -m 0644 Docs/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}
+install -p -m 0644 Docs/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}
 %{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/cmake-mode.el
+mkdir -p %{buildroot}%{_emacs_sitestartdir}
+install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}/
 # RPM macros
 install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{rpm_macros_dir}/macros.cmake
@@ -206,6 +209,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man1/cpack.1.gz
 %{_mandir}/man1/ctest.1.gz
 %{_emacs_sitelispdir}/%{name}
+%{_emacs_sitestartdir}/%{name}-init.el
 %{_libdir}/%{name}/
 
 %files doc
@@ -223,6 +227,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Oct 10 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-2
+- Autoload cmake-mode in emacs (bug #1017779)
+
 * Tue Oct 8 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-1
 - Update to 2.8.12 final
 
