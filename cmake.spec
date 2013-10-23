@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -51,6 +51,8 @@ Patch6:         cmake-strict_aliasing.patch
 # Patch away .png extension in icon name in desktop file.
 # http://www.cmake.org/Bug/view.php?id=14315
 Patch7:         cmake-desktop_icon.patch
+# Remove automatic Qt module dep adding
+Patch8:         cmake-qtdeps.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -108,6 +110,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
+# We cannot use backups with patches to Modules as they end up being installed
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -116,6 +119,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 # Setup copyright docs for main package
 mkdir _doc
 find Source Utilities -type f -iname copy\* | while read f
@@ -227,6 +231,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Oct 23 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-3
+- Remove UseQt4 automatic dependency adding
+
 * Thu Oct 10 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-2
 - Autoload cmake-mode in emacs (bug #1017779)
 
