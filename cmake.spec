@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        2.8.12
-Release:        3%{?dist}
+Version:        2.8.12.1
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -231,6 +231,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Nov 6 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.1-1
+- Update to 2.8.12.1
+
 * Wed Oct 23 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12-3
 - Remove UseQt4 automatic dependency adding
 
