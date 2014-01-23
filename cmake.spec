@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -53,6 +53,10 @@ Patch6:         cmake-strict_aliasing.patch
 Patch7:         cmake-desktop_icon.patch
 # Remove automatic Qt module dep adding
 Patch8:         cmake-qtdeps.patch
+# Fix FindFreetype for 2.5.1+
+# http://public.kitware.com/Bug/view.php?id=14601
+Patch9:		cmake-FindFreetype.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc-gfortran
@@ -120,6 +124,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 # Setup copyright docs for main package
 mkdir _doc
 find Source Utilities -type f -iname copy\* | while read f
@@ -231,6 +236,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Jan 22 2014 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.1-2
+- Fix FindFreetype for 2.5.1+
+
 * Wed Nov 6 2013 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.1-1
 - Update to 2.8.12.1
 
