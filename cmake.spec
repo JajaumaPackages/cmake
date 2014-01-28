@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        2.8.12.1
-Release:        2%{?dist}
+Version:        2.8.12.2
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -236,6 +236,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jan 28 2014 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.2-1
+- Update to 2.8.12.2
+
 * Wed Jan 22 2014 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.1-2
 - Fix FindFreetype for 2.5.1+
 
