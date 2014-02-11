@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        2.8.12.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -56,6 +56,10 @@ Patch8:         cmake-qtdeps.patch
 # Fix FindFreetype for 2.5.1+
 # http://public.kitware.com/Bug/view.php?id=14601
 Patch9:		cmake-FindFreetype.patch
+# Upstream patch to find Boost MPI library
+# http://www.cmake.org/Bug/view.php?id=14739
+# https://bugzilla.redhat.com/show_bug.cgi?id=756141
+Patch10:        cmake-boostmpi.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -125,6 +129,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 # Setup copyright docs for main package
 mkdir _doc
 find Source Utilities -type f -iname copy\* | while read f
@@ -236,6 +241,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Feb 11 2014 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.2-2
+- Add upstream patch to find Boost MPI library (bug #756141)
+
 * Tue Jan 28 2014 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.2-1
 - Update to 2.8.12.2
 
