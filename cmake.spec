@@ -63,6 +63,7 @@ BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  libarchive-devel
+BuildRequires:  python-sphinx
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
 %if %{without bootstrap}
