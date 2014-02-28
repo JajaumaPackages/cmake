@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        2.8.12.2
-Release:        2%{?dist}
+Version:        3.0.0
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -23,7 +23,7 @@ Group:          Development/Tools
 # some GPL-licensed bison-generated files, these all include an exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v2.8/cmake-%{version}%{?rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v3.0/cmake-%{version}%{?rcver}.tar.gz
 Source1:        cmake-init.el
 Source2:        macros.cmake
 # Patch to find DCMTK in Fedora (bug #720140)
@@ -44,7 +44,7 @@ Patch3:         cmake-FindPostgreSQL.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=876118
 Patch4:         cmake-FindPythonLibs.patch
 # Add FindLua52.cmake
-Patch5:		cmake-2.8.11-rc4-lua-5.2.patch
+Patch5:         cmake-2.8.11-rc4-lua-5.2.patch
 # Add -fno-strict-aliasing when compiling cm_sha2.c
 # http://www.cmake.org/Bug/view.php?id=14314
 Patch6:         cmake-strict_aliasing.patch
@@ -52,14 +52,8 @@ Patch6:         cmake-strict_aliasing.patch
 # http://www.cmake.org/Bug/view.php?id=14315
 Patch7:         cmake-desktop_icon.patch
 # Remove automatic Qt module dep adding
+# http://public.kitware.com/Bug/view.php?id=14750
 Patch8:         cmake-qtdeps.patch
-# Fix FindFreetype for 2.5.1+
-# http://public.kitware.com/Bug/view.php?id=14601
-Patch9:		cmake-FindFreetype.patch
-# Upstream patch to find Boost MPI library
-# http://www.cmake.org/Bug/view.php?id=14739
-# https://bugzilla.redhat.com/show_bug.cgi?id=756141
-Patch10:        cmake-boostmpi.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -128,8 +122,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
-%patch10 -p1
 # Setup copyright docs for main package
 mkdir _doc
 find Source Utilities -type f -iname copy\* | while read f
@@ -150,6 +142,7 @@ pushd build
              --docdir=/share/doc/%{name} --mandir=/share/man \
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
+             --sphinx-man \
              %{?qt_gui}
 make VERBOSE=1 %{?_smp_mflags}
 
@@ -159,9 +152,12 @@ pushd build
 make install DESTDIR=%{buildroot}
 find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 popd
-cp -a Example %{buildroot}%{_docdir}/%{name}/
+# Install bash completions properly
+mkdir -p %{buildroot}%{_datadir}/bash-completion/
+mv %{buildroot}%{_datadir}/%{name}/completions %{buildroot}%{_datadir}/bash-completion/
+# Install emacs cmake mode
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
-install -p -m 0644 Docs/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}
+install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/
 %{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/cmake-mode.el
 mkdir -p %{buildroot}%{_emacs_sitestartdir}
 install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}/
@@ -211,17 +207,13 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_bindir}/cpack
 %{_bindir}/ctest
 %{_datadir}/aclocal/cmake.m4
+%{_datadir}/bash-completion/
 %{_datadir}/%{name}/
 %{_mandir}/man1/ccmake.1.gz
 %{_mandir}/man1/cmake.1.gz
-%{_mandir}/man1/cmakecommands.1.gz
-%{_mandir}/man1/cmakecompat.1.gz
-%{_mandir}/man1/cmakemodules.1.gz
-%{_mandir}/man1/cmakepolicies.1.gz
-%{_mandir}/man1/cmakeprops.1.gz
-%{_mandir}/man1/cmakevars.1.gz
 %{_mandir}/man1/cpack.1.gz
 %{_mandir}/man1/ctest.1.gz
+%{_mandir}/man7/*.7.gz
 %{_emacs_sitelispdir}/%{name}
 %{_emacs_sitestartdir}/%{name}-init.el
 %{_libdir}/%{name}/
@@ -231,7 +223,6 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %if %{with gui}
 %files gui
-%{_docdir}/%{name}/cmake-gui.*
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
@@ -241,6 +232,11 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Feb 28 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.1.rc1
+- Update to 3.0.0-rc1
+- Update qtdeps patch to upstreamed version
+- Install bash completions
+
 * Tue Feb 11 2014 Orion Poplawski <orion@cora.nwra.com> - 2.8.12.2-2
 - Add upstream patch to find Boost MPI library (bug #756141)
 
