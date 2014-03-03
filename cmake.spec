@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.0
-Release:        0.1.rc1%{?dist}
+Release:        0.2.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -153,9 +153,12 @@ pushd build
 make install DESTDIR=%{buildroot}
 find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 popd
-# Install bash completions properly
-mkdir -p %{buildroot}%{_datadir}/bash-completion/
-mv %{buildroot}%{_datadir}/%{name}/completions %{buildroot}%{_datadir}/bash-completion/
+# Install bash completion symlinks
+mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
+for f in %{buildroot}%{_datadir}/%{name}/completions/*
+do
+  ln -s ../../%{name}/completions/$(basename $f) %{buildroot}%{_datadir}/bash-completion/completions/
+done
 # Install emacs cmake mode
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
 install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/
@@ -233,6 +236,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Mar 3 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.2.rc1
+- Use symlinks for bash completions
+
 * Fri Feb 28 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.1.rc1
 - Update to 3.0.0-rc1
 - Update qtdeps patch to upstreamed version
