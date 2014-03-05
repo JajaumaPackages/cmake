@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.0
-Release:        0.3.rc1%{?dist}
+Release:        0.4.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -236,6 +236,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Mar 5 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.4.rc1
+- Revert to Fedora version of FindPythonLibs patch (bug #1072964)
+
 * Mon Mar 3 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.3.rc1
 - Update to upstreams version of FindPythonLibs patch
 
