@@ -54,6 +54,8 @@ Patch7:         cmake-desktop_icon.patch
 # Remove automatic Qt module dep adding
 # http://public.kitware.com/Bug/view.php?id=14750
 Patch8:         cmake-qtdeps.patch
+# Additiona python fixes from upstream
+Patch9:         cmake-FindPythonLibs2.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -123,6 +125,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 # Setup copyright docs for main package
 mkdir _doc
 find Source Utilities -type f -iname copy\* | while read f
@@ -237,7 +240,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %changelog
 * Wed Mar 5 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.4.rc1
-- Revert to Fedora version of FindPythonLibs patch (bug #1072964)
+- Add additional FindPythonLibs patch from upstream (bug #1072964)
 
 * Mon Mar 3 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.3.rc1
 - Update to upstreams version of FindPythonLibs patch
