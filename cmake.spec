@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc1
+%define rcver -rc3
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.0
-Release:        0.4.rc1%{?dist}
+Release:        0.5.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -239,6 +239,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Mar 26 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.5.rc3
+- Update to 3.0.0-rc3
+
 * Wed Mar 5 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.4.rc1
 - Add additional FindPythonLibs patch from upstream (bug #1072964)
 
