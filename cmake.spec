@@ -56,6 +56,10 @@ Patch7:         cmake-desktop_icon.patch
 Patch8:         cmake-qtdeps.patch
 # Additiona python fixes from upstream
 Patch9:         cmake-FindPythonLibs2.patch
+# Fix FindwxWidgets when cross-compiling for Windows
+# https://bugzilla.redhat.com/show_bug.cgi?id=1081207
+# http://public.kitware.com/Bug/view.php?id=11296
+Patch10:         cmake-FindwxWidgets.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -126,6 +130,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 # Setup copyright docs for main package
 mkdir _doc
 find Source Utilities -type f -iname copy\* | while read f
@@ -241,6 +246,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %changelog
 * Wed Mar 26 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.5.rc3
 - Update to 3.0.0-rc3
+- Add patch to fix FindwxWidgets when cross-compiling for Windows (bug #1081207)
 
 * Wed Mar 5 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.4.rc1
 - Add additional FindPythonLibs patch from upstream (bug #1072964)

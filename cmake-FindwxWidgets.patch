@@ -1,0 +1,15 @@
+--- cmake/Modules/FindwxWidgets.cmake.backup	2013-05-11 07:38:56.191581120 -0500
++++ cmake/Modules/FindwxWidgets.cmake	2013-06-03 09:40:35.178161023 -0500
+@@ -201,10 +201,10 @@
+ 
+ #=====================================================================
+ #=====================================================================
+-if(WIN32 AND NOT CYGWIN AND NOT MSYS)
++if(WIN32 AND NOT CYGWIN AND NOT MSYS AND NOT CMAKE_CROSSCOMPILING)
+   set(wxWidgets_FIND_STYLE "win32")
+ else()
+-  if(UNIX OR MSYS)
++  if(UNIX OR MSYS OR WIN32 AND CMAKE_CROSSCOMPILING)
+     set(wxWidgets_FIND_STYLE "unix")
+   endif()
+ endif()
