@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.0
-Release:        0.5.rc3%{?dist}
+Release:        0.6.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -126,8 +126,8 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1
+%patch6 -p1 -b .strict_aliasing
+%patch7 -p1 -b .desktop_icon
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
@@ -160,6 +160,9 @@ make VERBOSE=1 %{?_smp_mflags}
 pushd build
 make install DESTDIR=%{buildroot}
 find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
+[ -n "$(find %{buildroot}/%{_datadir}/%{name}/Modules -name \*.orig)" ] &&
+  echo "Found .orig files in %{_datadir}/%{name}/Modules, rebase patches" &&
+  exit 1
 popd
 # Install bash completion symlinks
 mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
@@ -244,6 +247,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Apr 4 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.6.rc3
+- Rebase patches to prevent .orig files in Modules
+- Add install check for .orig files
+
 * Wed Mar 26 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.5.rc3
 - Update to 3.0.0-rc3
 - Add patch to fix FindwxWidgets when cross-compiling for Windows (bug #1081207)
