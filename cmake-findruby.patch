@@ -1,6 +1,6 @@
---- cmake-3.0.0-rc1/Modules/FindRuby.cmake.orig	2014-02-26 08:41:21.000000000 -0700
-+++ cmake-3.0.0-rc1/Modules/FindRuby.cmake	2014-03-05 10:09:49.692974698 -0700
-@@ -112,14 +112,8 @@
+--- cmake-3.0.0-rc3/Modules/FindRuby.cmake.orig	2014-03-20 10:50:27.000000000 -0600
++++ cmake-3.0.0-rc3/Modules/FindRuby.cmake	2014-04-04 09:34:41.177072542 -0600
+@@ -115,14 +115,8 @@
     _RUBY_CONFIG_VAR("sitearchdir" RUBY_SITEARCH_DIR)
     _RUBY_CONFIG_VAR("sitelibdir" RUBY_SITELIB_DIR)
  
