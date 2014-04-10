@@ -131,15 +131,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-# Setup copyright docs for main package
-mkdir _doc
-find Source Utilities -type f -iname copy\* | while read f
-do
-  fname=$(basename $f)
-  dir=$(dirname $f)
-  dname=$(basename $dir)
-  cp -p $f _doc/${fname}_${dname}
-done
 
 
 %build
@@ -181,6 +172,15 @@ install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{rpm_macros_dir}/macros.cmake
 touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
 mkdir -p %{buildroot}%{_libdir}/%{name}
+# Install copyright files for main package
+cp -p Copyright.txt %{buildroot}/%{_docdir}/%{name}/
+find Source Utilities -type f -iname copy\* | while read f
+do
+  fname=$(basename $f)
+  dir=$(dirname $f)
+  dname=$(basename $dir)
+  cp -p $f %{buildroot}/%{_docdir}/%{name}/${fname}_${dname}
+done
 
 %if %{with gui}
 # Desktop file
@@ -212,11 +212,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %files
-%doc Copyright.txt _doc/*
+%dir %{_docdir}/%{name}
+%{_docdir}/%{name}/Copyright.txt*
+%{_docdir}/%{name}/COPYING*
 %{rpm_macros_dir}/macros.cmake
-%if %{with gui}
-%exclude %{_docdir}/%{name}/cmake-gui.*
-%endif
 %{_bindir}/ccmake
 %{_bindir}/cmake
 %{_bindir}/cpack
