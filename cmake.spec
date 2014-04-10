@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.0
-Release:        0.6.rc3%{?dist}
+Release:        0.7.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -246,6 +246,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Apr 10 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.7.rc3
+- Fix doc duplication
+
 * Fri Apr 4 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.6.rc3
 - Rebase patches to prevent .orig files in Modules
 - Add install check for .orig files
