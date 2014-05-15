@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc4
+%define rcver -rc5
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.0
-Release:        0.8.rc4%{?dist}
+Release:        0.9.rc5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -48,9 +48,6 @@ Patch5:         cmake-2.8.11-rc4-lua-5.2.patch
 # Add -fno-strict-aliasing when compiling cm_sha2.c
 # http://www.cmake.org/Bug/view.php?id=14314
 Patch6:         cmake-strict_aliasing.patch
-# Patch away .png extension in icon name in desktop file.
-# http://www.cmake.org/Bug/view.php?id=14315
-Patch7:         cmake-desktop_icon.patch
 # Remove automatic Qt module dep adding
 # http://public.kitware.com/Bug/view.php?id=14750
 Patch8:         cmake-qtdeps.patch
@@ -127,7 +124,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1 -b .strict_aliasing
-%patch7 -p1 -b .desktop_icon
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
@@ -246,6 +242,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed May 14 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.9.rc5
+- Update to 3.0.0-rc5
+- Drop icon patch applied upstream
+
 * Tue Apr 22 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-0.8.rc4
 - Update to 3.0.0-rc4
 
