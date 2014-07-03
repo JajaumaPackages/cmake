@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -199,11 +199,17 @@ popd
 %if %{with gui}
 %post gui
 update-desktop-database &> /dev/null || :
-update-mime-database %{_datadir}/mime &> /dev/null || :
+touch --no-create %{_datadir}/mime ||:
 
 %postun gui
 update-desktop-database &> /dev/null || :
-update-mime-database %{_datadir}/mime &> /dev/null || :
+if [ $1 -eq 0 ] ; then
+touch --no-create %{_datadir}/mime ||:
+update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+fi
+
+%posttrans gui
+update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 
@@ -242,6 +248,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jul 03 2014 Rex Dieter <rdieter@fedoraproject.org> 3.0.0-2
+- optimize mimeinfo scriptlet
+
 * Sat Jun 14 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.0-1
 - Update to 3.0.0 final
 
