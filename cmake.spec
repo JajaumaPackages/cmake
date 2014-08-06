@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.0.0
-Release:        2%{?dist}
+Version:        3.0.1
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -248,6 +248,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Aug 6 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.1-1
+- Update to 3.0.1
+
 * Thu Jul 03 2014 Rex Dieter <rdieter@fedoraproject.org> 3.0.0-2
 - optimize mimeinfo scriptlet
 
