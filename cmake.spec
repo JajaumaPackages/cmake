@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -56,7 +56,9 @@ Patch9:         cmake-FindPythonLibs2.patch
 # Fix FindwxWidgets when cross-compiling for Windows
 # https://bugzilla.redhat.com/show_bug.cgi?id=1081207
 # http://public.kitware.com/Bug/view.php?id=11296
-Patch10:         cmake-FindwxWidgets.patch
+Patch10:        cmake-FindwxWidgets.patch
+# Upstream fix to UsewxWidgets for CFLAGS handling
+Patch11:        cmake-UsewxWidgets.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -127,6 +129,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 
 %build
@@ -248,6 +251,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Aug 25 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.1-3
+- Update wxWidgets patches
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
