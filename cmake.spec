@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -59,6 +59,8 @@ Patch9:         cmake-FindPythonLibs2.patch
 Patch10:        cmake-FindwxWidgets.patch
 # Upstream fix to UsewxWidgets for CFLAGS handling
 Patch11:        cmake-UsewxWidgets.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1141782#c2
+Patch12:        cmake-java-ppc64le.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -130,6 +132,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 
 %build
@@ -251,6 +254,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Sep 15 2014 Dan Horák <dan[at]danny.cz> - 3.0.2-2
+- fix FindJNI for ppc64le (#1141782)
+
 * Sun Sep 14 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.2-1
 - Update to 3.0.2
 
