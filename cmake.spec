@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.0.1
-Release:        3%{?dist}
+Version:        3.0.2
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -251,6 +251,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Sep 14 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.2-1
+- Update to 3.0.2
+
 * Mon Aug 25 2014 Orion Poplawski <orion@cora.nwra.com> - 3.0.1-3
 - Update wxWidgets patches
 
