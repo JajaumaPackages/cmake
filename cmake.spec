@@ -226,6 +226,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Oct 29 2014 Orion Poplawski <orion@cora.nwra.com> - 3.1.0-0.1.rc1
+- Update to 3.1.0-rc1
+
 * Mon Sep 15 2014 Dan Horák <dan[at]danny.cz> - 3.0.2-2
 - fix FindJNI for ppc64le (#1141782)
 
