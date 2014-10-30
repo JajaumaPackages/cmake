@@ -49,6 +49,7 @@ BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  libarchive-devel
+BuildRequires:  lzma-devel
 BuildRequires:  python-sphinx
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
