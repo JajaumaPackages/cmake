@@ -49,8 +49,8 @@ BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  libarchive-devel
-BuildRequires:  lzma-devel
 BuildRequires:  python-sphinx
+BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
 %if %{without bootstrap}
