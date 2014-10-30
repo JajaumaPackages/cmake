@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.0.2
-Release:        2%{?dist}
+Version:        3.1.0
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -23,44 +23,23 @@ Group:          Development/Tools
 # some GPL-licensed bison-generated files, these all include an exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v3.0/cmake-%{version}%{?rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v3.1/cmake-%{version}%{?rcver}.tar.gz
 Source1:        cmake-init.el
 Source2:        macros.cmake
 # Patch to find DCMTK in Fedora (bug #720140)
 Patch0:         cmake-dcmtk.patch
-# Patch to fix RindRuby vendor settings
-# http://public.kitware.com/Bug/view.php?id=12965
-# https://bugzilla.redhat.com/show_bug.cgi?id=822796
 # Patch to use ninja-build instead of ninja (renamed in Fedora)
 # https://bugzilla.redhat.com/show_bug.cgi?id=886184
 Patch1:         cmake-ninja.patch
+# Patch to fix RindRuby vendor settings
+# http://public.kitware.com/Bug/view.php?id=12965
+# https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         cmake-findruby.patch
-# Patch to fix FindPostgreSQL
-# https://bugzilla.redhat.com/show_bug.cgi?id=828467
-# http://public.kitware.com/Bug/view.php?id=13378
-Patch3:         cmake-FindPostgreSQL.patch
-# Fix issue with finding consistent python versions
-# http://public.kitware.com/Bug/view.php?id=13794
-# https://bugzilla.redhat.com/show_bug.cgi?id=876118
-Patch4:         cmake-FindPythonLibs.patch
 # Add FindLua52.cmake
 Patch5:         cmake-2.8.11-rc4-lua-5.2.patch
 # Add -fno-strict-aliasing when compiling cm_sha2.c
 # http://www.cmake.org/Bug/view.php?id=14314
 Patch6:         cmake-strict_aliasing.patch
-# Remove automatic Qt module dep adding
-# http://public.kitware.com/Bug/view.php?id=14750
-Patch8:         cmake-qtdeps.patch
-# Additiona python fixes from upstream
-Patch9:         cmake-FindPythonLibs2.patch
-# Fix FindwxWidgets when cross-compiling for Windows
-# https://bugzilla.redhat.com/show_bug.cgi?id=1081207
-# http://public.kitware.com/Bug/view.php?id=11296
-Patch10:        cmake-FindwxWidgets.patch
-# Upstream fix to UsewxWidgets for CFLAGS handling
-Patch11:        cmake-UsewxWidgets.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1141782#c2
-Patch12:        cmake-java-ppc64le.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -124,15 +103,8 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 %patch5 -p1
 %patch6 -p1 -b .strict_aliasing
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
 
 
 %build
