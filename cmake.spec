@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -40,6 +40,9 @@ Patch5:         cmake-2.8.11-rc4-lua-5.2.patch
 # Add -fno-strict-aliasing when compiling cm_sha2.c
 # http://www.cmake.org/Bug/view.php?id=14314
 Patch6:         cmake-strict_aliasing.patch
+# Fix ruby 2.2.0 teeny (0) detection
+# http://www.cmake.org/gitweb?p=cmake.git;a=commitdiff;h=802d0aa0b0a0af72fdc95bf1f69afeb362b6ef95#patch1
+Patch7:         cmake-3.1.0-ruby22-teeny-detection.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -106,6 +109,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch2 -p1
 %patch5 -p1
 %patch6 -p1 -b .strict_aliasing
+%patch7 -p1
 
 
 %build
@@ -227,6 +231,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Jan 17 2015 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.1.0-2
+- Fix ruby 2.2.0 teeny (0) detection
+
 * Wed Dec 17 2014 Orion Poplawski <orion@cora.nwra.com> - 3.1.0-1
 - Update to 3.1.0 final
 
