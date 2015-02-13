@@ -12,7 +12,7 @@
 %endif
 
 Name:           cmake
-Version:        3.1.2
+Version:        3.1.3
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -227,6 +227,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Feb 13 2015 Orion Poplawski <orion@cora.nwra.com> - 3.1.3-1
+- Update to 3.1.3
+
 * Sat Feb 7 2015 Orion Poplawski <orion@cora.nwra.com> - 3.1.2-1
 - Update to 3.1.2
 
