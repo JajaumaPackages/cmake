@@ -45,6 +45,7 @@ BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
+BuildRequires:  jsoncpp-devel
 BuildRequires:  libarchive-devel
 BuildRequires:  python-sphinx
 BuildRequires:  xz-devel
