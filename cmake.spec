@@ -115,7 +115,7 @@ pushd build
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
              --sphinx-man \
-             %{?qt_gui}
+             %{?qt_gui} -- -DCMAKE_C_STANDARD=90 -DCMAKE_CXX_STANDARD=98
 make VERBOSE=1 %{?_smp_mflags}
 
 
