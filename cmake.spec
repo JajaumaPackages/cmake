@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.1.3
-Release:        1%{?dist}
+Version:        3.2.0
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -23,14 +23,11 @@ Group:          Development/Tools
 # some GPL-licensed bison-generated files, these all include an exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v3.1/cmake-%{version}%{?rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v3.2/cmake-%{version}%{?rcver}.tar.gz
 Source1:        cmake-init.el
 Source2:        macros.cmake
 # Patch to find DCMTK in Fedora (bug #720140)
 Patch0:         cmake-dcmtk.patch
-# Patch to use ninja-build instead of ninja (renamed in Fedora)
-# https://bugzilla.redhat.com/show_bug.cgi?id=886184
-Patch1:         cmake-ninja.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
@@ -102,7 +99,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %setup -q -n %{name}-%{version}%{?rcver}
 # We cannot use backups with patches to Modules as they end up being installed
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch5 -p1
 %patch6 -p1 -b .strict_aliasing
@@ -178,17 +174,21 @@ popd
 %if %{with gui}
 %post gui
 update-desktop-database &> /dev/null || :
-touch --no-create %{_datadir}/mime ||:
+/bin/touch --no-create %{_datadir}/mime || :
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun gui
 update-desktop-database &> /dev/null || :
 if [ $1 -eq 0 ] ; then
-touch --no-create %{_datadir}/mime ||:
-update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+    /bin/touch --no-create %{_datadir}/mime || :
+    update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
 
 %posttrans gui
 update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 
@@ -221,12 +221,17 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_bindir}/cmake-gui
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
-%{_datadir}/pixmaps/CMakeSetup32.png
+%{_datadir}/icons/hicolor/*/apps/CMakeSetup.png
 %{_mandir}/man1/cmake-gui.1.gz
 %endif
 
 
 %changelog
+* Sun Feb 15 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.0-0.1.rc1
+- Update to 3.2.0-rc1
+- Drop ninja patch fixed upstream
+- Upstream now ships icons, add icon-cache scriptlets
+
 * Fri Feb 13 2015 Orion Poplawski <orion@cora.nwra.com> - 3.1.3-1
 - Update to 3.1.3
 
