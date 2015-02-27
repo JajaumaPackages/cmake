@@ -32,11 +32,6 @@ Patch0:         cmake-dcmtk.patch
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         cmake-findruby.patch
-# Add FindLua52.cmake
-Patch5:         cmake-2.8.11-rc4-lua-5.2.patch
-# Add -fno-strict-aliasing when compiling cm_sha2.c
-# http://www.cmake.org/Bug/view.php?id=14314
-Patch6:         cmake-strict_aliasing.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -101,8 +96,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch0 -p1
 %patch2 -p1
-%patch5 -p1
-%patch6 -p1 -b .strict_aliasing
 
 
 %build
@@ -115,7 +108,7 @@ pushd build
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
              --sphinx-man \
-             %{?qt_gui} -- -DCMAKE_C_STANDARD=90 -DCMAKE_CXX_STANDARD=98
+             %{?qt_gui}
 make VERBOSE=1 %{?_smp_mflags}
 
 
@@ -230,6 +223,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %changelog
 * Thu Feb 26 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.0-0.2.rc2
 - Update to 3.2.0-rc2
+- Drop C++11 ABI workaround, fixed in gcc
+- Drop strict_aliasing patch fixed upstream long ago
+- Drop FindLua52, FindLua should work now for 5.1-5.3
 
 * Sun Feb 15 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.0-0.1.rc1
 - Update to 3.2.0-rc1
