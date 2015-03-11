@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc2
+%define rcver %{nil}
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.2.0
-Release:        0.2.rc2%{?dist}
+Version:        3.2.1
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -221,6 +221,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Mar 11 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.1-1
+- Update to 3.2.1
+
 * Thu Feb 26 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.0-0.2.rc2
 - Update to 3.2.0-rc2
 - Drop C++11 ABI workaround, fixed in gcc
