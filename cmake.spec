@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -26,6 +26,9 @@ URL:            http://www.cmake.org
 Source0:        http://www.cmake.org/files/v3.2/cmake-%{version}%{?rcver}.tar.gz
 Source1:        cmake-init.el
 Source2:        macros.cmake
+# See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
+Source3:        cmake.attr
+Source4:        cmake.prov
 # Patch to find DCMTK in Fedora (bug #720140)
 Patch0:         cmake-dcmtk.patch
 # Patch to fix RindRuby vendor settings
@@ -136,6 +139,11 @@ install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}/
 install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{rpm_macros_dir}/macros.cmake
 touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
+%if 0%{?_rpmconfigdir:1}
+# RPM auto provides
+install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/cmake.attr
+install -p -m0755 -D %{SOURCE4} %{buildroot}%{_prefix}/lib/rpm/cmake.prov
+%endif
 mkdir -p %{buildroot}%{_libdir}/%{name}
 # Install copyright files for main package
 cp -p Copyright.txt %{buildroot}/%{_docdir}/%{name}/
@@ -191,6 +199,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_docdir}/%{name}/Copyright.txt*
 %{_docdir}/%{name}/COPYING*
 %{rpm_macros_dir}/macros.cmake
+%if 0%{?_rpmconfigdir:1}
+%{_prefix}/lib/rpm/fileattrs/cmake.attr
+%{_prefix}/lib/rpm/cmake.prov
+%endif
 %{_bindir}/ccmake
 %{_bindir}/cmake
 %{_bindir}/cpack
@@ -221,6 +233,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Mar 17 2015 Rex Dieter <rdieter@fedoraproject.org> 3.2.1-2
+- RFE: CMake automatic RPM provides  (#1202899)
+
 * Wed Mar 11 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.1-1
 - Update to 3.2.1
 
