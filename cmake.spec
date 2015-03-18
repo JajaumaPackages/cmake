@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -233,6 +233,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Mar 18 2015 Rex Dieter <rdieter@fedoraproject.org> 3.2.1-3
+- cmake.prov: use /usr/bin/python (instead of /bin/python)
+
 * Tue Mar 17 2015 Rex Dieter <rdieter@fedoraproject.org> 3.2.1-2
 - RFE: CMake automatic RPM provides  (#1202899)
 
