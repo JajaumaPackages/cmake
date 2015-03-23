@@ -63,7 +63,11 @@ class CMakeParser:
 
     def resolveCMakeModuleVersion(self, modulePath, cmakeModule, lowercase):
         versionFile = ("%s/%s-config-version.cmake" if lowercase else "%s/%sConfigVersion.cmake") % (modulePath, cmakeModule)
-        f = open(versionFile, 'r')
+        try:
+            f = open(versionFile, 'r')
+        except:
+            return None
+
         for line in f:
             line = line.strip()
 

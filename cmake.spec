@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -233,6 +233,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Mar 23 2015 Daniel Vrátil <dvratil@redhat.com> - 3.2.1-4
+- cmake.prov: handle exceptions
+
 * Wed Mar 18 2015 Rex Dieter <rdieter@fedoraproject.org> 3.2.1-3
 - cmake.prov: use /usr/bin/python (instead of /bin/python)
 
