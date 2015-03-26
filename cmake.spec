@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.2.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -160,6 +160,44 @@ done
 desktop-file-install --delete-original \
   --dir=%{buildroot}%{_datadir}/applications \
   %{buildroot}/%{_datadir}/applications/CMake.desktop
+
+# Register as an application to be visible in the software center
+#
+# NOTE: It would be *awesome* if this file was maintained by the upstream
+# project, translated and installed into the right place during `make install`.
+#
+# See http://www.freedesktop.org/software/appstream/docs/ for more details.
+#
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/appdata
+cat > $RPM_BUILD_ROOT%{_datadir}/appdata/CMake.appdata.xml <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Ryan Lerch <rlerch@redhat.com> -->
+<!--
+EmailAddress: kitware@kitware.com
+SentUpstream: 2014-09-17
+-->
+<application>
+  <id type="desktop">CMake.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <name>CMake GUI</name>
+  <summary>Create new CMake projects</summary>
+  <description>
+    <p>
+      CMake is an open source, cross platform build system that can build, test,
+      and package software. CMake GUI is a graphical user interface that can
+      create and edit CMake projects.
+    </p>
+  </description>
+  <url type="homepage">http://www.cmake.org</url>
+  <screenshots>
+    <screenshot type="default">https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/CMake/a.png</screenshot>
+  </screenshots>
+  <!-- FIXME: change this to an upstream email address for spec updates
+  <updatecontact>someone_who_cares@upstream_project.org</updatecontact>
+   -->
+</application>
+EOF
+
 %endif
 
 
@@ -225,6 +263,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %if %{with gui}
 %files gui
 %{_bindir}/cmake-gui
+%{_datadir}/appdata/*.appdata.xml
 %{_datadir}/applications/CMake.desktop
 %{_datadir}/mime/packages/cmakecache.xml
 %{_datadir}/icons/hicolor/*/apps/CMakeSetup.png
@@ -233,6 +272,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Mar 26 2015 Richard Hughes <rhughes@redhat.com> - 3.2.1-5
+- Add an AppData file for the software center
+
 * Mon Mar 23 2015 Daniel Vrátil <dvratil@redhat.com> - 3.2.1-4
 - cmake.prov: handle exceptions
 
