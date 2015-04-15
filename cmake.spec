@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.2.1
-Release:        5%{?dist}
+Version:        3.2.2
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -272,6 +272,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Apr 15 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.2-1
+- Update to 3.2.2
+
 * Thu Mar 26 2015 Richard Hughes <rhughes@redhat.com> - 3.2.1-5
 - Add an AppData file for the software center
 
