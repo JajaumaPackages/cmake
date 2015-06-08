@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%define rcver -rc1
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.2.3
-Release:        1%{?dist}
+Version:        3.3.0
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -23,7 +23,7 @@ Group:          Development/Tools
 # some GPL-licensed bison-generated files, these all include an exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v3.2/cmake-%{version}%{?rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v3.3/cmake-%{version}%{?rcver}.tar.gz
 Source1:        cmake-init.el
 Source2:        macros.cmake
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
@@ -272,6 +272,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Jun 8 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.0-0.1.rc1
+- Update to 3.3.0-rc1
+
 * Mon Jun 8 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.3-1
 - Update to 3.2.3
 
