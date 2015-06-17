@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.3.0
-Release:        0.1.rc1%{?dist}
+Release:        0.2.rc1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -272,6 +272,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.3.0-0.2.rc1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Mon Jun 8 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.0-0.1.rc1
 - Update to 3.3.0-rc1
 
