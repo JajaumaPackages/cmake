@@ -4,7 +4,7 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver -rc2
+%define rcver -rc3
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} > 18
@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.3.0
-Release:        0.3.rc2%{?dist}
+Release:        0.4.rc3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -272,6 +272,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jul 9 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.0-0.4.rc3
+- Update to 3.3.0-rc3
+- Fix cmake.attr to handle 32-bit libraries
+
 * Tue Jun 23 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.0-0.3.rc2
 - Update to 3.3.0-rc2
 
