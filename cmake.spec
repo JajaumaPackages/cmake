@@ -205,9 +205,8 @@ EOF
 unset DISPLAY
 pushd build
 #ModuleNotices fails for some unknown reason, and we don't care
-#CMake.HTML currently requires internet access
-#CTestTestUpload requires internet access
-bin/ctest -V -E ModuleNotices -E CMake.HTML -E CTestTestUpload %{?_smp_mflags}
+#CMake.HTML, CMake.FileDownload, and CTestTestUpload require internet access
+bin/ctest -V -E ModuleNotices -E 'CMake.(HTML|FileDownload)' -E CTestTestUpload %{?_smp_mflags}
 popd
 
 
