@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -66,6 +66,9 @@ Requires: emacs-filesystem >= %{_emacs_version}
 # Source/kwsys/MD5.c
 # see https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries
 Provides: bundled(md5-deutsch)
+
+# https://fedorahosted.org/fpc/ticket/555
+Provides: bundled(kwsys)
 
 %description
 CMake is used to control the software compilation process using simple 
@@ -271,6 +274,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Aug 21 2015 Rex Dieter <rdieter@fedoraproject.org> 3.3.1-2
+- Provides: bundled(kwsys)
+
 * Thu Aug 13 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.1-1
 - Update to 3.3.1
 
