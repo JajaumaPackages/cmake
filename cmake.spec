@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.3.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -35,6 +35,11 @@ Patch0:         cmake-dcmtk.patch
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         cmake-findruby.patch
+
+## upstream patches
+# some post v3.3.1 tag commits
+Patch624:       0624-FindBoost-Add-support-for-Boost-1.59.patch
+Patch640:       0640-FindPkgConfig-remove-variable-dereference.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -102,6 +107,8 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch0 -p1
 %patch2 -p1
+%patch624 -p1
+%patch640 -p1
 
 
 %build
@@ -274,6 +281,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Aug 25 2015 Rex Dieter <rdieter@fedoraproject.org> 3.3.1-3
+- pull in some upstream fixes (FindPkgConfig,boost-1.59)
+
 * Fri Aug 21 2015 Rex Dieter <rdieter@fedoraproject.org> 3.3.1-2
 - Provides: bundled(kwsys)
 
