@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.3.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -38,6 +38,10 @@ Patch1:         cmake.git-371fe92e.patch
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         cmake-findruby.patch
+# Fix issue with redhat-hardened-ld
+# http://www.cmake.org/Bug/view.php?id=15737
+# https://bugzilla.redhat.com/show_bug.cgi?id=1260490
+Patch3:         cmake.git-97ffbcd8.patch
 
 ## upstream patches
 # some post v3.3.1 tag commits
@@ -111,6 +115,7 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %patch624 -p1
 %patch640 -p1
 
@@ -285,6 +290,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Sep 11 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.1-5
+- Apply upstream patch to fix Fortran linker detection with redhat-hardened-ld
+  (bug #1260490)
+
 * Wed Sep 9 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.1-4
 - Apply upstream patch to fix trycompile output (bug #1260490)
 
