@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<!-- git web interface version 1.7.10.4, (C) 2005-2006, Kay Sievers <kay.sievers@vrfy.org>, Christian Gierke -->
+<!-- git core binaries version 1.7.10.4 -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="generator" content="gitweb/1.7.10.4 git/1.7.10.4"/>
+<meta name="robots" content="index, nofollow"/>
+<title>www.cmake.org Git - cmake.git/summary</title>
+<link rel="stylesheet" type="text/css" href="/gitweb.css"/>
+<link rel="alternate" title="cmake.git - log - RSS feed" href="/gitweb?p=cmake.git;a=rss" type="application/rss+xml" />
+<link rel="alternate" title="cmake.git - log - RSS feed (no merges)" href="/gitweb?p=cmake.git;a=rss;opt=--no-merges" type="application/rss+xml" />
+<link rel="alternate" title="cmake.git - log - Atom feed" href="/gitweb?p=cmake.git;a=atom;opt=--no-merges" type="application/atom+xml" />
+<link rel="alternate" title="cmake.git - log - Atom feed (no merges)" href="/gitweb?p=cmake.git;a=atom;opt=--no-merges" type="application/atom+xml" />
+<link rel="shortcut icon" href="/git-favicon.png" type="image/png" />
+</head>
+<body>
+<div class="page_header">
+<a title="git homepage" href="http://git-scm.com/"><img class="logo" height="27" src="/git-logo.png" alt="git" width="72" /></a><a href="/gitweb">projects</a> / <a href="/gitweb?p=cmake.git;a=summary">cmake.git</a> / summary
+</div>
+<form method="get" action="/gitweb" enctype="application/x-www-form-urlencoded">
+<div class="search">
+<input name="p" type="hidden" value="cmake.git" />
+<input name="a" type="hidden" value="search" />
+<input name="h" type="hidden" value="HEAD" />
+<select name="st" >
+<option selected="selected" value="commit">commit</option>
+<option value="grep">grep</option>
+<option value="author">author</option>
+<option value="committer">committer</option>
+<option value="pickaxe">pickaxe</option>
+</select><sup><a href="/gitweb?p=cmake.git;a=search_help">?</a></sup> search:
+<input type="text" name="s"  />
+<span title="Extended regular expression"><label><input type="checkbox" name="sr" value="1" />re</label></span></div>
+</form>
+<div class="page_nav">
+summary | <a href="/gitweb?p=cmake.git;a=shortlog">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log">log</a> | <a href="/gitweb?p=cmake.git;a=commit;h=72797dec8f8dca151d821be57b78a04ba27e1d5e">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=72797dec8f8dca151d821be57b78a04ba27e1d5e">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree">tree</a><br/>
+<br/>
+</div>
+<div class="title">&nbsp;</div>
+<table class="projects_list">
+<tr id="metadata_desc"><td>description</td><td>CMake</td></tr>
+<tr id="metadata_owner"><td>owner</td><td>Kitware, Inc.</td></tr>
+<tr id="metadata_lchange"><td>last change</td><td><span class="datetime">Thu, 10 Sep 2015 15:29:58 +0000</span> (11:29 -0400)</td></tr>
+<tr class="metadata_url"><td>URL</td><td>git://cmake.org/cmake.git</td></tr>
+<tr class="metadata_url"><td></td><td>http://cmake.org/cmake.git</td></tr>
+<tr class="metadata_url"><td></td><td>git@cmake.org:cmake.git</td></tr>
+</table>
+<div class="header">
+<a class="title" href="/gitweb?p=cmake.git;a=shortlog">shortlog</a>
+</div>
+<table class="shortlog">
+<tr class="dark">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=72797dec8f8dca151d821be57b78a04ba27e1d5e">Merge topic 'cpack-cmake-special-characters-mangling'</a> <span class="refs"> <span class="head" title="heads/master"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/master">master</a></span> <span class="head" title="heads/nightly-master"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/nightly-master">nightly-master</a></span></span></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=72797dec8f8dca151d821be57b78a04ba27e1d5e">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=72797dec8f8dca151d821be57b78a04ba27e1d5e">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=72797dec8f8dca151d821be57b78a04ba27e1d5e;hb=72797dec8f8dca151d821be57b78a04ba27e1d5e">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=72797dec8f8dca151d821be57b78a04ba27e1d5e;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=3d7c366a3a75294b31df2bbdb40b84dbba196208">Merge topic 'cpack-deb-component-dependencies'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=3d7c366a3a75294b31df2bbdb40b84dbba196208">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=3d7c366a3a75294b31df2bbdb40b84dbba196208">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=3d7c366a3a75294b31df2bbdb40b84dbba196208;hb=3d7c366a3a75294b31df2bbdb40b84dbba196208">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=3d7c366a3a75294b31df2bbdb40b84dbba196208;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="dark">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=bae6eee13a37b9af42ad4a7af65e8e1a9139485c">Merge topic 'FindwxWidgets-updates'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=bae6eee13a37b9af42ad4a7af65e8e1a9139485c">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=bae6eee13a37b9af42ad4a7af65e8e1a9139485c">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=bae6eee13a37b9af42ad4a7af65e8e1a9139485c;hb=bae6eee13a37b9af42ad4a7af65e8e1a9139485c">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=bae6eee13a37b9af42ad4a7af65e8e1a9139485c;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=fe0e9a35cec24f653c60f48b9f0250aec7e5000b">Merge topic 'FindSWIG-noproxy'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=fe0e9a35cec24f653c60f48b9f0250aec7e5000b">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=fe0e9a35cec24f653c60f48b9f0250aec7e5000b">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=fe0e9a35cec24f653c60f48b9f0250aec7e5000b;hb=fe0e9a35cec24f653c60f48b9f0250aec7e5000b">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=fe0e9a35cec24f653c60f48b9f0250aec7e5000b;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="dark">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=e07e02d8c0fab3d952c2e87fc7a916c139292645">Merge topic 'apple-no-libnetwork'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=e07e02d8c0fab3d952c2e87fc7a916c139292645">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=e07e02d8c0fab3d952c2e87fc7a916c139292645">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=e07e02d8c0fab3d952c2e87fc7a916c139292645;hb=e07e02d8c0fab3d952c2e87fc7a916c139292645">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=e07e02d8c0fab3d952c2e87fc7a916c139292645;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=51ec922223ecc6cc4bf06dec680719c36944cadc">Merge topic 'mingw-compile-features-C'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=51ec922223ecc6cc4bf06dec680719c36944cadc">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=51ec922223ecc6cc4bf06dec680719c36944cadc">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=51ec922223ecc6cc4bf06dec680719c36944cadc;hb=51ec922223ecc6cc4bf06dec680719c36944cadc">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=51ec922223ecc6cc4bf06dec680719c36944cadc;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="dark">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=1e2f5dc9229c98006b9643b4b6a2e40d71c37eb0">Merge topic 'ar-option-order'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=1e2f5dc9229c98006b9643b4b6a2e40d71c37eb0">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=1e2f5dc9229c98006b9643b4b6a2e40d71c37eb0">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=1e2f5dc9229c98006b9643b4b6a2e40d71c37eb0;hb=1e2f5dc9229c98006b9643b4b6a2e40d71c37eb0">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=1e2f5dc9229c98006b9643b4b6a2e40d71c37eb0;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=5ed30f30f53fc21fb4d29f1f6e4f0c1f241f7b70">Merge topic 'ghs-updates'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=5ed30f30f53fc21fb4d29f1f6e4f0c1f241f7b70">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=5ed30f30f53fc21fb4d29f1f6e4f0c1f241f7b70">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=5ed30f30f53fc21fb4d29f1f6e4f0c1f241f7b70;hb=5ed30f30f53fc21fb4d29f1f6e4f0c1f241f7b70">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=5ed30f30f53fc21fb4d29f1f6e4f0c1f241f7b70;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="dark">
+<td title="2015-09-10"><i>11 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Gregor Jasny" class="list" href="/gitweb?p=cmake.git;a=search;s=Gregor+Jasny;st=author">Gregor Jasny</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=01b6ecdb41ec0a60f8abc70555aca6eb1463fe3f">curl: Do not use libnetwork on Apple platforms</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=01b6ecdb41ec0a60f8abc70555aca6eb1463fe3f">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=01b6ecdb41ec0a60f8abc70555aca6eb1463fe3f">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=01b6ecdb41ec0a60f8abc70555aca6eb1463fe3f;hb=01b6ecdb41ec0a60f8abc70555aca6eb1463fe3f">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=01b6ecdb41ec0a60f8abc70555aca6eb1463fe3f;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-10"><i>23 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Kitware Robot" class="list" href="/gitweb?p=cmake.git;a=search;s=Kitware+Robot;st=author">Kitware Robot</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=ac77a569946d19766016841fa8b2c6174badf07e">CMake Nightly Date Stamp</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=ac77a569946d19766016841fa8b2c6174badf07e">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=ac77a569946d19766016841fa8b2c6174badf07e">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=ac77a569946d19766016841fa8b2c6174badf07e;hb=ac77a569946d19766016841fa8b2c6174badf07e">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=ac77a569946d19766016841fa8b2c6174badf07e;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="dark">
+<td title="2015-09-09"><i>29 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Domen Vrankar" class="list" href="/gitweb?p=cmake.git;a=search;s=Domen+Vrankar;st=author">Domen Vrankar</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=4de7c8126b43d93f781afaf0b990cc8814105017">CPack/Deb: enable per component setting of dependencies</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=4de7c8126b43d93f781afaf0b990cc8814105017">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=4de7c8126b43d93f781afaf0b990cc8814105017">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=4de7c8126b43d93f781afaf0b990cc8814105017;hb=4de7c8126b43d93f781afaf0b990cc8814105017">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=4de7c8126b43d93f781afaf0b990cc8814105017;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-09"><i>30 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Roman Donchenko" class="list" href="/gitweb?p=cmake.git;a=search;s=Roman+Donchenko;st=author">Roman Donchenko</a></td><td><a class="list subject" title="CPack: don't mangle CMake-special characters when applying default settings" href="/gitweb?p=cmake.git;a=commit;h=2a7772ff4ca88319d65e025a49883ef2f2487aeb">CPack: don't mangle CMake-special characters when apply... </a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=2a7772ff4ca88319d65e025a49883ef2f2487aeb">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=2a7772ff4ca88319d65e025a49883ef2f2487aeb">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=2a7772ff4ca88319d65e025a49883ef2f2487aeb;hb=2a7772ff4ca88319d65e025a49883ef2f2487aeb">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=2a7772ff4ca88319d65e025a49883ef2f2487aeb;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="dark">
+<td title="2015-09-09"><i>35 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=f281c6214ba932e5a5c9d8bae67313fc8bfa8ec9">Merge topic 'more-swift2-fixes'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=f281c6214ba932e5a5c9d8bae67313fc8bfa8ec9">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=f281c6214ba932e5a5c9d8bae67313fc8bfa8ec9">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=f281c6214ba932e5a5c9d8bae67313fc8bfa8ec9;hb=f281c6214ba932e5a5c9d8bae67313fc8bfa8ec9">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=f281c6214ba932e5a5c9d8bae67313fc8bfa8ec9;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-09"><i>35 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=a3d384881b58975939289b3fac3158acb4dda09c">Merge topic 'fix-xcode-gtk2-tests'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=a3d384881b58975939289b3fac3158acb4dda09c">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=a3d384881b58975939289b3fac3158acb4dda09c">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=a3d384881b58975939289b3fac3158acb4dda09c;hb=a3d384881b58975939289b3fac3158acb4dda09c">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=a3d384881b58975939289b3fac3158acb4dda09c;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="dark">
+<td title="2015-09-09"><i>35 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=05d22864d2bd685c04e05bd395b0ed36ced8b8e3">Merge topic 'doc-get_filename_component-typo'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=05d22864d2bd685c04e05bd395b0ed36ced8b8e3">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=05d22864d2bd685c04e05bd395b0ed36ced8b8e3">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=05d22864d2bd685c04e05bd395b0ed36ced8b8e3;hb=05d22864d2bd685c04e05bd395b0ed36ced8b8e3">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=05d22864d2bd685c04e05bd395b0ed36ced8b8e3;sf=tgz">snapshot</a></td>
+</tr>
+<tr class="light">
+<td title="2015-09-09"><i>35 hours ago</i></td>
+<td class="author"><a title="Search for commits authored by Brad King" class="list" href="/gitweb?p=cmake.git;a=search;s=Brad+King;st=author">Brad King</a></td><td><a class="list subject" href="/gitweb?p=cmake.git;a=commit;h=6bdb62cf0f8464304b5c6d868b85de423953c1d9">Merge topic 'wbpvf_no_deref'</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=commit;h=6bdb62cf0f8464304b5c6d868b85de423953c1d9">commit</a> | <a href="/gitweb?p=cmake.git;a=commitdiff;h=6bdb62cf0f8464304b5c6d868b85de423953c1d9">commitdiff</a> | <a href="/gitweb?p=cmake.git;a=tree;h=6bdb62cf0f8464304b5c6d868b85de423953c1d9;hb=6bdb62cf0f8464304b5c6d868b85de423953c1d9">tree</a> | <a title="in format: tar.gz" href="/gitweb?p=cmake.git;a=snapshot;h=6bdb62cf0f8464304b5c6d868b85de423953c1d9;sf=tgz">snapshot</a></td>
+</tr>
+<tr>
+<td colspan="4"><a href="/gitweb?p=cmake.git;a=shortlog">...</a></td>
+</tr>
+</table>
+<div class="header">
+<a class="title" href="/gitweb?p=cmake.git;a=tags">tags</a>
+</div>
+<table class="tags">
+<tr class="dark">
+<td><i>4 weeks ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=4a6fe0290880bd56dd5141f06c9fa2b9e310162e">v3.3.1</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=ffb07a50b7e2361a3eee1b50c9f26a94a0a61601">CMake 3.3.1</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=ffb07a50b7e2361a3eee1b50c9f26a94a0a61601">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=4a6fe0290880bd56dd5141f06c9fa2b9e310162e">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.3.1">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.3.1">log</a></td>
+</tr><tr class="light">
+<td><i>7 weeks ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=3a0db0223b8c10cfaa6984253d794ab97425adf9">v3.3.0</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=842849761d8327c3991cad924c8e04e78220ea2b">CMake 3.3.0</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=842849761d8327c3991cad924c8e04e78220ea2b">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=3a0db0223b8c10cfaa6984253d794ab97425adf9">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.3.0">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.3.0">log</a></td>
+</tr><tr class="dark">
+<td><i>8 weeks ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=8c9c9aa07f3ffaa48ebaea6adc8027b905298338">v3.3.0-rc4</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=5635a5395c279d6dd0c1483d8d1f41836a58d415">CMake 3.3.0-rc4</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=5635a5395c279d6dd0c1483d8d1f41836a58d415">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=8c9c9aa07f3ffaa48ebaea6adc8027b905298338">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.3.0-rc4">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.3.0-rc4">log</a></td>
+</tr><tr class="light">
+<td><i>2 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=74c99d11bc62048a069bd6c89b48cf4f94884210">v3.3.0-rc3</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=4beedb2629bbefbb7aeaba3d55ced5510faeafa0">CMake 3.3.0-rc3</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=4beedb2629bbefbb7aeaba3d55ced5510faeafa0">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=74c99d11bc62048a069bd6c89b48cf4f94884210">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.3.0-rc3">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.3.0-rc3">log</a></td>
+</tr><tr class="dark">
+<td><i>3 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=86bde2ef3e5d56ca7326b51e6608a79a08eb90cd">v3.3.0-rc2</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=6cd135ec945ac78f8320becb8c21bd6a745c8f36">CMake 3.3.0-rc2</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=6cd135ec945ac78f8320becb8c21bd6a745c8f36">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=86bde2ef3e5d56ca7326b51e6608a79a08eb90cd">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.3.0-rc2">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.3.0-rc2">log</a></td>
+</tr><tr class="light">
+<td><i>3 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=b8746c4cfe325f05dbcb4e9a99ca78496c90e74e">v3.3.0-rc1</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=873e8d31d4227bb8b24b34cd7cfc12eefc6bc31a">CMake 3.3.0-rc1</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=873e8d31d4227bb8b24b34cd7cfc12eefc6bc31a">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=b8746c4cfe325f05dbcb4e9a99ca78496c90e74e">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.3.0-rc1">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.3.0-rc1">log</a></td>
+</tr><tr class="dark">
+<td><i>3 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=b3de2a8e6451c9138948c23a974740823ade8263">v3.2.3</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=0a569d18496d4d384971d0c42be4300949896dc2">CMake 3.2.3</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=0a569d18496d4d384971d0c42be4300949896dc2">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=b3de2a8e6451c9138948c23a974740823ade8263">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.2.3">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.2.3">log</a></td>
+</tr><tr class="light">
+<td><i>4 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=91d5261b58e97107fca610a868fbc283cbb8c856">v3.2.2</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=0f45dba42da3b06db86d73e5e5ecf7030ade3f8b">CMake 3.2.2</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=0f45dba42da3b06db86d73e5e5ecf7030ade3f8b">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=91d5261b58e97107fca610a868fbc283cbb8c856">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.2.2">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.2.2">log</a></td>
+</tr><tr class="dark">
+<td><i>6 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=732d8a467ab8a295b1bbf580f865980f8a1a9b29">v3.2.1</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=730e5cea3eabe3d1e2a39984c92404a5c29fce92">CMake 3.2.1</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=730e5cea3eabe3d1e2a39984c92404a5c29fce92">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=732d8a467ab8a295b1bbf580f865980f8a1a9b29">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.2.1">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.2.1">log</a></td>
+</tr><tr class="light">
+<td><i>6 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=a49a467fd02dded8e8976008082659054484b8fe">v3.2.0</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=9100a1389c4a781e151f5932e8a28bd2b25c70db">CMake 3.2.0</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=9100a1389c4a781e151f5932e8a28bd2b25c70db">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=a49a467fd02dded8e8976008082659054484b8fe">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.2.0">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.2.0">log</a></td>
+</tr><tr class="dark">
+<td><i>6 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=99575c9ac114e6f5d388e1ee7b9a3f788d773c9e">v3.2.0-rc2</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=342976a918418cad45e9d63935e2e57d1733076c">CMake 3.2.0-rc2</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=342976a918418cad45e9d63935e2e57d1733076c">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=99575c9ac114e6f5d388e1ee7b9a3f788d773c9e">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.2.0-rc2">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.2.0-rc2">log</a></td>
+</tr><tr class="light">
+<td><i>6 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=da92cdab5206d0556822ee12350636300ec73160">v3.2.0-rc1</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=5d704a0f8705929412f930aada2471b470e721c5">CMake 3.2.0-rc1</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=5d704a0f8705929412f930aada2471b470e721c5">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=da92cdab5206d0556822ee12350636300ec73160">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.2.0-rc1">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.2.0-rc1">log</a></td>
+</tr><tr class="dark">
+<td><i>6 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=bd6389f7bce6d69a75e6f84245834e19b24cc03f">v3.1.3</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=78fa3a75b45b4a486f853e4495a2f4457283c5e5">CMake 3.1.3</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=78fa3a75b45b4a486f853e4495a2f4457283c5e5">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=bd6389f7bce6d69a75e6f84245834e19b24cc03f">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.1.3">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.1.3">log</a></td>
+</tr><tr class="light">
+<td><i>7 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=44100adc6c7f7db7bfd4ccf0d8bd18de8ab195c0">v3.1.2</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=469a5fcee6d83124d6ce7428a975aa8d3f8a8c2c">CMake 3.1.2</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=469a5fcee6d83124d6ce7428a975aa8d3f8a8c2c">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=44100adc6c7f7db7bfd4ccf0d8bd18de8ab195c0">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.1.2">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.1.2">log</a></td>
+</tr><tr class="dark">
+<td><i>7 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=57622bd19d3fd013038d34f497b106a7e2bfd26d">v3.1.1</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=597f45070883c929d79a9a77060c3ee4d57e0122">CMake 3.1.1</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=597f45070883c929d79a9a77060c3ee4d57e0122">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=57622bd19d3fd013038d34f497b106a7e2bfd26d">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.1.1">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.1.1">log</a></td>
+</tr><tr class="light">
+<td><i>8 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=commit;h=c118816d44e178e4364a0c32aaece81a14511237">v3.1.0</a></td>
+<td><a class="list subject" href="/gitweb?p=cmake.git;a=tag;h=84135f5fc95db07bc3983ae959eb64678482c4e9">CMake 3.1.0</a></td>
+<td class="selflink"><a href="/gitweb?p=cmake.git;a=tag;h=84135f5fc95db07bc3983ae959eb64678482c4e9">tag</a></td>
+<td class="link"> | <a href="/gitweb?p=cmake.git;a=commit;h=c118816d44e178e4364a0c32aaece81a14511237">commit</a> | <a href="/gitweb?p=cmake.git;a=shortlog;h=refs/tags/v3.1.0">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/tags/v3.1.0">log</a></td>
+</tr><tr>
+<td colspan="5"><a href="/gitweb?p=cmake.git;a=tags">...</a></td>
+</tr>
+</table>
+<div class="header">
+<a class="title" href="/gitweb?p=cmake.git;a=heads">heads</a>
+</div>
+<table class="heads">
+<tr class="dark">
+<td><i>5 hours ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/next">next</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/next">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/next">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/next;hb=refs/heads/next">tree</a></td>
+</tr><tr class="light">
+<td><i>5 hours ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/nightly">nightly</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/nightly">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/nightly">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/nightly;hb=refs/heads/nightly">tree</a></td>
+</tr><tr class="dark">
+<td><i>11 hours ago</i></td>
+<td class="current_head"><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/master">master</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/master">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/master">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/master;hb=refs/heads/master">tree</a></td>
+</tr><tr class="light">
+<td><i>11 hours ago</i></td>
+<td class="current_head"><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/nightly-master">nightly-master</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/nightly-master">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/nightly-master">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/nightly-master;hb=refs/heads/nightly-master">tree</a></td>
+</tr><tr class="dark">
+<td><i>4 weeks ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/maint">maint</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/maint">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/maint">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/maint;hb=refs/heads/maint">tree</a></td>
+</tr><tr class="light">
+<td><i>4 weeks ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/release">release</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/release">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/release">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/release;hb=refs/heads/release">tree</a></td>
+</tr><tr class="dark">
+<td><i>12 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/hooks">hooks</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/hooks">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/hooks">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/hooks;hb=refs/heads/hooks">tree</a></td>
+</tr><tr class="light">
+<td><i>23 months ago</i></td>
+<td><a class="list name" href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/dashboard">dashboard</a></td>
+<td class="link"><a href="/gitweb?p=cmake.git;a=shortlog;h=refs/heads/dashboard">shortlog</a> | <a href="/gitweb?p=cmake.git;a=log;h=refs/heads/dashboard">log</a> | <a href="/gitweb?p=cmake.git;a=tree;h=refs/heads/dashboard;hb=refs/heads/dashboard">tree</a></td>
+</tr></table>
+<div class="page_footer">
+<div class="page_footer_text">CMake</div>
+<a class="rss_logo" title="log RSS feed" href="/gitweb?p=cmake.git;a=rss">RSS</a>
+<a class="rss_logo" title="log Atom feed" href="/gitweb?p=cmake.git;a=atom">Atom</a>
+</div>
+<script type="text/javascript" src="static/gitweb.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+	var tz_cookie = { name: 'gitweb_tz', expires: 14, path: '/' };
+	onloadTZSetup('local', tz_cookie, 'datetime');
+};
+</script>
+</body>
+</html>
