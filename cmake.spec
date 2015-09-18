@@ -117,8 +117,9 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 
 
 %build
-export CFLAGS="$RPM_OPT_FLAGS"
-export CXXFLAGS="$RPM_OPT_FLAGS"
+export CFLAGS="%{optflags}"
+export CXXFLAGS="%{optflags}"
+export LDFLAGS="%{__global_ldflags}"
 mkdir build
 pushd build
 ../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
@@ -183,8 +184,8 @@ desktop-file-install --delete-original \
 #
 # See http://www.freedesktop.org/software/appstream/docs/ for more details.
 #
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/appdata
-cat > $RPM_BUILD_ROOT%{_datadir}/appdata/CMake.appdata.xml <<EOF
+mkdir -p %{buildroot}%{_datadir}/appdata
+cat > %{buildroot}%{_datadir}/appdata/CMake.appdata.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Ryan Lerch <rlerch@redhat.com> -->
 <!--
@@ -288,6 +289,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %changelog
 * Thu Sep 17 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.2-1
 - Update to 3.3.2
+- Use %%{__global_ldflags}
 
 * Fri Sep 11 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.1-5
 - Apply upstream patch to fix Fortran linker detection with redhat-hardened-ld
