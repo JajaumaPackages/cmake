@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.3.1
-Release:        5%{?dist}
+Version:        3.3.2
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -31,9 +31,6 @@ Source3:        cmake.attr
 Source4:        cmake.prov
 # Patch to find DCMTK in Fedora (bug #720140)
 Patch0:         cmake-dcmtk.patch
-# Patch to fix trycompile output
-# http://www.cmake.org/gitweb?p=cmake.git;a=patch;h=371fe92e
-Patch1:         cmake.git-371fe92e.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
@@ -113,7 +110,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %setup -q -n %{name}-%{version}%{?rcver}
 # We cannot use backups with patches to Modules as they end up being installed
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch624 -p1
@@ -290,6 +286,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Sep 17 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.2-1
+- Update to 3.3.2
+
 * Fri Sep 11 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.1-5
 - Apply upstream patch to fix Fortran linker detection with redhat-hardened-ld
   (bug #1260490)
