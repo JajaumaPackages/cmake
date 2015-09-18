@@ -220,9 +220,8 @@ EOF
 %check
 unset DISPLAY
 pushd build
-#ModuleNotices fails for some unknown reason, and we don't care
-#CMake.HTML, CMake.FileDownload, and CTestTestUpload require internet access
-bin/ctest -V -E ModuleNotices -E 'CMake.(HTML|FileDownload)' -E CTestTestUpload %{?_smp_mflags}
+#CMake.FileDownload, and CTestTestUpload require internet access
+bin/ctest -V -E 'CMake.FileDownload|CTestTestUpload' %{?_smp_mflags}
 popd
 
 
@@ -290,6 +289,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 * Thu Sep 17 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.2-1
 - Update to 3.3.2
 - Use %%{__global_ldflags}
+- Fix test exclusion
 
 * Fri Sep 11 2015 Orion Poplawski <orion@cora.nwra.com> - 3.3.1-5
 - Apply upstream patch to fix Fortran linker detection with redhat-hardened-ld
