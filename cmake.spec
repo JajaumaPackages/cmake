@@ -33,7 +33,7 @@ Source4:        cmake.prov
 Patch0:         cmake-dcmtk.patch
 # Upstream patch to find python 3.5/3.6
 # https://bugzilla.redhat.com/show_bug.cgi?id=1269095
-Patch1:         https://github.com/Kitware/CMake/commit/2db092b1f60b3677a2d44d5563bec216ae687e2f.patch
+Patch1:         cmake-python3.5.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
