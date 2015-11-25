@@ -13,7 +13,7 @@
 
 Name:           cmake
 Version:        3.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -45,7 +45,7 @@ BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
 BuildRequires:  libarchive-devel
-BuildRequires:  python-sphinx
+BuildRequires:  /usr/bin/sphinx-build
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
@@ -274,7 +274,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Tue Nov 16 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.0-1
+* Wed Nov 25 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.0-2
+- BR /usr/bin/sphinx-build instead of python-sphinx
+
+* Tue Nov 17 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.0-1
 - Update to 3.4.0 final
 
 * Thu Nov 5 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.0-0.3.rc3
