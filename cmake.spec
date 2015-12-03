@@ -12,8 +12,8 @@
 %endif
 
 Name:           cmake
-Version:        3.4.0
-Release:        2%{?dist}
+Version:        3.4.1
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -274,6 +274,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Dec 2 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.1-1
+- Update to 3.4.1
+
 * Wed Nov 25 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.0-2
 - BR /usr/bin/sphinx-build instead of python-sphinx
 
