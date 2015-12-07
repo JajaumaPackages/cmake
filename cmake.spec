@@ -7,13 +7,13 @@
 %define rcver %{nil}
 
 %define rpm_macros_dir %{_sysconfdir}/rpm
-%if 0%{?fedora}
+%if 0%{?fedora} || %0{?rhel} >= 7
 %define rpm_macros_dir %{_rpmconfigdir}/macros.d
 %endif
 
 Name:           cmake
 Version:        3.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -59,7 +59,7 @@ BuildRequires: qt4-devel, desktop-file-utils
 
 Requires:       rpm
 
-%if (0%{?fedora} >= 16)
+%if 0%{?fedora} || %0{?rhel} >= 7
 Requires: emacs-filesystem >= %{_emacs_version}
 %endif
 
@@ -274,6 +274,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Dec 7 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.1-2
+- Fixup some conditionals for RHEL7
+
 * Wed Dec 2 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.1-1
 - Update to 3.4.1
 
