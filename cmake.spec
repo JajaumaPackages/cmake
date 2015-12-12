@@ -11,9 +11,15 @@
 %define rpm_macros_dir %{_rpmconfigdir}/macros.d
 %endif
 
+%if 0%{?fedora} < 23
+%bcond_with python3
+%else
+%bcond_without python3
+%endif
+
 Name:           cmake
 Version:        3.4.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -49,6 +55,12 @@ BuildRequires:  /usr/bin/sphinx-build
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
+%if %{with python3}
+%{!?python3_pkgversion: %global python3_pkgversion 3}
+BuildRequires:  python%{python3_pkgversion}-devel
+%else
+BuildRequires:  python2-devel
+%endif
 %if %{without bootstrap}
 #BuildRequires: xmlrpc-c-devel
 %endif
@@ -104,6 +116,13 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %patch0 -p1
 %patch2 -p1
 
+%if %{with python3}
+echo '#!%{__python3}' > cmake.prov
+%else
+echo '#!%{__python2}' > cmake.prov
+%endif
+tail -n +2 %{SOURCE4} >> cmake.prov
+
 
 %build
 export CFLAGS="%{optflags}"
@@ -147,7 +166,7 @@ touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
 %if 0%{?_rpmconfigdir:1}
 # RPM auto provides
 install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/cmake.attr
-install -p -m0755 -D %{SOURCE4} %{buildroot}%{_prefix}/lib/rpm/cmake.prov
+install -p -m0755 -D cmake.prov %{buildroot}%{_prefix}/lib/rpm/cmake.prov
 %endif
 mkdir -p %{buildroot}%{_libdir}/%{name}
 # Install copyright files for main package
@@ -275,6 +294,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Dec 12 2015 Ville Skyttä <ville.skytta@iki.fi> - 3.4.1-4
+- Use Python 3 on F-23+
+
 * Tue Dec 8 2015 Orion Poplawski <orion@cora.nwra.com> - 3.4.1-3
 - Use Qt5 for gui
 
