@@ -18,8 +18,8 @@
 %endif
 
 Name:           cmake
-Version:        3.4.1
-Release:        4%{?dist}
+Version:        3.4.2
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -294,6 +294,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jan 19 2016 Orion Poplawski <orion@cora.nwra.com> - 3.4.2-1
+- Update to 3.4.2
+
 * Sat Dec 12 2015 Ville Skyttä <ville.skytta@iki.fi> - 3.4.1-4
 - Use Python 3 on F-23+
 
