@@ -19,7 +19,7 @@
 
 Name:           cmake
 Version:        3.4.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -221,7 +221,8 @@ SentUpstream: 2014-09-17
    -->
 </application>
 EOF
-
+%else
+rm %{buildroot}%{_mandir}/man1/cmake-gui.1*
 %endif
 
 
@@ -294,6 +295,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Feb 7 2016 Orion Poplawski <orion@cora.nwra.com> - 3.4.3-3
+- Fix build without gui (bug #1305310)
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
