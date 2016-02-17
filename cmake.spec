@@ -4,11 +4,11 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 # Set to RC version if building RC, else %{nil}
-%define rcver %{nil}
+%global rcver -rc2
 
-%define rpm_macros_dir %{_sysconfdir}/rpm
+%global rpm_macros_dir %{_sysconfdir}/rpm
 %if 0%{?fedora} || 0%{?rhel} >= 7
-%define rpm_macros_dir %{_rpmconfigdir}/macros.d
+%global rpm_macros_dir %{_rpmconfigdir}/macros.d
 %endif
 
 %if 0%{?fedora} < 23
@@ -18,8 +18,8 @@
 %endif
 
 Name:           cmake
-Version:        3.4.3
-Release:        3%{?dist}
+Version:        3.5.0
+Release:        0.1.rc2%{?dist}
 Summary:        Cross-platform make system
 
 Group:          Development/Tools
@@ -29,14 +29,12 @@ Group:          Development/Tools
 # some GPL-licensed bison-generated files, these all include an exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v3.4/cmake-%{version}%{?rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v3.5/cmake-%{version}%{?rcver}.tar.gz
 Source1:        cmake-init.el
 Source2:        macros.cmake
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
 Source3:        cmake.attr
 Source4:        cmake.prov
-# Patch to find DCMTK in Fedora (bug #720140)
-Patch0:         cmake-dcmtk.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
@@ -113,7 +111,6 @@ The %{name}-gui package contains the Qt based GUI for CMake.
 %prep
 %setup -q -n %{name}-%{version}%{?rcver}
 # We cannot use backups with patches to Modules as they end up being installed
-%patch0 -p1
 %patch2 -p1
 
 %if %{with python3}
@@ -295,6 +292,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Feb 17 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.0-0.1.rc2
+- Update to 3.5.0-rc2
+- Drop dcmtk patch
+
 * Sun Feb 7 2016 Orion Poplawski <orion@cora.nwra.com> - 3.4.3-3
 - Fix build without gui (bug #1305310)
 
