@@ -218,8 +218,6 @@ SentUpstream: 2014-09-17
    -->
 </application>
 EOF
-%else
-rm %{buildroot}%{_mandir}/man1/cmake-gui.1*
 %endif
 
 
