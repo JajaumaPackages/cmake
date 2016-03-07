@@ -1,46 +1,68 @@
 # Set to bcond_without or use --with bootstrap if bootstrapping a new release
 # or architecture
 %bcond_with bootstrap
+
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
-# Set to RC version if building RC, else %{nil}
-%global rcver -rc3
 
-%global rpm_macros_dir %{_sysconfdir}/rpm
-%if 0%{?fedora} || 0%{?rhel} >= 7
-%global rpm_macros_dir %{_rpmconfigdir}/macros.d
-%endif
-
-%if 0%{?fedora} < 23
+# Setting the Python-version used by default
+%if ( 0%{?fedora} && 0%{?fedora} < 23 ) || ( 0%{?rhel} && 0%{?rhel} < 8 )
 %bcond_with python3
 %else
 %bcond_without python3
 %endif
 
-Name:           cmake
+# Do we add appdata-files?
+%if 0%{?fedora} > 22 || 0%{?rhel} > 7
+%bcond_without appdata
+%else
+%bcond_with appdata
+%endif
+
+# Place rpm-macros into proper location
+%global rpm_macros_dir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
+
+# Setup _pkgdocdir if not defined already
+%{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
+
+# Set to RC version if building RC, else %{nil}
+%global rcver -rc3
+
+# Uncomment if building for EPEL
+#global name_suffix 3
+%global orig_name cmake
+
+Name:           %{orig_name}%{?name_suffix}
 Version:        3.5.0
-Release:        0.2.rc3%{?dist}
+Release:        0.3.rc3%{?dist}
 Summary:        Cross-platform make system
 
-Group:          Development/Tools
 # most sources are BSD
-# Source/CursesDialog/form/ a bunch is MIT 
-# Source/kwsys/MD5.c is zlib 
-# some GPL-licensed bison-generated files, these all include an exception granting redistribution under terms of your choice
+# Source/CursesDialog/form/ a bunch is MIT
+# Source/kwsys/MD5.c is zlib
+# some GPL-licensed bison-generated files, which all include an
+# exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v3.5/cmake-%{version}%{?rcver}.tar.gz
-Source1:        cmake-init.el
-Source2:        macros.cmake
+Source0:        http://www.cmake.org/files/v3.5/%{orig_name}-%{version}%{?rcver}.tar.gz
+Source1:        %{name}-init.el
+Source2:        macros.%{name}
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
-Source3:        cmake.attr
-Source4:        cmake.prov
+Source3:        %{name}.attr
+Source4:        %{name}.prov
+
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
-Patch2:         cmake-findruby.patch
+Patch2:         %{name}-findruby.patch
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+# Patch for renaming on EPEL
+%if 0%{?name_suffix:1}
+Patch1000:      %{name}-rename.patch
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Patch1001:      %{name}-libarchive3.patch
+%endif
+%endif
 
 BuildRequires:  gcc-gfortran
 BuildRequires:  ncurses-devel, libX11-devel
@@ -48,7 +70,11 @@ BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
+%if 0%{?fedora} || 0%{?rhel} >= 7
 BuildRequires:  libarchive-devel
+%else
+BuildRequires:  libarchive3-devel
+%endif
 BuildRequires:  /usr/bin/sphinx-build
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
@@ -63,16 +89,17 @@ BuildRequires:  python2-devel
 #BuildRequires: xmlrpc-c-devel
 %endif
 %if %{with gui}
+%if 0%{?fedora} > 22 || 0%{?rhel} > 7
 BuildRequires: pkgconfig(Qt5)
+%else
+BuildRequires: qt-devel
+%endif
 BuildRequires: desktop-file-utils
-%define qt_gui --qt-gui
+%global qt_gui --qt-gui
 %endif
 
+Requires:       %{name}-data = %{version}-%{release}
 Requires:       rpm
-
-%if 0%{?fedora} || 0%{?rhel} >= 7
-Requires: emacs-filesystem >= %{_emacs_version}
-%endif
 
 # Source/kwsys/MD5.c
 # see https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries
@@ -81,58 +108,86 @@ Provides: bundled(md5-deutsch)
 # https://fedorahosted.org/fpc/ticket/555
 Provides: bundled(kwsys)
 
+# Allow Requires: cmake >= 3.X on EPEL
+%if 0%{?name_suffix:1}
+Provides: %{orig_name} = %{version}-%{release}
+%endif
+
 %description
-CMake is used to control the software compilation process using simple 
-platform and compiler independent configuration files. CMake generates 
-native makefiles and workspaces that can be used in the compiler 
-environment of your choice. CMake is quite sophisticated: it is possible 
+CMake is used to control the software compilation process using simple
+platform and compiler independent configuration files. CMake generates
+native makefiles and workspaces that can be used in the compiler
+environment of your choice. CMake is quite sophisticated: it is possible
 to support complex environments requiring system configuration, preprocessor
 generation, code generation, and template instantiation.
 
 
+%package        data
+Summary:        Common data-files for %{name}
+Requires:       %{name} = %{version}-%{release}
+%if 0%{?fedora} || 0%{?rhel} >= 6
+Requires: emacs-filesystem >= %{_emacs_version}
+%endif
+
+BuildArch:      noarch
+
+%description    data
+This package contains common data-files for %{name}.
+
+
 %package        doc
 Summary:        Documentation for %{name}
-Group:          Development/Tools
-Requires:       %{name} = %{version}-%{release}
+BuildArch:      noarch
 
 %description    doc
-This package contains documentation for CMake.
+This package contains documentation for %{name}.
 
 
 %package        gui
 Summary:        Qt GUI for %{name}
-Group:          Development/Tools
-Requires:       %{name} = %{version}-%{release}
+
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       hicolor-icon-theme
+Requires:       shared-mime-info%{?_isa}
 
 %description    gui
-The %{name}-gui package contains the Qt based GUI for CMake.
+The %{name}-gui package contains the Qt based GUI for %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{version}%{?rcver}
+%setup -qn %{orig_name}-%{version}%{?rcver}
+
+# Apply renaming on EPEL before all other patches
+%if 0%{?name_suffix:1}
+%patch1000 -p1
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%patch1001 -p1
+%endif
+%endif
+
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 
 %if %{with python3}
-echo '#!%{__python3}' > cmake.prov
+echo '#!%{__python3}' > %{name}.prov
 %else
-echo '#!%{__python2}' > cmake.prov
+echo '#!%{__python2}' > %{name}.prov
 %endif
-tail -n +2 %{SOURCE4} >> cmake.prov
+tail -n +2 %{SOURCE4} >> %{name}.prov
 
 
 %build
 export CFLAGS="%{optflags}"
 export CXXFLAGS="%{optflags}"
-export LDFLAGS="%{__global_ldflags}"
+export LDFLAGS="%{?__global_ldflags}"
 mkdir build
 pushd build
 ../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
              --docdir=/share/doc/%{name} --mandir=/share/man \
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
-             --sphinx-man \
-             %{?qt_gui}
+             --sphinx-man --sphinx-html \
+             %{?qt_gui};
 make VERBOSE=1 %{?_smp_mflags}
 
 
@@ -152,36 +207,46 @@ do
 done
 # Install emacs cmake mode
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
-install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/
-%{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/cmake-mode.el
+install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
+%{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
 mkdir -p %{buildroot}%{_emacs_sitestartdir}
 install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}/
 # RPM macros
-install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
-sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{rpm_macros_dir}/macros.cmake
-touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.cmake
+install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
+sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{rpm_macros_dir}/macros.%{name}
+touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
 %if 0%{?_rpmconfigdir:1}
 # RPM auto provides
-install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/cmake.attr
-install -p -m0755 -D cmake.prov %{buildroot}%{_prefix}/lib/rpm/cmake.prov
+install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/%{name}.attr
+install -p -m0755 -D %{name}.prov %{buildroot}%{_prefix}/lib/rpm/%{name}.prov
 %endif
 mkdir -p %{buildroot}%{_libdir}/%{name}
 # Install copyright files for main package
-cp -p Copyright.txt %{buildroot}/%{_docdir}/%{name}/
 find Source Utilities -type f -iname copy\* | while read f
 do
   fname=$(basename $f)
   dir=$(dirname $f)
   dname=$(basename $dir)
-  cp -p $f %{buildroot}/%{_docdir}/%{name}/${fname}_${dname}
+  cp -p $f ./${fname}_${dname}
 done
+
+# Cleanup pre-installed documentation
+mv %{buildroot}%{_docdir}/%{name}/html .
+rm -rf %{buildroot}%{_docdir}/%{name}
+
+# Move documentation to _pkgdocdir
+mkdir -p %{buildroot}%{_pkgdocdir}
+mv %{buildroot}%{_datadir}/%{name}/Help %{buildroot}%{_pkgdocdir}
+mv %{buildroot}%{_pkgdocdir}/Help %{buildroot}%{_pkgdocdir}/rst
+mv html %{buildroot}%{_pkgdocdir}
 
 %if %{with gui}
 # Desktop file
 desktop-file-install --delete-original \
   --dir=%{buildroot}%{_datadir}/applications \
-  %{buildroot}/%{_datadir}/applications/CMake.desktop
+  %{buildroot}/%{_datadir}/applications/CMake%{?name_suffix}.desktop
 
+%if %{with appdata}
 # Register as an application to be visible in the software center
 #
 # NOTE: It would be *awesome* if this file was maintained by the upstream
@@ -219,13 +284,13 @@ SentUpstream: 2014-09-17
 </application>
 EOF
 %endif
+%endif
 
 
 %check
-unset DISPLAY
 pushd build
 #CMake.FileDownload, and CTestTestUpload require internet access
-bin/ctest -V -E 'CMake.FileDownload|CTestTestUpload' %{?_smp_mflags}
+bin/ctest%{?name_suffix} -V -E 'CMake.FileDownload|CTestTestUpload' %{?_smp_mflags}
 popd
 
 
@@ -251,45 +316,72 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %files
-%dir %{_docdir}/%{name}
-%{_docdir}/%{name}/Copyright.txt*
-%{_docdir}/%{name}/COPYING*
-%{rpm_macros_dir}/macros.cmake
-%if 0%{?_rpmconfigdir:1}
-%{_prefix}/lib/rpm/fileattrs/cmake.attr
-%{_prefix}/lib/rpm/cmake.prov
-%endif
-%{_bindir}/ccmake
-%{_bindir}/cmake
-%{_bindir}/cpack
-%{_bindir}/ctest
-%{_datadir}/aclocal/cmake.m4
-%{_datadir}/bash-completion/
-%{_datadir}/%{name}/
-%{_mandir}/man1/ccmake.1.gz
-%{_mandir}/man1/cmake.1.gz
-%{_mandir}/man1/cpack.1.gz
-%{_mandir}/man1/ctest.1.gz
-%{_mandir}/man7/*.7.gz
-%{_emacs_sitelispdir}/%{name}
-%{_emacs_sitestartdir}/%{name}-init.el
+%doc %dir %{_pkgdocdir}
+%license Copyright.txt*
+%license COPYING*
+%{_bindir}/c%{name}
+%{_bindir}/%{name}
+%{_bindir}/cpack%{?name_suffix}
+%{_bindir}/ctest%{?name_suffix}
+%{_mandir}/man1/c%{name}.1.*
+%{_mandir}/man1/%{name}.1.*
+%{_mandir}/man1/cpack%{?name_suffix}.1.*
+%{_mandir}/man1/ctest%{?name_suffix}.1.*
+%{_mandir}/man7/*.7.*
 %{_libdir}/%{name}/
 
+
+%files data
+%{_datadir}/aclocal/%{name}.m4
+%{_datadir}/bash-completion/
+%{_datadir}/%{name}/
+%{_emacs_sitelispdir}/%{name}
+%{_emacs_sitestartdir}/%{name}-init.el
+%{rpm_macros_dir}/macros.%{name}
+%if 0%{?_rpmconfigdir:1}
+%{_rpmconfigdir}/fileattrs/
+%{_rpmconfigdir}/%{name}.prov
+%endif
+
+
 %files doc
-%{_docdir}/%{name}/
+# Pickup license-files from main-pkg's license-dir
+# If there's no license-dir they are picked up by %%doc previously
+%{?_licensedir:%license %{_datadir}/licenses/%{name}*}
+%doc %{_pkgdocdir}/
+
 
 %if %{with gui}
 %files gui
-%{_bindir}/cmake-gui
+%{_bindir}/%{name}-gui
+%if %{with appdata}
 %{_datadir}/appdata/*.appdata.xml
-%{_datadir}/applications/CMake.desktop
-%{_datadir}/mime/packages/cmakecache.xml
-%{_datadir}/icons/hicolor/*/apps/CMakeSetup.png
-%{_mandir}/man1/cmake-gui.1.gz
+%endif
+%{_datadir}/applications/CMake%{?name_suffix}.desktop
+%{_datadir}/mime/packages/
+%{_datadir}/icons/hicolor/*/apps/CMake%{?name_suffix}Setup.png
+%{_mandir}/man1/%{name}-gui.1.*
 %endif
 
 
 %changelog
+* Mon Mar 07 2016 Björn Esser <fedora@besser82.io> - 3.5.0-0.3.rc3
+- cleanup trailing whitespaces
+- remove el5 stuff
+- doc-subpkg should be noarch'ed
+- doc-subpkg should not require main-pkg
+- add %%{?_isa} to the applicable Requires
+- replaced %%define with %%global
+- handle macrosdir for rpm-macros properly
+- fix ownership of directories, add needed Requires
+- conditionalize appdata
+- handle docdir properly
+- generalize glob for man-pages independent of used compression
+- generalize for use as EPEL-package, too
+- use %%license instead of %%doc for license-files
+- split the common data-files into a noarch'ed subpackage
+- build html-docs and put them into the doc-subpkg
+
 * Sat Feb 20 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.0-0.2.rc3
 - Update to 3.5.0-rc3
 
