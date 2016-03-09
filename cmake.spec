@@ -108,11 +108,6 @@ Provides: bundled(md5-deutsch)
 # https://fedorahosted.org/fpc/ticket/555
 Provides: bundled(kwsys)
 
-# Allow Requires: cmake >= 3.X on EPEL
-%if 0%{?name_suffix:1}
-Provides: %{orig_name} = %{version}-%{release}
-%endif
-
 %description
 CMake is used to control the software compilation process using simple
 platform and compiler independent configuration files. CMake generates
