@@ -34,7 +34,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        3.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -224,14 +224,12 @@ do
   dname=$(basename $dir)
   cp -p $f ./${fname}_${dname}
 done
-
 # Cleanup pre-installed documentation
 mv %{buildroot}%{_docdir}/%{name}/html .
 rm -rf %{buildroot}%{_docdir}/%{name}
-
-# Move documentation to _pkgdocdir
+# Install documentation to _pkgdocdir
 mkdir -p %{buildroot}%{_pkgdocdir}
-mv %{buildroot}%{_datadir}/%{name}/Help %{buildroot}%{_pkgdocdir}
+cp -pr %{buildroot}%{_datadir}/%{name}/Help %{buildroot}%{_pkgdocdir}
 mv %{buildroot}%{_pkgdocdir}/Help %{buildroot}%{_pkgdocdir}/rst
 mv html %{buildroot}%{_pkgdocdir}
 
@@ -360,6 +358,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Mar 10 2016 Björn Esser <fedora@besser82.io> - 3.5.0-2
+- keep Help-directory and its contents in %%_datadir/%%name (#1316306)
+
 * Tue Mar 8 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.0-1
 - Update to 3.5.0 final
 
