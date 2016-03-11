@@ -19,6 +19,13 @@
 %bcond_with appdata
 %endif
 
+# Sphinx-build cannot import CMakeLexer on EPEL <= 6
+%if 0%{?fedora} || 0%{?rhel} >= 7
+%bcond_without sphinx
+%else
+%bcond_with sphinx
+%endif
+
 # Place rpm-macros into proper location
 %global rpm_macros_dir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
@@ -72,10 +79,10 @@ BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
 %if 0%{?fedora} || 0%{?rhel} >= 7
 BuildRequires:  libarchive-devel
+BuildRequires:  /usr/bin/sphinx-build
 %else
 BuildRequires:  libarchive3-devel
 %endif
-BuildRequires:  /usr/bin/sphinx-build
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
@@ -181,7 +188,7 @@ pushd build
              --docdir=/share/doc/%{name} --mandir=/share/man \
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
-             --sphinx-man --sphinx-html \
+             %{?with_sphinx:--sphinx-man --sphinx-html} \
              %{?qt_gui};
 make VERBOSE=1 %{?_smp_mflags}
 
@@ -225,13 +232,17 @@ do
   cp -p $f ./${fname}_${dname}
 done
 # Cleanup pre-installed documentation
+%if 0%{?with_sphinx:1}
 mv %{buildroot}%{_docdir}/%{name}/html .
+%endif
 rm -rf %{buildroot}%{_docdir}/%{name}
 # Install documentation to _pkgdocdir
 mkdir -p %{buildroot}%{_pkgdocdir}
 cp -pr %{buildroot}%{_datadir}/%{name}/Help %{buildroot}%{_pkgdocdir}
 mv %{buildroot}%{_pkgdocdir}/Help %{buildroot}%{_pkgdocdir}/rst
+%if 0%{?with_sphinx:1}
 mv html %{buildroot}%{_pkgdocdir}
+%endif
 
 %if %{with gui}
 # Desktop file
@@ -316,11 +327,13 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_bindir}/%{name}
 %{_bindir}/cpack%{?name_suffix}
 %{_bindir}/ctest%{?name_suffix}
+%if 0%{?with_sphinx:1}
 %{_mandir}/man1/c%{name}.1.*
 %{_mandir}/man1/%{name}.1.*
 %{_mandir}/man1/cpack%{?name_suffix}.1.*
 %{_mandir}/man1/ctest%{?name_suffix}.1.*
 %{_mandir}/man7/*.7.*
+%endif
 %{_libdir}/%{name}/
 
 
@@ -353,7 +366,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_datadir}/applications/CMake%{?name_suffix}.desktop
 %{_datadir}/mime/packages/
 %{_datadir}/icons/hicolor/*/apps/CMake%{?name_suffix}Setup.png
+%if 0%{?with_sphinx:1}
 %{_mandir}/man1/%{name}-gui.1.*
+%endif
 %endif
 
 
