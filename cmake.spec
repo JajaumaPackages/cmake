@@ -127,7 +127,7 @@ generation, code generation, and template instantiation.
 %package        data
 Summary:        Common data-files for %{name}
 Requires:       %{name} = %{version}-%{release}
-%if 0%{?fedora} || 0%{?rhel} >= 6
+%if 0%{?fedora} || 0%{?rhel} >= 7
 Requires: emacs-filesystem >= %{_emacs_version}
 %endif
 
@@ -341,8 +341,13 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_datadir}/aclocal/%{name}.m4
 %{_datadir}/bash-completion/
 %{_datadir}/%{name}/
+%if 0%{?fedora} || 0%{?rhel} >= 7
 %{_emacs_sitelispdir}/%{name}
 %{_emacs_sitestartdir}/%{name}-init.el
+%else
+%{_emacs_sitelispdir}
+%{_emacs_sitestartdir}
+%endif
 %{rpm_macros_dir}/macros.%{name}
 %if 0%{?_rpmconfigdir:1}
 %{_rpmconfigdir}/fileattrs/
