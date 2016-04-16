@@ -378,7 +378,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Fri Apr 16 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-1
+* Fri Apr 15 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-1
 - Update to 3.5.2 final
 
 * Fri Mar 25 2016 Björn Esser <fedora@besser82.io> - 3.5.1-2
