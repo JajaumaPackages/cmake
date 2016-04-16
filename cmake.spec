@@ -40,8 +40,8 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        3.5.1
-Release:        2%{?dist}
+Version:        3.5.2
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -378,6 +378,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Apr 16 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-1
+- Update to 3.5.2 final
+
 * Fri Mar 25 2016 Björn Esser <fedora@besser82.io> - 3.5.1-2
 - Rebuilt for libjsoncpp.so.1
 
