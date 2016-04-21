@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        3.5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -350,7 +350,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 %{rpm_macros_dir}/macros.%{name}
 %if 0%{?_rpmconfigdir:1}
-%{_rpmconfigdir}/fileattrs/
+%{_rpmconfigdir}/fileattrs/cmake.attr
 %{_rpmconfigdir}/%{name}.prov
 %endif
 
@@ -378,6 +378,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Apr 21 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-2
+- Do not own /usr/lib/rpm/fileattrs
+
 * Fri Apr 15 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-1
 - Update to 3.5.2 final
 
