@@ -350,7 +350,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 %{rpm_macros_dir}/macros.%{name}
 %if 0%{?_rpmconfigdir:1}
-%{_rpmconfigdir}/fileattrs/cmake.attr
+%{_rpmconfigdir}/fileattrs/%{name}.attr
 %{_rpmconfigdir}/%{name}.prov
 %endif
 
