@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        3.5.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -62,6 +62,8 @@ Source4:        %{name}.prov
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         %{name}-findruby.patch
+# replace release flag -O3 with -O2 for fedora
+Patch3:         %{name}-fedora-flag_release.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -169,6 +171,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
+%patch3 -p1
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
@@ -378,6 +381,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jun 02 2016 Than Ngo <than@redhat.com> - 3.5.2-3
+- drop -O3 and add -O2 for default release
+
 * Thu Apr 21 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-2
 - Do not own /usr/lib/rpm/fileattrs
 
