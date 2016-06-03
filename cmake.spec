@@ -64,6 +64,8 @@ Source4:        %{name}.prov
 Patch2:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch3:         %{name}-fedora-flag_release.patch
+# Support libarchive 3.2
+Patch4:         %{name}-libarchive.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -172,6 +174,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
@@ -381,6 +384,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jun 03 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-3
+- Add patch to support libarchive 3.2
+
 * Thu Jun 02 2016 Than Ngo <than@redhat.com> - 3.5.2-3
 - drop -O3 and add -O2 for default release
 
