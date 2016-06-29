@@ -33,15 +33,15 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 # Set to RC version if building RC, else %{nil}
-%global rcver %{nil}
+%global rcver rc4
 
 # Uncomment if building for EPEL
 #global name_suffix 3
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        3.5.2
-Release:        3%{?dist}
+Version:        3.6.0
+Release:        0.1.%{rcver}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -51,7 +51,7 @@ Summary:        Cross-platform make system
 # exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v3.5/%{orig_name}-%{version}%{?rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v3.6/%{orig_name}-%{version}%{?rcver:-%rcver}.tar.gz
 Source1:        %{name}-init.el
 Source2:        macros.%{name}
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
@@ -64,8 +64,6 @@ Source4:        %{name}.prov
 Patch2:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch3:         %{name}-fedora-flag_release.patch
-# Support libarchive 3.2
-Patch4:         %{name}-libarchive.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -161,7 +159,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 
 %prep
-%setup -qn %{orig_name}-%{version}%{?rcver}
+%setup -qn %{orig_name}-%{version}%{?rcver:-%rcver}
 
 # Apply renaming on EPEL before all other patches
 %if 0%{?name_suffix:1}
@@ -174,7 +172,6 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
@@ -384,6 +381,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Jun 29 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.0-0.1.rc4
+- Update to 3.6.0-rc4
+
 * Fri Jun 03 2016 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-3
 - Add patch to support libarchive 3.2
 
