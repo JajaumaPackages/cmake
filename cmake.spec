@@ -33,7 +33,7 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 # Set to RC version if building RC, else %{nil}
-%global rcver rc4
+#global rcver rc1
 
 # Uncomment if building for EPEL
 #global name_suffix 3
@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        3.6.0
-Release:        0.1.%{rcver}%{?dist}
+Release:        1%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -381,6 +381,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jul 8 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.0-1
+- Update to 3.6.0
+
 * Wed Jun 29 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.0-0.1.rc4
 - Update to 3.6.0-rc4
 
