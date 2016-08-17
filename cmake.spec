@@ -6,14 +6,14 @@
 %bcond_without gui
 
 # Setting the Python-version used by default
-%if ( 0%{?fedora} && 0%{?fedora} < 23 ) || ( 0%{?rhel} && 0%{?rhel} < 8 )
+%if 0%{?rhel} && 0%{?rhel} < 8
 %bcond_with python3
 %else
 %bcond_without python3
 %endif
 
 # Do we add appdata-files?
-%if 0%{?fedora} > 22 || 0%{?rhel} > 7
+%if 0%{?fedora} || 0%{?rhel} > 7
 %bcond_without appdata
 %else
 %bcond_with appdata
@@ -32,15 +32,17 @@
 # Setup _pkgdocdir if not defined already
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
+%global major_version 3
+%global minor_version 6
 # Set to RC version if building RC, else %{nil}
 #global rcver rc1
 
 # Uncomment if building for EPEL
-#global name_suffix 3
+#global name_suffix %{major_version}
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        3.6.1
+Version:        %{major_version}.%{minor_version}.1
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -51,7 +53,7 @@ Summary:        Cross-platform make system
 # exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v3.6/%{orig_name}-%{version}%{?rcver:-%rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v%{major_version}.%{minor_version}/%{orig_name}-%{version}%{?rcver:-%rcver}.tar.gz
 Source1:        %{name}-init.el
 Source2:        macros.%{name}
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
@@ -98,7 +100,7 @@ BuildRequires:  python2-devel
 #BuildRequires: xmlrpc-c-devel
 %endif
 %if %{with gui}
-%if 0%{?fedora} > 22 || 0%{?rhel} > 7
+%if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires: pkgconfig(Qt5)
 %else
 BuildRequires: qt-devel
@@ -116,6 +118,8 @@ Provides: bundled(md5-deutsch)
 
 # https://fedorahosted.org/fpc/ticket/555
 Provides: bundled(kwsys)
+
+%{?name_suffix:Provides: %{orig_name} = %{version}}
 
 %description
 CMake is used to control the software compilation process using simple
@@ -204,6 +208,8 @@ find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
   echo "Found .orig files in %{_datadir}/%{name}/Modules, rebase patches" &&
   exit 1
 popd
+# Install major_version name links
+%{!?name_suffix:for f in ccmake cmake cpack ctest; do ln -s $f %{buildroot}%{_bindir}/${f}%{major_version}; done}
 # Install bash completion symlinks
 mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
 for f in %{buildroot}%{_datadir}/%{name}/completions/*
@@ -218,7 +224,7 @@ mkdir -p %{buildroot}%{_emacs_sitestartdir}
 install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}/
 # RPM macros
 install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
-sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" %{buildroot}%{rpm_macros_dir}/macros.%{name}
+sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" -e "s|@@CMAKE_MAJOR_VERSION@@|%{major_version}|" %{buildroot}%{rpm_macros_dir}/macros.%{name}
 touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
 %if 0%{?_rpmconfigdir:1}
 # RPM auto provides
@@ -327,9 +333,13 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %license Copyright.txt*
 %license COPYING*
 %{_bindir}/c%{name}
+%{!?name_suffix:%{_bindir}/c%{name}%{major_version}}
 %{_bindir}/%{name}
+%{!?name_suffix:%{_bindir}/%{name}%{major_version}}
 %{_bindir}/cpack%{?name_suffix}
+%{!?name_suffix:%{_bindir}/cpack%{major_version}}
 %{_bindir}/ctest%{?name_suffix}
+%{!?name_suffix:%{_bindir}/ctest%{major_version}}
 %if 0%{?with_sphinx:1}
 %{_mandir}/man1/c%{name}.1.*
 %{_mandir}/man1/%{name}.1.*
@@ -381,6 +391,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Aug 16 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.1-2
+- Ship symlinks to binaries with major version in name
+- Provide %%cmakeX macro, where X is cmake major version
+
 * Mon Jul 25 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.1-1
 - Update to 3.6.1
 
