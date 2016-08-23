@@ -314,10 +314,16 @@ EOF
 
 
 %check
+%if 0%{?rhel} && 0%{?rhel} <= 6
+mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
+%endif
 pushd build
 #CMake.FileDownload, and CTestTestUpload require internet access
 bin/ctest%{?name_suffix} -V -E 'CMake.FileDownload|CTestTestUpload' %{?_smp_mflags}
 popd
+%if 0%{?rhel} && 0%{?rhel} <= 6
+mv -f Modules/FindLibArchive.disabled Modules/FindLibArchive.cmake
+%endif
 
 
 %if %{with gui}
