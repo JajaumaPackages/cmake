@@ -42,7 +42,7 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.1
+Version:        %{major_version}.%{minor_version}.2
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -389,6 +389,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Sep 8 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-1
+- Update to 3.6.2
+
 * Tue Aug 16 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.1-2
 - Ship symlinks to binaries with major version in name
 - Provide %%cmakeX macro, where X is cmake major version
