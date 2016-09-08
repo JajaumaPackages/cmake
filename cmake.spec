@@ -119,8 +119,6 @@ Provides: bundled(md5-deutsch)
 # https://fedorahosted.org/fpc/ticket/555
 Provides: bundled(kwsys)
 
-%{?name_suffix:Provides: %{orig_name} = %{version}}
-
 %description
 CMake is used to control the software compilation process using simple
 platform and compiler independent configuration files. CMake generates
