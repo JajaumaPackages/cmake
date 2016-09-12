@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -111,6 +111,9 @@ BuildRequires: desktop-file-utils
 
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       rpm
+
+# Provide the major version name
+Provides: %{orig_name}%{major_version} = %{version}-%{release}
 
 # Source/kwsys/MD5.c
 # see https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries
@@ -389,6 +392,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Sep 12 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-2
+- Provide the major version cmakeX name
+
 * Thu Sep 8 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-1
 - Update to 3.6.2
 
