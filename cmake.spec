@@ -178,6 +178,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
