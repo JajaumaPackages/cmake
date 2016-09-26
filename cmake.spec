@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -66,7 +66,8 @@ Source4:        %{name}.prov
 Patch2:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch3:         %{name}-fedora-flag_release.patch
-
+# add extra aarch32 to libarch for arm platform
+Patch4:         %{name}-libarch-arm-findjni.patch
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
 Patch1000:      %{name}-rename.patch
@@ -392,6 +393,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Sep 26 2016 Than Ngo <than@redhat.com> - 3.6.2-3
+- Add aarch32 to libarch for arm platform
+
 * Mon Sep 12 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-2
 - Provide the major version cmakeX name
 
