@@ -1,0 +1,32 @@
+From 48624b3cb85a6e1854eff0ef45996ef75b5aa9e9 Mon Sep 17 00:00:00 2001
+From: Clinton Stimpson <clinton@elemtech.com>
+Date: Thu, 22 Sep 2016 13:13:38 -0600
+Subject: [PATCH] cmake-gui: Do not remove library paths for Qt5 plugins.
+
+Not removing library paths is necessary for QFileDialog to function correctly
+on Linux when using Qt5.
+---
+ Source/QtDialog/CMakeSetup.cxx |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Source/QtDialog/CMakeSetup.cxx b/Source/QtDialog/CMakeSetup.cxx
+index c849d52..61c4d7b 100644
+--- a/Source/QtDialog/CMakeSetup.cxx
++++ b/Source/QtDialog/CMakeSetup.cxx
+@@ -101,11 +101,13 @@ int main(int argc, char** argv)
+   QTextCodec::setCodecForLocale(utf8_codec);
+ #endif
+ 
++#if QT_VERSION < 0x050000
+   // clean out standard Qt paths for plugins, which we don't use anyway
+   // when creating Mac bundles, it potentially causes problems
+   foreach (QString p, QApplication::libraryPaths()) {
+     QApplication::removeLibraryPath(p);
+   }
++#endif
+ 
+   // tell the cmake library where cmake is
+   QDir cmExecDir(QApplication::applicationDirPath());
+-- 
+1.7.10.4
+

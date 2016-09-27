@@ -60,6 +60,9 @@ Source2:        macros.%{name}
 Source3:        %{name}.attr
 Source4:        %{name}.prov
 
+# Upstream patch to fix cmake-gui with Qt5
+# https://cmake.org/gitweb?p=cmake.git;a=commit;h=48624b3c
+Patch0:         cmake.git-48624b3c.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
@@ -166,6 +169,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 %prep
 %setup -qn %{orig_name}-%{version}%{?rcver:-%rcver}
+%patch0 -p1
 
 # Apply renaming on EPEL before all other patches
 %if 0%{?name_suffix:1}
@@ -394,6 +398,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Sep 26 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-4
+- Add upstream patch for Qt5 QFileDialog usage
+
 * Mon Sep 26 2016 Than Ngo <than@redhat.com> - 3.6.2-3
 - Add aarch32 to libarch for arm platform
 
