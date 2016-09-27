@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
