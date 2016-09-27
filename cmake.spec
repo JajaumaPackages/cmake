@@ -71,6 +71,11 @@ Patch2:         %{name}-findruby.patch
 Patch3:         %{name}-fedora-flag_release.patch
 # add extra aarch32 to libarch for arm platform
 Patch4:         %{name}-libarch-arm-findjni.patch
+
+# Upstream patch which adds RISC-V support.
+# https://gitlab.kitware.com/utils/kwiml/commit/12f000d5b7b4c8394b16282da50126bccd4d4819
+Patch5:         %{name}-3.6.1-riscv.patch
+
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
 Patch1000:      %{name}-rename.patch
@@ -183,6 +188,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov

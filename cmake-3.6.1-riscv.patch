@@ -1,0 +1,15 @@
+diff -ur cmake-3.6.1.old/Utilities/KWIML/include/kwiml/abi.h cmake-3.6.1.riscv/Utilities/KWIML/include/kwiml/abi.h
+--- cmake-3.6.1.old/Utilities/KWIML/include/kwiml/abi.h	2016-07-22 14:50:23.000000000 +0100
++++ cmake-3.6.1.riscv/Utilities/KWIML/include/kwiml/abi.h	2016-09-07 17:59:15.929447366 +0100
+@@ -467,6 +467,10 @@
+ #elif defined(__XTENSA_EL__)
+ # define KWIML_ABI_ENDIAN_ID KWIML_ABI_ENDIAN_ID_LITTLE
+ 
++/* RISC-V */
++#elif defined(__riscv__)
++# define KWIML_ABI_ENDIAN_ID KWIML_ABI_ENDIAN_ID_LITTLE
++
+ /* Unknown CPU */
+ #elif !defined(KWIML_ABI_NO_ERROR_ENDIAN)
+ # error "Byte order of target CPU unknown."
+Only in cmake-3.6.1.riscv/Utilities/KWIML/include/kwiml: abi.h~
