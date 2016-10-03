@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -410,6 +410,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Oct 03 2016 Björn Esser <fedora@besser82.io> - 3.6.2-5
+- Rebuilt for libjsoncpp.so.11
+
 * Mon Sep 26 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-4
 - Add upstream patch for Qt5 QFileDialog usage
 
