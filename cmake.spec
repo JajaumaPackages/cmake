@@ -3,7 +3,7 @@
 %bcond_with bootstrap
 
 # Set to bcond_with or use --without gui to disable qt4 gui build
-%bcond_with gui
+%bcond_without gui
 
 # Setting the Python-version used by default
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -410,6 +410,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Oct 03 2016 Björn Esser <fedora@besser82.io> - 3.6.2-6
+- Rebuilt with gui enabled
+
 * Mon Oct 03 2016 Björn Esser <fedora@besser82.io> - 3.6.2-5
 - Rebuilt for libjsoncpp.so.11
 - Bootstrap without gui, due inter-circular dependency in qt5-rpm-macros
