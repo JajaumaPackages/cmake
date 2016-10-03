@@ -76,10 +76,6 @@ Patch4:         %{name}-libarch-arm-findjni.patch
 # https://gitlab.kitware.com/utils/kwiml/commit/12f000d5b7b4c8394b16282da50126bccd4d4819
 Patch5:         %{name}-3.6.1-riscv.patch
 
-# Upstream patch which adds RISC-V support.
-# https://gitlab.kitware.com/utils/kwiml/commit/12f000d5b7b4c8394b16282da50126bccd4d4819
-Patch5:         %{name}-3.6.1-riscv.patch
-
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
 Patch1000:      %{name}-rename.patch
