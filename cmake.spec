@@ -3,7 +3,7 @@
 %bcond_with bootstrap
 
 # Set to bcond_with or use --without gui to disable qt4 gui build
-%bcond_without gui
+%bcond_with gui
 
 # Setting the Python-version used by default
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -60,12 +60,21 @@ Source2:        macros.%{name}
 Source3:        %{name}.attr
 Source4:        %{name}.prov
 
+# Upstream patch to fix cmake-gui with Qt5
+# https://cmake.org/gitweb?p=cmake.git;a=commit;h=48624b3c
+Patch0:         cmake.git-48624b3c.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch3:         %{name}-fedora-flag_release.patch
+# add extra aarch32 to libarch for arm platform
+Patch4:         %{name}-libarch-arm-findjni.patch
+
+# Upstream patch which adds RISC-V support.
+# https://gitlab.kitware.com/utils/kwiml/commit/12f000d5b7b4c8394b16282da50126bccd4d4819
+Patch5:         %{name}-3.6.1-riscv.patch
 
 # Upstream patch which adds RISC-V support.
 # https://gitlab.kitware.com/utils/kwiml/commit/12f000d5b7b4c8394b16282da50126bccd4d4819
@@ -169,6 +178,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 %prep
 %setup -qn %{orig_name}-%{version}%{?rcver:-%rcver}
+%patch0 -p1
 
 # Apply renaming on EPEL before all other patches
 %if 0%{?name_suffix:1}
@@ -181,6 +191,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 %patch5 -p1
 
 %if %{with python3}
@@ -307,10 +318,16 @@ EOF
 
 
 %check
+%if 0%{?rhel} && 0%{?rhel} <= 6
+mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
+%endif
 pushd build
 #CMake.FileDownload, and CTestTestUpload require internet access
 bin/ctest%{?name_suffix} -V -E 'CMake.FileDownload|CTestTestUpload' %{?_smp_mflags}
 popd
+%if 0%{?rhel} && 0%{?rhel} <= 6
+mv -f Modules/FindLibArchive.disabled Modules/FindLibArchive.cmake
+%endif
 
 
 %if %{with gui}
@@ -397,6 +414,16 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Oct 03 2016 Björn Esser <fedora@besser82.io> - 3.6.2-5
+- Rebuilt for libjsoncpp.so.11
+- Bootstrap without gui, due inter-circular dependency in qt5-rpm-macros
+
+* Mon Sep 26 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-4
+- Add upstream patch for Qt5 QFileDialog usage
+
+* Mon Sep 26 2016 Than Ngo <than@redhat.com> - 3.6.2-3
+- Add aarch32 to libarch for arm platform
+
 * Mon Sep 12 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-2
 - Provide the major version cmakeX name
 
