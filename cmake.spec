@@ -3,7 +3,7 @@
 %bcond_with bootstrap
 
 # Set to bcond_with or use --without gui to disable qt4 gui build
-%bcond_without gui
+%bcond_with gui
 
 # Setting the Python-version used by default
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -412,6 +412,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %changelog
 * Mon Oct 03 2016 Björn Esser <fedora@besser82.io> - 3.6.2-5
 - Rebuilt for libjsoncpp.so.11
+- Bootstrap without gui, due inter-circular dependency in qt5-rpm-macros
 
 * Mon Sep 26 2016 Orion Poplawski <orion@cora.nwra.com> - 3.6.2-4
 - Add upstream patch for Qt5 QFileDialog usage
