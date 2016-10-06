@@ -33,17 +33,17 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 %global major_version 3
-%global minor_version 6
+%global minor_version 7
 # Set to RC version if building RC, else %{nil}
-#global rcver rc1
+%global rcver rc1
 
 # Uncomment if building for EPEL
 #global name_suffix %{major_version}
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.2
-Release:        6%{?dist}
+Version:        %{major_version}.%{minor_version}.0
+Release:        0.1.rc1%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -60,21 +60,12 @@ Source2:        macros.%{name}
 Source3:        %{name}.attr
 Source4:        %{name}.prov
 
-# Upstream patch to fix cmake-gui with Qt5
-# https://cmake.org/gitweb?p=cmake.git;a=commit;h=48624b3c
-Patch0:         cmake.git-48624b3c.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
 Patch2:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch3:         %{name}-fedora-flag_release.patch
-# add extra aarch32 to libarch for arm platform
-Patch4:         %{name}-libarch-arm-findjni.patch
-
-# Upstream patch which adds RISC-V support.
-# https://gitlab.kitware.com/utils/kwiml/commit/12f000d5b7b4c8394b16282da50126bccd4d4819
-Patch5:         %{name}-3.6.1-riscv.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -96,6 +87,7 @@ BuildRequires:  /usr/bin/sphinx-build
 %else
 BuildRequires:  libarchive3-devel
 %endif
+BuildRequires:  libuv-devel
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
@@ -174,7 +166,6 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 %prep
 %setup -qn %{orig_name}-%{version}%{?rcver:-%rcver}
-%patch0 -p1
 
 # Apply renaming on EPEL before all other patches
 %if 0%{?name_suffix:1}
@@ -187,8 +178,6 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
@@ -410,6 +399,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Oct 6 2016 Orion Poplawski <orion@cora.nwra.com> - 3.7.0-0.1.rc1
+- Update to 3.7.0-rc1
+- Drop gui, findjni, and riscv patches applied upstream
+
 * Mon Oct 03 2016 Björn Esser <fedora@besser82.io> - 3.6.2-6
 - Rebuilt with gui enabled
 
