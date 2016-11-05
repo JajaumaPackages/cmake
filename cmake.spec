@@ -35,7 +35,7 @@
 %global major_version 3
 %global minor_version 7
 # Set to RC version if building RC, else %{nil}
-%global rcver rc2
+%global rcver rc3
 
 # Uncomment if building for EPEL
 #global name_suffix %{major_version}
@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        0.2.rc2%{?dist}
+Release:        0.3.rc3%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -399,6 +399,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Nov 4 2016 Orion Poplawski <orion@cora.nwra.com> - 3.7.0-0.3.rc3
+- Update to 3.7.0-rc3
+
 * Wed Oct 19 2016 Orion Poplawski <orion@cora.nwra.com> - 3.7.0-0.2.rc2
 - Update to 3.7.0-rc2
 
