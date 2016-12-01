@@ -42,7 +42,7 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.0
+Version:        %{major_version}.%{minor_version}.1
 Release:        1%{?dist}
 Summary:        Cross-platform make system
 
@@ -399,6 +399,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Nov 30 2016 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-1
+- Update to 3.7.1
+
 * Sat Nov 12 2016 Orion Poplawski <orion@cora.nwra.com> - 3.7.0-1
 - Update to 3.7.0 final
 
