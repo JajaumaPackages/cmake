@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -399,6 +399,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Dec 13 2016 Stratakis Charalampos <cstratak@redhat.com> - 3.7.1-2
+- Rebuild for Python 3.6
+
 * Wed Nov 30 2016 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-1
 - Update to 3.7.1
 
