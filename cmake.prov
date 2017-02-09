@@ -52,7 +52,7 @@ class CMakeParser:
             configFile = glob.glob("%s/*-config.cmake" % modulePath)
             lowercase = True
         if not configFile:
-            return (None, None)
+            return (None, None, None)
 
         if lowercase:
             moduleName = configFile[0][len(modulePath) + 1:-len("-config.cmake")]
