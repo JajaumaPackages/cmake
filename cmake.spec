@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -399,6 +399,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Feb 20 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.7.2-3
+- Fix ambiguous file lookup in cmake.prov
+
 * Thu Feb 9 2017 Orion Poplawski <orion@cora.nwra.com> - 3.7.2-2
 - Fix cmake.prov error
 
