@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -66,6 +66,9 @@ Source4:        %{name}.prov
 Patch2:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch3:         %{name}-fedora-flag_release.patch
+# Handle -Werror=format-security
+# https://gitlab.kitware.com/cmake/cmake/merge_requests/529
+Patch4:         %{name}-format.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -178,6 +181,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1 -b .format
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
@@ -399,6 +403,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Feb 27 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.7.2-4
+- Add patch to handle gcc format option changes
+
 * Mon Feb 20 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.7.2-3
 - Fix ambiguous file lookup in cmake.prov
 
