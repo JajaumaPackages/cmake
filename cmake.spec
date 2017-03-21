@@ -33,17 +33,17 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 %global major_version 3
-%global minor_version 7
+%global minor_version 8
 # Set to RC version if building RC, else %{nil}
-#global rcver rc3
+%global rcver rc2
 
 # Uncomment if building for EPEL
 #global name_suffix %{major_version}
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.2
-Release:        4%{?dist}
+Version:        %{major_version}.%{minor_version}.0
+Release:        0.1%{?rcver:.%{rcver}}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -66,9 +66,6 @@ Source4:        %{name}.prov
 Patch2:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch3:         %{name}-fedora-flag_release.patch
-# Handle -Werror=format-security
-# https://gitlab.kitware.com/cmake/cmake/merge_requests/529
-Patch4:         %{name}-format.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -91,6 +88,7 @@ BuildRequires:  /usr/bin/sphinx-build
 BuildRequires:  libarchive3-devel
 %endif
 BuildRequires:  libuv-devel
+BuildRequires:  rhash-devel
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
@@ -181,7 +179,6 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 # We cannot use backups with patches to Modules as they end up being installed
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1 -b .format
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
@@ -403,6 +400,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Mar 20 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.0-0.1.rc2
+- Update to 3.8.0-rc2
+
 * Mon Feb 27 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.7.2-4
 - Add patch to handle gcc format option changes
 
