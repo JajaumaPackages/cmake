@@ -35,7 +35,7 @@
 %global major_version 3
 %global minor_version 8
 # Set to RC version if building RC, else %{nil}
-%global rcver rc3
+#global rcver rc3
 
 # Uncomment if building for EPEL
 #global name_suffix %{major_version}
@@ -43,7 +43,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        0.2%{?rcver:.%{rcver}}%{?dist}
+Release:        1%{?rcver:.%{rcver}}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -60,8 +60,6 @@ Source2:        macros.%{name}
 Source3:        %{name}.attr
 Source4:        %{name}.prov
 
-# Support rpm 4.13 build-id
-Patch0:         https://gitlab.kitware.com/cmake/cmake/commit/4ba065b22b544a509c76e497306b65e2dc0d5ee7.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
@@ -169,7 +167,6 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 %prep
 %setup -qn %{orig_name}-%{version}%{?rcver:-%rcver}
-%patch0 -p1
 
 # Apply renaming on EPEL before all other patches
 %if 0%{?name_suffix:1}
@@ -403,6 +400,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon Apr 10 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.0-1
+- Update to 3.8.0 final
+
 * Mon Mar 27 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.0-0.2.rc3
 - Update to 3.8.0-rc3
 - Add upstream patch to support rpm build-id dirs
