@@ -1,7 +1,3 @@
-# Set to bcond_without or use --with bootstrap if bootstrapping a new release
-# or architecture
-%bcond_with bootstrap
-
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
 
@@ -43,7 +39,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        1%{?rcver:.%{rcver}}%{?dist}
+Release:        2%{?rcver:.%{rcver}}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -76,6 +72,7 @@ Patch1001:      %{name}-libarchive3.patch
 %endif
 
 BuildRequires:  gcc-gfortran
+%if ! 0%{?_module_build}
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
@@ -92,15 +89,15 @@ BuildRequires:  rhash-devel
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  emacs
+%endif
+%if ! 0%{?_module_build}
 %if %{with python3}
 %{!?python3_pkgversion: %global python3_pkgversion 3}
 BuildRequires:  python%{python3_pkgversion}-devel
 %else
 BuildRequires:  python2-devel
 %endif
-%if %{without bootstrap}
 #BuildRequires: xmlrpc-c-devel
-%endif
 %if %{with gui}
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires: pkgconfig(Qt5)
@@ -109,6 +106,7 @@ BuildRequires: qt-devel
 %endif
 BuildRequires: desktop-file-utils
 %global qt_gui --qt-gui
+%endif
 %endif
 
 Requires:       %{name}-data = %{version}-%{release}
@@ -136,8 +134,10 @@ generation, code generation, and template instantiation.
 %package        data
 Summary:        Common data-files for %{name}
 Requires:       %{name} = %{version}-%{release}
+%if ! 0%{?_module_build}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 Requires: emacs-filesystem >= %{_emacs_version}
+%endif
 %endif
 
 BuildArch:      noarch
@@ -194,18 +194,25 @@ export CXXFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 mkdir build
 pushd build
+%if ! 0%{?_module_build}
 ../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
              --docdir=/share/doc/%{name} --mandir=/share/man \
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
              %{?with_sphinx:--sphinx-man --sphinx-html} \
              %{?qt_gui};
+%else
+../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
+             --docdir=/share/doc/%{name} --mandir=/share/man \
+             --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN`
+%endif
 make VERBOSE=1 %{?_smp_mflags}
 
 
 %install
 pushd build
-make install DESTDIR=%{buildroot}
+make install DESTDIR=%{buildroot} CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
+mkdir -p CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
 find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 [ -n "$(find %{buildroot}/%{_datadir}/%{name}/Modules -name \*.orig)" ] &&
   echo "Found .orig files in %{_datadir}/%{name}/Modules, rebase patches" &&
@@ -219,12 +226,14 @@ for f in %{buildroot}%{_datadir}/%{name}/completions/*
 do
   ln -s ../../%{name}/completions/$(basename $f) %{buildroot}%{_datadir}/bash-completion/completions/
 done
+%if ! 0%{?_module_build}
 # Install emacs cmake mode
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
 install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
 %{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
 mkdir -p %{buildroot}%{_emacs_sitestartdir}
 install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}/
+%endif
 # RPM macros
 install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" -e "s|@@CMAKE_MAJOR_VERSION@@|%{major_version}|" %{buildroot}%{rpm_macros_dir}/macros.%{name}
@@ -244,18 +253,23 @@ do
   cp -p $f ./${fname}_${dname}
 done
 # Cleanup pre-installed documentation
+%if ! 0%{?_module_build}
 %if 0%{?with_sphinx:1}
 mv %{buildroot}%{_docdir}/%{name}/html .
+%endif
 %endif
 rm -rf %{buildroot}%{_docdir}/%{name}
 # Install documentation to _pkgdocdir
 mkdir -p %{buildroot}%{_pkgdocdir}
 cp -pr %{buildroot}%{_datadir}/%{name}/Help %{buildroot}%{_pkgdocdir}
 mv %{buildroot}%{_pkgdocdir}/Help %{buildroot}%{_pkgdocdir}/rst
+%if ! 0%{?_module_build}
 %if 0%{?with_sphinx:1}
 mv html %{buildroot}%{_pkgdocdir}
 %endif
+%endif
 
+%if ! 0%{?_module_build}
 %if %{with gui}
 # Desktop file
 desktop-file-install --delete-original \
@@ -301,8 +315,10 @@ SentUpstream: 2014-09-17
 EOF
 %endif
 %endif
+%endif
 
 
+%if ! 0%{?_module_build}
 %check
 %if 0%{?rhel} && 0%{?rhel} <= 6
 mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
@@ -313,6 +329,7 @@ bin/ctest%{?name_suffix} -V -E 'CMake.FileDownload|CTestTestUpload' %{?_smp_mfla
 popd
 %if 0%{?rhel} && 0%{?rhel} <= 6
 mv -f Modules/FindLibArchive.disabled Modules/FindLibArchive.cmake
+%endif
 %endif
 
 
@@ -341,7 +358,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %doc %dir %{_pkgdocdir}
 %license Copyright.txt*
 %license COPYING*
+%if ! 0%{?_module_build}
 %{_bindir}/c%{name}
+%endif
 %{!?name_suffix:%{_bindir}/c%{name}%{major_version}}
 %{_bindir}/%{name}
 %{!?name_suffix:%{_bindir}/%{name}%{major_version}}
@@ -349,12 +368,14 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{!?name_suffix:%{_bindir}/cpack%{major_version}}
 %{_bindir}/ctest%{?name_suffix}
 %{!?name_suffix:%{_bindir}/ctest%{major_version}}
+%if ! 0%{?_module_build}
 %if 0%{?with_sphinx:1}
 %{_mandir}/man1/c%{name}.1.*
 %{_mandir}/man1/%{name}.1.*
 %{_mandir}/man1/cpack%{?name_suffix}.1.*
 %{_mandir}/man1/ctest%{?name_suffix}.1.*
 %{_mandir}/man7/*.7.*
+%endif
 %endif
 %{_libdir}/%{name}/
 
@@ -363,12 +384,14 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_datadir}/aclocal/%{name}.m4
 %{_datadir}/bash-completion/
 %{_datadir}/%{name}/
+%if ! 0%{?_module_build}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 %{_emacs_sitelispdir}/%{name}
 %{_emacs_sitestartdir}/%{name}-init.el
 %else
 %{_emacs_sitelispdir}
 %{_emacs_sitestartdir}
+%endif
 %endif
 %{rpm_macros_dir}/macros.%{name}
 %if 0%{?_rpmconfigdir:1}
@@ -383,7 +406,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{?_licensedir:%license %{_datadir}/licenses/%{name}*}
 %doc %{_pkgdocdir}/
 
-
+%if ! 0%{?_module_build}
 %if %{with gui}
 %files gui
 %{_bindir}/%{name}-gui
@@ -397,9 +420,13 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man1/%{name}-gui.1.*
 %endif
 %endif
+%endif
 
 
 %changelog
+* Fri Apr 21 2017 Karsten Hopp <karsten@redhat.com> - 3.8.0-2
+- use new _module_build macro to limit dependencies for Modularity
+
 * Mon Apr 10 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.0-1
 - Update to 3.8.0 final
 
