@@ -39,7 +39,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        2%{?rcver:.%{rcver}}%{?dist}
+Release:        3%{?rcver:.%{rcver}}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -56,6 +56,9 @@ Source2:        macros.%{name}
 Source3:        %{name}.attr
 Source4:        %{name}.prov
 
+# Fix FindGLUT lib deps
+# https://bugzilla.redhat.com/show_bug.cgi?id=1444563
+Patch0:         https://gitlab.kitware.com/cmake/cmake/merge_requests/765.patch
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
@@ -177,6 +180,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 %endif
 
 # We cannot use backups with patches to Modules as they end up being installed
+%patch0 -p1
 %patch2 -p1
 %patch3 -p1
 
@@ -424,6 +428,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Apr 28 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.0-3
+- Add upstream patch to fix FindGLUT library dependencies (bug #1444563)
+
 * Fri Apr 21 2017 Karsten Hopp <karsten@redhat.com> - 3.8.0-2
 - use new _module_build macro to limit dependencies for Modularity
 
