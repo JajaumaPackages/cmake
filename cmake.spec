@@ -38,8 +38,8 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.0
-Release:        3%{?rcver:.%{rcver}}%{?dist}
+Version:        %{major_version}.%{minor_version}.1
+Release:        1%{?rcver:.%{rcver}}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -428,6 +428,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue May 2 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.1-1
+- Update to 3.8.1 final
+
 * Fri Apr 28 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.0-3
 - Add upstream patch to fix FindGLUT library dependencies (bug #1444563)
 
