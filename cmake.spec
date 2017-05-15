@@ -39,7 +39,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        3%{?rcver:.%{rcver}}%{?dist}
+Release:        3%{?rcver:.%{rcver}}%{?dist}.1
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -428,6 +428,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Mon May 15 2017 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.8.0-3.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_27_Mass_Rebuild
+
 * Fri Apr 28 2017 Orion Poplawski <orion@cora.nwra.com> - 3.8.0-3
 - Add upstream patch to fix FindGLUT library dependencies (bug #1444563)
 
