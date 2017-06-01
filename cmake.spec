@@ -38,8 +38,8 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.1
-Release:        1%{?rcver:.%{rcver}}%{?dist}.1
+Version:        %{major_version}.%{minor_version}.2
+Release:        1%{?rcver:.%{rcver}}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -428,6 +428,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Jun 01 2017 Björn Esser <besser82@fedoraproject.org> - 3.8.2-1
+- Update to 3.8.2 final (rhbz#1447473)
+
 * Mon May 15 2017 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.8.1-1.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_27_Mass_Rebuild
 
