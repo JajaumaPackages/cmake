@@ -29,17 +29,19 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 %global major_version 3
-%global minor_version 8
+%global minor_version 9
 # Set to RC version if building RC, else %{nil}
-#global rcver rc3
+#global rcsuf rc3
+%{?rcsuf:%global relsuf .%{rcsuf}}
+%{?rcsuf:%global versuf -%{rcsuf}}
 
 # Uncomment if building for EPEL
 #global name_suffix %{major_version}
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.2
-Release:        1%{?rcver:.%{rcver}}%{?dist}
+Version:        %{major_version}.%{minor_version}.0
+Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -49,28 +51,29 @@ Summary:        Cross-platform make system
 # exception granting redistribution under terms of your choice
 License:        BSD and MIT and zlib
 URL:            http://www.cmake.org
-Source0:        http://www.cmake.org/files/v%{major_version}.%{minor_version}/%{orig_name}-%{version}%{?rcver:-%rcver}.tar.gz
+Source0:        http://www.cmake.org/files/v%{major_version}.%{minor_version}/%{orig_name}-%{version}%{?versuf}.tar.gz
 Source1:        %{name}-init.el
 Source2:        macros.%{name}
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
 Source3:        %{name}.attr
 Source4:        %{name}.prov
 
-# Fix FindGLUT lib deps
-# https://bugzilla.redhat.com/show_bug.cgi?id=1444563
-Patch0:         https://gitlab.kitware.com/cmake/cmake/merge_requests/765.patch
+# Always start regular patches with numbers >= 100.
+# We need lower numbers for patches in compat package.
+# And this enables us to use %%autosetup
+#
 # Patch to fix RindRuby vendor settings
 # http://public.kitware.com/Bug/view.php?id=12965
 # https://bugzilla.redhat.com/show_bug.cgi?id=822796
-Patch2:         %{name}-findruby.patch
+Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
-Patch3:         %{name}-fedora-flag_release.patch
+Patch101:         %{name}-fedora-flag_release.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
-Patch1000:      %{name}-rename.patch
+Patch1:      %{name}-rename.patch
 %if 0%{?rhel} && 0%{?rhel} <= 6
-Patch1001:      %{name}-libarchive3.patch
+Patch2:      %{name}-libarchive3.patch
 %endif
 %endif
 
@@ -113,6 +116,7 @@ BuildRequires: desktop-file-utils
 %endif
 
 Requires:       %{name}-data = %{version}-%{release}
+Requires:       %{name}-filesystem = %{version}-%{release}
 Requires:       rpm
 
 # Provide the major version name
@@ -137,9 +141,10 @@ generation, code generation, and template instantiation.
 %package        data
 Summary:        Common data-files for %{name}
 Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}-filesystem = %{version}-%{release}
 %if ! 0%{?_module_build}
 %if 0%{?fedora} || 0%{?rhel} >= 7
-Requires: emacs-filesystem >= %{_emacs_version}
+Requires:       emacs-filesystem >= %{_emacs_version}
 %endif
 %endif
 
@@ -157,6 +162,13 @@ BuildArch:      noarch
 This package contains documentation for %{name}.
 
 
+%package        filesystem
+Summary:        Directories used by CMake modules
+
+%description    filesystem
+This package owns all directories used by CMake modules.
+
+
 %package        gui
 Summary:        Qt GUI for %{name}
 
@@ -169,20 +181,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 
 %prep
-%setup -qn %{orig_name}-%{version}%{?rcver:-%rcver}
-
-# Apply renaming on EPEL before all other patches
-%if 0%{?name_suffix:1}
-%patch1000 -p1
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%patch1001 -p1
-%endif
-%endif
-
-# We cannot use backups with patches to Modules as they end up being installed
-%patch0 -p1
-%patch2 -p1
-%patch3 -p1
+%autosetup -n %{orig_name}-%{version}%{?versuf} -p 1
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
@@ -210,12 +209,12 @@ pushd build
              --docdir=/share/doc/%{name} --mandir=/share/man \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN`
 %endif
-make VERBOSE=1 %{?_smp_mflags}
+%make_build VERBOSE=1
 
 
 %install
 pushd build
-make install DESTDIR=%{buildroot} CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
+%make_install CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
 mkdir -p CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
 find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
 [ -n "$(find %{buildroot}/%{_datadir}/%{name}/Modules -name \*.orig)" ] &&
@@ -278,7 +277,7 @@ mv html %{buildroot}%{_pkgdocdir}
 # Desktop file
 desktop-file-install --delete-original \
   --dir=%{buildroot}%{_datadir}/applications \
-  %{buildroot}/%{_datadir}/applications/CMake%{?name_suffix}.desktop
+  %{buildroot}/%{_datadir}/applications/%{name}-gui.desktop
 
 %if %{with appdata}
 # Register as an application to be visible in the software center
@@ -319,6 +318,11 @@ SentUpstream: 2014-09-17
 EOF
 %endif
 %endif
+%endif
+
+# Create dir for filsystem-pkg, if not existing.
+%if "%{_libdir}" != "%{_prefix}/lib"
+mkdir -p %{buildroot}/%{_prefix}/lib/%{name}
 %endif
 
 
@@ -410,6 +414,16 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{?_licensedir:%license %{_datadir}/licenses/%{name}*}
 %doc %{_pkgdocdir}/
 
+
+%files filesystem
+%if "%{_libdir}" != "%{_prefix}/lib"
+%dir %{_prefix}/lib/%{name}/
+%endif
+%dir %{_libdir}/%{name}/
+%dir %{_datadir}/%{name}/
+%dir %{_datadir}/%{name}/Modules/
+
+
 %if ! 0%{?_module_build}
 %if %{with gui}
 %files gui
@@ -417,7 +431,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %if %{with appdata}
 %{_datadir}/appdata/*.appdata.xml
 %endif
-%{_datadir}/applications/CMake%{?name_suffix}.desktop
+%{_datadir}/applications/%{name}-gui.desktop
 %{_datadir}/mime/packages/
 %{_datadir}/icons/hicolor/*/apps/CMake%{?name_suffix}Setup.png
 %if 0%{?with_sphinx:1}
@@ -428,6 +442,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Jul 19 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-1
+- Update to 3.9.0 final (rhbz#1472503)
+- Add filesystem package (rhbz#1471153)
+
 * Thu Jun 01 2017 Björn Esser <besser82@fedoraproject.org> - 3.8.2-1
 - Update to 3.8.2 final (rhbz#1447473)
 
