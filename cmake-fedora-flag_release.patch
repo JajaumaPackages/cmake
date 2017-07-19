@@ -1,7 +1,7 @@
 diff -up cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake.orig cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake
 --- cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake.orig	2016-10-06 15:23:57.198332664 -0600
 +++ cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake	2016-10-06 15:24:28.062177278 -0600
-@@ -38,7 +38,7 @@ macro(__compiler_gnu lang)
+@@ -40,7 +40,7 @@ macro(__compiler_gnu lang)
    string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
    string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g")
    string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -Os -DNDEBUG")
