@@ -322,7 +322,7 @@ EOF
 
 # Create dir for filsystem-pkg, if not existing.
 %if "%{_libdir}" != "%{_prefix}/lib"
-mkdir -p %{buildroot}/%{_prefix}/lib/%{name}
+mkdir -p %{buildroot}/%{_prefix}/lib/%{orig_name}
 %endif
 
 
@@ -417,9 +417,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files filesystem
 %if "%{_libdir}" != "%{_prefix}/lib"
-%dir %{_prefix}/lib/%{name}/
+%dir %{_prefix}/lib/%{orig_name}/
 %endif
-%dir %{_libdir}/%{name}/
+%dir %{_libdir}/%{orig_name}/
 %dir %{_datadir}/%{name}/
 %dir %{_datadir}/%{name}/Modules/
 
