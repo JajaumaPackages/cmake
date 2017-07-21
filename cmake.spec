@@ -246,7 +246,7 @@ touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
 install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/%{name}.attr
 install -p -m0755 -D %{name}.prov %{buildroot}%{_prefix}/lib/rpm/%{name}.prov
 %endif
-mkdir -p %{buildroot}%{_libdir}/%{name}
+mkdir -p %{buildroot}%{_libdir}/%{orig_name}
 # Install copyright files for main package
 find Source Utilities -type f -iname copy\* | while read f
 do
@@ -385,7 +385,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man7/*.7.*
 %endif
 %endif
-%{_libdir}/%{name}/
+%{_libdir}/%{orig_name}/
 
 
 %files data
