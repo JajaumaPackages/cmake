@@ -1,6 +1,52 @@
-diff -up cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake.orig cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake
---- cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake.orig	2016-10-06 15:23:57.198332664 -0600
-+++ cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake	2016-10-06 15:24:28.062177278 -0600
+commit b247220ae5a91d8057fd57b5f6e50c93b168dc17
+Author: Björn Esser <besser82@fedoraproject.org>
+Date:   Mon Jul 24 01:52:06 2017 +0200
+
+    Set optimization for RELEASE to Fedora default
+
+diff --git a/Modules/Compiler/Absoft-Fortran.cmake b/Modules/Compiler/Absoft-Fortran.cmake
+index da1fc80d4..5339c17e1 100644
+--- a/Modules/Compiler/Absoft-Fortran.cmake
++++ b/Modules/Compiler/Absoft-Fortran.cmake
+@@ -1,7 +1,7 @@
+ string(APPEND CMAKE_Fortran_FLAGS_INIT " ")
+ string(APPEND CMAKE_Fortran_FLAGS_DEBUG_INIT " -g")
+ string(APPEND CMAKE_Fortran_FLAGS_MINSIZEREL_INIT " ")
+-string(APPEND CMAKE_Fortran_FLAGS_RELEASE_INIT " -O3")
++string(APPEND CMAKE_Fortran_FLAGS_RELEASE_INIT " -O2")
+ string(APPEND CMAKE_Fortran_FLAGS_RELWITHDEBINFO_INIT " -O2 -g")
+ set(CMAKE_Fortran_MODDIR_FLAG "-YMOD_OUT_DIR=")
+ set(CMAKE_Fortran_MODPATH_FLAG "-p")
+diff --git a/Modules/Compiler/G95-Fortran.cmake b/Modules/Compiler/G95-Fortran.cmake
+index 2c83fb8fc..55e0a83a6 100644
+--- a/Modules/Compiler/G95-Fortran.cmake
++++ b/Modules/Compiler/G95-Fortran.cmake
+@@ -1,7 +1,7 @@
+ string(APPEND CMAKE_Fortran_FLAGS_INIT " ")
+ string(APPEND CMAKE_Fortran_FLAGS_DEBUG_INIT " -g")
+ string(APPEND CMAKE_Fortran_FLAGS_MINSIZEREL_INIT " -Os")
+-string(APPEND CMAKE_Fortran_FLAGS_RELEASE_INIT " -O3")
++string(APPEND CMAKE_Fortran_FLAGS_RELEASE_INIT " -O2")
+ string(APPEND CMAKE_Fortran_FLAGS_RELWITHDEBINFO_INIT " -O2 -g")
+ set(CMAKE_Fortran_MODDIR_FLAG "-fmod=")
+ set(CMAKE_Fortran_VERBOSE_FLAG "-v")
+diff --git a/Modules/Compiler/GNU-Fortran.cmake b/Modules/Compiler/GNU-Fortran.cmake
+index 94dc2755a..31774d3c5 100644
+--- a/Modules/Compiler/GNU-Fortran.cmake
++++ b/Modules/Compiler/GNU-Fortran.cmake
+@@ -9,7 +9,7 @@ set(CMAKE_Fortran_FORMAT_FREE_FLAG "-ffree-form")
+ 
+ # No -DNDEBUG for Fortran.
+ string(APPEND CMAKE_Fortran_FLAGS_MINSIZEREL_INIT " -Os")
+-string(APPEND CMAKE_Fortran_FLAGS_RELEASE_INIT " -O3")
++string(APPEND CMAKE_Fortran_FLAGS_RELEASE_INIT " -O2")
+ 
+ # No -isystem for Fortran because it will not find .mod files.
+ unset(CMAKE_INCLUDE_SYSTEM_FLAG_Fortran)
+diff --git a/Modules/Compiler/GNU.cmake b/Modules/Compiler/GNU.cmake
+index 675e50534..235e8ddc6 100644
+--- a/Modules/Compiler/GNU.cmake
++++ b/Modules/Compiler/GNU.cmake
 @@ -40,7 +40,7 @@ macro(__compiler_gnu lang)
    string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
    string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g")
@@ -10,3 +56,80 @@ diff -up cmake-3.7.0-rc1/Modules/Compiler/GNU.cmake.orig cmake-3.7.0-rc1/Modules
    string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -O2 -g -DNDEBUG")
    set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
    set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
+diff --git a/Modules/Compiler/Intel.cmake b/Modules/Compiler/Intel.cmake
+index 635ac4d3c..3ae419e46 100644
+--- a/Modules/Compiler/Intel.cmake
++++ b/Modules/Compiler/Intel.cmake
+@@ -22,7 +22,7 @@ else()
+     string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
+     string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g")
+     string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -Os")
+-    string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -O3")
++    string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -O2")
+     string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -O2 -g")
+ 
+     set(CMAKE_${lang}_COMPILER_PREDEFINES_COMMAND "${CMAKE_${lang}_COMPILER}" "-QdM" "-P" "-Za" "${CMAKE_ROOT}/Modules/CMakeCXXCompilerABI.cpp")
+diff --git a/Modules/Compiler/NVIDIA-CUDA.cmake b/Modules/Compiler/NVIDIA-CUDA.cmake
+index 785e26998..8c098051f 100644
+--- a/Modules/Compiler/NVIDIA-CUDA.cmake
++++ b/Modules/Compiler/NVIDIA-CUDA.cmake
+@@ -9,7 +9,7 @@ if(NOT "x${CMAKE_CUDA_SIMULATE_ID}" STREQUAL "xMSVC")
+   set(CMAKE_SHARED_LIBRARY_CUDA_FLAGS -fPIC)
+   string(APPEND CMAKE_CUDA_FLAGS_INIT " ")
+   string(APPEND CMAKE_CUDA_FLAGS_DEBUG_INIT " -g")
+-  string(APPEND CMAKE_CUDA_FLAGS_RELEASE_INIT " -O3 -DNDEBUG")
++  string(APPEND CMAKE_CUDA_FLAGS_RELEASE_INIT " -O2 -DNDEBUG")
+   string(APPEND CMAKE_CUDA_FLAGS_MINSIZEREL_INIT " -O1 -DNDEBUG")
+   string(APPEND CMAKE_CUDA_FLAGS_RELWITHDEBINFO_INIT " -O2 -g -DNDEBUG")
+ endif()
+diff --git a/Modules/Compiler/PGI.cmake b/Modules/Compiler/PGI.cmake
+index 0cbfd8a0b..22a63103d 100644
+--- a/Modules/Compiler/PGI.cmake
++++ b/Modules/Compiler/PGI.cmake
+@@ -18,7 +18,7 @@ macro(__compiler_pgi lang)
+   string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
+   string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g -O0")
+   string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -O2 -s")
+-  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -fast -O3")
++  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -fast -O2")
+   # -Mipa was dropped with PGI 16.3 from Windows versions
+   if(NOT CMAKE_HOST_WIN32 OR CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 16.3)
+     string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -Mipa=fast")
+diff --git a/Modules/Compiler/PathScale.cmake b/Modules/Compiler/PathScale.cmake
+index d5f8cb12b..dd9bf1b92 100644
+--- a/Modules/Compiler/PathScale.cmake
++++ b/Modules/Compiler/PathScale.cmake
+@@ -16,6 +16,6 @@ macro(__compiler_pathscale lang)
+   string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
+   string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g -O0")
+   string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -Os")
+-  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -O3")
++  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -O2")
+   string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -g -O2")
+ endmacro()
+diff --git a/Modules/Platform/IRIX.cmake b/Modules/Platform/IRIX.cmake
+index 12b0f3774..1f300fb14 100644
+--- a/Modules/Platform/IRIX.cmake
++++ b/Modules/Platform/IRIX.cmake
+@@ -7,7 +7,7 @@ if(NOT CMAKE_COMPILER_IS_GNUCXX)
+       "<CMAKE_CXX_COMPILER> -ar -o <TARGET> <OBJECTS>")
+   set (CMAKE_CXX_FLAGS_INIT "")
+   set (CMAKE_CXX_FLAGS_DEBUG_INIT "-g")
+-  set (CMAKE_CXX_FLAGS_MINSIZEREL_INIT "-O3 -DNDEBUG")
++  set (CMAKE_CXX_FLAGS_MINSIZEREL_INIT "-O2 -DNDEBUG")
+   set (CMAKE_CXX_FLAGS_RELEASE_INIT "-O2 -DNDEBUG")
+   set (CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT "-O2")
+   set (CMAKE_C_FLAGS_INIT "")
+diff --git a/Modules/Platform/IRIX64.cmake b/Modules/Platform/IRIX64.cmake
+index ee9b96e89..82e5bdee9 100644
+--- a/Modules/Platform/IRIX64.cmake
++++ b/Modules/Platform/IRIX64.cmake
+@@ -37,7 +37,7 @@ if(NOT CMAKE_COMPILER_IS_GNUCC)
+   set(CMAKE_CXX_CREATE_STATIC_LIBRARY
+       "<CMAKE_CXX_COMPILER> -ar -o <TARGET> <OBJECTS>")
+   set (CMAKE_CXX_FLAGS_DEBUG_INIT "-g")
+-  set (CMAKE_CXX_FLAGS_MINSIZEREL_INIT "-O3 -DNDEBUG")
++  set (CMAKE_CXX_FLAGS_MINSIZEREL_INIT "-O2 -DNDEBUG")
+   set (CMAKE_CXX_FLAGS_RELEASE_INIT "-O2 -DNDEBUG")
+   set (CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT "-O2")
+ endif()

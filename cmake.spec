@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        1%{?relsuf}%{?dist}
+Release:        2%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -442,6 +442,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Jul 23 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-2
+- Update patch for Fedora RELASE-builds
+
 * Wed Jul 19 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-1
 - Update to 3.9.0 final (rhbz#1472503)
 - Add filesystem package (rhbz#1471153)
