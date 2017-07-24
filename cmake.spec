@@ -68,6 +68,8 @@ Source4:        %{name}.prov
 Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch101:         %{name}-fedora-flag_release.patch
+# fix warning from Sphinx
+Patch102:         %{name}-fix_sphinx_toctree.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -443,7 +445,8 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %changelog
 * Sun Jul 23 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-2
-- Update patch for Fedora RELASE-builds
+- Update patch for Fedora RELEASE-builds
+- Add patch to fix warnings from Sphinx
 
 * Wed Jul 19 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-1
 - Update to 3.9.0 final (rhbz#1472503)
