@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        4%{?relsuf}%{?dist}
+Release:        5%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -118,7 +118,7 @@ BuildRequires: desktop-file-utils
 %endif
 
 Requires:       %{name}-data = %{version}-%{release}
-Requires:       %{name}-filesystem = %{version}-%{release}
+Requires:       %{name}-filesystem%{?_isa} = %{version}-%{release}
 Requires:       rpm
 
 # Provide the major version name
@@ -215,21 +215,19 @@ pushd build
 
 
 %install
-pushd build
-%make_install CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
-mkdir -p CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
-find %{buildroot}/%{_datadir}/%{name}/Modules -type f | xargs chmod -x
-[ -n "$(find %{buildroot}/%{_datadir}/%{name}/Modules -name \*.orig)" ] &&
+mkdir -p %{buildroot}%{_pkgdocdir}
+%make_install -C build CMAKE_DOC_DIR=%{buildroot}%{_pkgdocdir}
+find %{buildroot}%{_datadir}/%{name}/Modules -type f | xargs chmod -x
+[ -n "$(find %{buildroot}%{_datadir}/%{name}/Modules -name \*.orig)" ] &&
   echo "Found .orig files in %{_datadir}/%{name}/Modules, rebase patches" &&
   exit 1
-popd
 # Install major_version name links
 %{!?name_suffix:for f in ccmake cmake cpack ctest; do ln -s $f %{buildroot}%{_bindir}/${f}%{major_version}; done}
 # Install bash completion symlinks
 mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
 for f in %{buildroot}%{_datadir}/%{name}/completions/*
 do
-  ln -s ../../%{name}/completions/$(basename $f) %{buildroot}%{_datadir}/bash-completion/completions/
+  ln -s ../../%{name}/completions/$(basename $f) %{buildroot}%{_datadir}/bash-completion/completions
 done
 %if ! 0%{?_module_build}
 # Install emacs cmake mode
@@ -237,7 +235,7 @@ mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
 install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
 %{_emacs_bytecompile} %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
 mkdir -p %{buildroot}%{_emacs_sitestartdir}
-install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}/
+install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}
 %endif
 # RPM macros
 install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
@@ -279,7 +277,7 @@ mv html %{buildroot}%{_pkgdocdir}
 # Desktop file
 desktop-file-install --delete-original \
   --dir=%{buildroot}%{_datadir}/applications \
-  %{buildroot}/%{_datadir}/applications/%{name}-gui.desktop
+  %{buildroot}%{_datadir}/applications/%{name}-gui.desktop
 
 %if %{with appdata}
 # Register as an application to be visible in the software center
@@ -322,10 +320,17 @@ EOF
 %endif
 %endif
 
-# Create dir for filsystem-pkg, if not existing.
-%if "%{_libdir}" != "%{_prefix}/lib"
-mkdir -p %{buildroot}/%{_prefix}/lib/%{orig_name}
-%endif
+# create manifests for splitting files and directories for filesystem-package
+find %{buildroot}%{_datadir}/%{name} -type d | \
+  sed -e 's!^%{buildroot}!%%dir "!g' -e 's!$!"!g' > data_dirs.mf
+find %{buildroot}%{_datadir}/%{name} -type f | \
+  sed -e 's!^%{buildroot}!"!g' -e 's!$!"!g' > data_files.mf
+find %{buildroot}%{_libdir}/%{orig_name} -type d | \
+  sed -e 's!^%{buildroot}!%%dir "!g' -e 's!$!"!g' > lib_dirs.mf
+find %{buildroot}%{_libdir}/%{orig_name} -type f | \
+  sed -e 's!^%{buildroot}!"!g' -e 's!$!"!g' > lib_files.mf
+find %{buildroot}%{_bindir} -type f -or -type l -or -xtype l | \
+  sed -e 's!^%{buildroot}!"!g' -e 's!$!"!g' >> lib_files.mf
 
 
 %if ! 0%{?_module_build}
@@ -370,20 +375,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 
-%files
+%files -f lib_files.mf
 %doc %dir %{_pkgdocdir}
 %license Copyright.txt*
 %license COPYING*
-%if ! 0%{?_module_build}
-%{_bindir}/c%{name}
-%endif
-%{!?name_suffix:%{_bindir}/c%{name}%{major_version}}
-%{_bindir}/%{name}
-%{!?name_suffix:%{_bindir}/%{name}%{major_version}}
-%{_bindir}/cpack%{?name_suffix}
-%{!?name_suffix:%{_bindir}/cpack%{major_version}}
-%{_bindir}/ctest%{?name_suffix}
-%{!?name_suffix:%{_bindir}/ctest%{major_version}}
 %if ! 0%{?_module_build}
 %if 0%{?with_sphinx:1}
 %{_mandir}/man1/c%{name}.1.*
@@ -393,13 +388,11 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man7/*.7.*
 %endif
 %endif
-%{_libdir}/%{orig_name}/
 
 
-%files data
+%files data -f data_files.mf
 %{_datadir}/aclocal/%{name}.m4
-%{_datadir}/bash-completion/
-%{_datadir}/%{name}/
+%{_datadir}/bash-completion
 %if ! 0%{?_module_build}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 %{_emacs_sitelispdir}/%{name}
@@ -420,16 +413,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 # Pickup license-files from main-pkg's license-dir
 # If there's no license-dir they are picked up by %%doc previously
 %{?_licensedir:%license %{_datadir}/licenses/%{name}*}
-%doc %{_pkgdocdir}/
+%doc %{_pkgdocdir}
 
 
-%files filesystem
-%if "%{_libdir}" != "%{_prefix}/lib"
-%dir %{_prefix}/lib/%{orig_name}/
-%endif
-%dir %{_libdir}/%{orig_name}/
-%dir %{_datadir}/%{name}/
-%dir %{_datadir}/%{name}/Modules/
+%files filesystem -f data_dirs.mf -f lib_dirs.mf
 
 
 %if ! 0%{?_module_build}
@@ -440,7 +427,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_datadir}/appdata/*.appdata.xml
 %endif
 %{_datadir}/applications/%{name}-gui.desktop
-%{_datadir}/mime/packages/
+%{_datadir}/mime/packages
 %{_datadir}/icons/hicolor/*/apps/CMake%{?name_suffix}Setup.png
 %if 0%{?with_sphinx:1}
 %{_mandir}/man1/%{name}-gui.1.*
@@ -450,6 +437,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Jul 30 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-5
+- Optimizations for filesystem-package
+
 * Fri Jul 28 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-4
 - Temporarily disable RunCMake.CPack_RPM, because it fails for the new
   way RPM handles debug-stuff
@@ -1084,7 +1074,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 - Update to 2.8.1 final
 
 * Tue Mar 23 2010 Kevin Kofler <Kevin@tigcc.ticalc.org> - 2.8.1-0.3.rc5
-- Own /usr/lib(64)/cmake/
+- Own /usr/lib(64)/cmake
 
 * Fri Mar 12 2010 Orion Poplawski <orion@cora.nwra.com> - 2.8.1-0.2.rc5
 - Update to 2.8.1 RC 5
