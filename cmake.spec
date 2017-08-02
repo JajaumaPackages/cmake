@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        5%{?relsuf}%{?dist}
+Release:        6%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -330,7 +330,7 @@ find %{buildroot}%{_libdir}/%{orig_name} -type d | \
 find %{buildroot}%{_libdir}/%{orig_name} -type f | \
   sed -e 's!^%{buildroot}!"!g' -e 's!$!"!g' > lib_files.mf
 find %{buildroot}%{_bindir} -type f -or -type l -or -xtype l | \
-  sed -e 's!^%{buildroot}!"!g' -e 's!$!"!g' >> lib_files.mf
+  sed -e '/.*-gui$/d' -e '/^$/d' -e 's!^%{buildroot}!"!g' -e 's!$!"!g' >> lib_files.mf
 
 
 %if ! 0%{?_module_build}
@@ -437,6 +437,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Aug 02 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-6
+- Fix cmake-gui being picked up by main package
+
 * Sun Jul 30 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-5
 - Optimizations for filesystem-package
 
