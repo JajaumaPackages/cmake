@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        6%{?relsuf}%{?dist}
+Release:        7%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -57,6 +57,7 @@ Source2:        macros.%{name}
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1202899
 Source3:        %{name}.attr
 Source4:        %{name}.prov
+Source5:        %{name}.req
 
 # Always start regular patches with numbers >= 100.
 # We need lower numbers for patches in compat package.
@@ -187,10 +188,13 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
+echo '#!%{__python3}' > %{name}.req
 %else
 echo '#!%{__python2}' > %{name}.prov
+echo '#!%{__python2}' > %{name}.req
 %endif
 tail -n +2 %{SOURCE4} >> %{name}.prov
+tail -n +2 %{SOURCE5} >> %{name}.req
 
 
 %build
@@ -245,6 +249,7 @@ touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
 # RPM auto provides
 install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/%{name}.attr
 install -p -m0755 -D %{name}.prov %{buildroot}%{_prefix}/lib/rpm/%{name}.prov
+install -p -m0755 -D %{name}.req %{buildroot}%{_prefix}/lib/rpm/%{name}.req
 %endif
 mkdir -p %{buildroot}%{_libdir}/%{orig_name}
 # Install copyright files for main package
@@ -406,6 +411,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %if 0%{?_rpmconfigdir:1}
 %{_rpmconfigdir}/fileattrs/%{name}.attr
 %{_rpmconfigdir}/%{name}.prov
+%{_rpmconfigdir}/%{name}.req
 %endif
 
 
@@ -437,6 +443,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Aug 02 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-7
+- Add cmake.req to autogenerate proper depency on cmake-filesystem
+
 * Wed Aug 02 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-6
 - Fix cmake-gui being picked up by main package
 
