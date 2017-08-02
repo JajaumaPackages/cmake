@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        7%{?relsuf}%{?dist}
+Release:        8%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -443,6 +443,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Aug 02 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-8
+- Fix cmake.attr and cmake.req to work properly
+
 * Wed Aug 02 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-7
 - Add cmake.req to autogenerate proper depency on cmake-filesystem
 

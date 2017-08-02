@@ -26,7 +26,6 @@
 
 import sys
 import re
-import glob
 import subprocess
 
 class CMakeParser:
@@ -44,7 +43,7 @@ class CMakeParser:
             modulePath, cmakeModule, lowercase = self.parseCmakeModuleConfig(path)
             if modulePath and cmakeModule:
                 has_module = True
-                if re.match("/usr/lib.*", path):
+                if re.match(".*/usr/lib(64)?/cmake/.*", modulePath):
                     is_arched = True
 
         if has_module:
