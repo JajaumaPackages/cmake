@@ -16,7 +16,7 @@
 %endif
 
 # Sphinx-build cannot import CMakeLexer on EPEL <= 6
-%if 0%{?fedora} || 0%{?rhel} >= 7
+%if 0%{?fedora} || 0%{?rhel} > 7
 %bcond_without sphinx
 %else
 %bcond_with sphinx
@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.0
-Release:        9%{?relsuf}%{?dist}
+Release:        10%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -447,6 +447,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Aug 06 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.0-10
+- Skip sphinx on RHEL7
+
 * Thu Aug 03 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-9
 - RunCMake.File_Generate fails on S390X, skip it temporarily
 
