@@ -40,8 +40,8 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.0
-Release:        9%{?relsuf}%{?dist}
+Version:        %{major_version}.%{minor_version}.1
+Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -69,8 +69,6 @@ Source5:        %{name}.req
 Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch101:         %{name}-fedora-flag_release.patch
-# fix warning from Sphinx
-Patch102:         %{name}-fix_sphinx_toctree.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -447,6 +445,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Aug 12 2017 Pete Walter <pwalter@fedoraproject.org> - 3.9.1-1
+- Update to 3.9.1
+
 * Thu Aug 03 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-9
 - RunCMake.File_Generate fails on S390X, skip it temporarily
 
