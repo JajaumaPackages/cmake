@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        1%{?relsuf}%{?dist}
+Release:        2%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -69,6 +69,9 @@ Source5:        %{name}.req
 Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch101:         %{name}-fedora-flag_release.patch
+# restore old style debuginfo creation for rpm >= 4.14 in CPackRPM
+# https://gitlab.kitware.com/cmake/cmake/merge_requests/1099
+Patch102:         https://gitlab.kitware.com/cmake/cmake/merge_requests/1099.patch#/%{name}-CPackRPM_rpm_4_14_old_debuginfo.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -344,10 +347,6 @@ mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
 pushd build
 #CMake.FileDownload, and CTestTestUpload require internet access
 NO_TEST="CMake.FileDownload|CTestTestUpload"
-# RunCMake.CPack_RPM fails for the new way RPM handles debug-stuff
-%if 0%{?fedora} >= 27
-NO_TEST="$NO_TEST|RunCMake.CPack_RPM"
-%endif
 # RunCMake.File_Generate fails on S390X
 %ifarch s390x
 NO_TEST="$NO_TEST|RunCMake.File_Generate"
@@ -445,6 +444,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Aug 13 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.1-2
+- Add patch to restore old style debuginfo creation for rpm >= 4.14
+  in CPackRPM
+
 * Sat Aug 12 2017 Pete Walter <pwalter@fedoraproject.org> - 3.9.1-1
 - Update to 3.9.1
 

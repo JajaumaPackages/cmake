@@ -1,0 +1,42 @@
+From 0d1e152ef9c622b1f6203822b1c88cc3c48857ac Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Esser?= <besser82@fedoraproject.org>
+Date: Mon, 31 Jul 2017 16:10:34 +0200
+Subject: [PATCH] Restore old style debuginfo creation for rpm >= 4.14
+
+---
+ Modules/CPackRPM.cmake | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/Modules/CPackRPM.cmake b/Modules/CPackRPM.cmake
+index fa2a6e409..391349494 100644
+--- a/Modules/CPackRPM.cmake
++++ b/Modules/CPackRPM.cmake
+@@ -2422,7 +2422,11 @@ mv *.rpm %_rpmdir"
+     set(RPMBUILD_FLAGS "-bs")
+ 
+      file(WRITE ${CPACK_RPM_BINARY_SPECFILE}.in
+-      "# -*- rpm-spec -*-
++      "# Restore old style debuginfo creation for rpm >= 4.14.
++%undefine _debugsource_packages
++%undefine _debuginfo_subpackages
++
++# -*- rpm-spec -*-
+ BuildRoot:      %_topdir/\@CPACK_PACKAGE_FILE_NAME\@
+ Summary:        \@CPACK_RPM_PACKAGE_SUMMARY\@
+ Name:           \@CPACK_RPM_PACKAGE_NAME\@
+@@ -2527,7 +2531,11 @@ Vendor:         \@CPACK_RPM_PACKAGE_VENDOR\@
+     if(CPACK_RPM_GENERATE_USER_BINARY_SPECFILE_TEMPLATE OR NOT CPACK_RPM_USER_BINARY_SPECFILE)
+ 
+       file(WRITE ${CPACK_RPM_BINARY_SPECFILE}.in
+-        "# -*- rpm-spec -*-
++        "# Restore old style debuginfo creation for rpm >= 4.14.
++%undefine _debugsource_packages
++%undefine _debuginfo_subpackages
++
++# -*- rpm-spec -*-
+ BuildRoot:      %_topdir/\@CPACK_PACKAGE_FILE_NAME\@\@CPACK_RPM_PACKAGE_COMPONENT_PART_PATH\@
+ Summary:        \@CPACK_RPM_PACKAGE_SUMMARY\@
+ Name:           \@CPACK_RPM_PACKAGE_NAME\@
+-- 
+2.13.4
+
