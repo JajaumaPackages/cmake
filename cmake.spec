@@ -1,5 +1,5 @@
 # Set to bcond_with or use --without gui to disable qt4 gui build
-%bcond_without gui
+%bcond_with gui
 
 # Setting the Python-version used by default
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        2%{?relsuf}%{?dist}
+Release:        3%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -444,6 +444,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Sep 01 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.1-3
+- Bootstrapping for jsoncpp-1.8.3
+
 * Sun Aug 13 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.1-2
 - Add patch to restore old style debuginfo creation for rpm >= 4.14
   in CPackRPM
