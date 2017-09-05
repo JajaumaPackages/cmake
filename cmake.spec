@@ -1,26 +1,45 @@
+# Do we add appdata-files?
+%if 0%{?fedora} || 0%{?rhel} > 7
+%bcond_without cmake_enables_appdata
+%else
+%bcond_with cmake_enables_appdata
+%endif
+
+# Set to bcond_without or use --with bootstrap if bootstrapping a new release
+# or architecture
+%bcond_with bootstrap
+
+# Build with Emacs support
+%bcond_without cmake_enables_emacs
+
 # Set to bcond_with or use --without gui to disable qt4 gui build
-%bcond_without gui
+%bcond_without cmake_enables_gui
+
+# Use ncurses for colorful output
+%bcond_without cmake_enables_ncurses
 
 # Setting the Python-version used by default
 %if 0%{?rhel} && 0%{?rhel} < 8
-%bcond_with python3
+%bcond_with cmake_enables_python3
 %else
-%bcond_without python3
+%bcond_without cmake_enables_python3
 %endif
 
-# Do we add appdata-files?
-%if 0%{?fedora} || 0%{?rhel} > 7
-%bcond_without appdata
-%else
-%bcond_with appdata
-%endif
+# Enable RPM dependency generators for cmake files written in Python
+%bcond_without cmake_enables_rpm
 
 # Sphinx-build cannot import CMakeLexer on EPEL <= 6
 %if 0%{?fedora} || 0%{?rhel} >= 7
-%bcond_without sphinx
+%bcond_without cmake_enables_sphinx
 %else
-%bcond_with sphinx
+%bcond_with cmake_enables_sphinx
 %endif
+
+# Run tests
+%bcond_without cmake_enables_test
+
+# Enable X11 tests
+%bcond_without cmake_enables_X11_test
 
 # Place rpm-macros into proper location
 %global rpm_macros_dir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
@@ -86,15 +105,22 @@ BuildRequires:  findutils
 BuildRequires:  gcc-c++
 BuildRequires:  gcc-gfortran
 BuildRequires:  sed
-%if ! 0%{?_module_build}
-BuildRequires:  ncurses-devel, libX11-devel
+%if %{with cmake_enables_X11_test}
+BuildRequires:  libX11-devel
+%endif
+%if %{with cmake_enables_ncurses}
+BuildRequires:  ncurses-devel
+%endif
+%if %{without bootstrap}
 BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
 %if 0%{?fedora} || 0%{?rhel} >= 7
 BuildRequires:  libarchive-devel
+%if %{with cmake_enables_sphinx}
 BuildRequires:  /usr/bin/sphinx-build
+%endif
 %else
 BuildRequires:  libarchive3-devel
 %endif
@@ -102,25 +128,26 @@ BuildRequires:  libuv-devel
 BuildRequires:  rhash-devel
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
+%endif
+%if %{with cmake_enables_emacs}
 BuildRequires:  emacs
 %endif
-%if ! 0%{?_module_build}
-%if %{with python3}
+%if %{with cmake_enables_rpm}
+%if %{with cmake_enables_python3}
 %{!?python3_pkgversion: %global python3_pkgversion 3}
 BuildRequires:  python%{python3_pkgversion}-devel
 %else
 BuildRequires:  python2-devel
 %endif
+%endif
 #BuildRequires: xmlrpc-c-devel
-%if %{with gui}
+%if %{with cmake_enables_gui}
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires: pkgconfig(Qt5)
 %else
 BuildRequires: qt-devel
 %endif
 BuildRequires: desktop-file-utils
-%global qt_gui --qt-gui
-%endif
 %endif
 
 Requires:       %{name}-data = %{version}-%{release}
@@ -150,7 +177,7 @@ generation, code generation, and template instantiation.
 Summary:        Common data-files for %{name}
 Requires:       %{name} = %{version}-%{release}
 Requires:       %{name}-filesystem = %{version}-%{release}
-%if ! 0%{?_module_build}
+%if %{with cmake_enables_emacs}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 Requires:       emacs-filesystem >= %{_emacs_version}
 %endif
@@ -177,6 +204,7 @@ Summary:        Directories used by CMake modules
 This package owns all directories used by CMake modules.
 
 
+%if %{with cmake_enables_gui}
 %package        gui
 Summary:        Qt GUI for %{name}
 
@@ -186,12 +214,14 @@ Requires:       shared-mime-info%{?_isa}
 
 %description    gui
 The %{name}-gui package contains the Qt based GUI for %{name}.
+%endif
 
 
 %prep
 %autosetup -n %{orig_name}-%{version}%{?versuf} -p 1
 
-%if %{with python3}
+%if %{with cmake_enables_rpm}
+%if %{with cmake_enables_python3}
 echo '#!%{__python3}' > %{name}.prov
 echo '#!%{__python3}' > %{name}.req
 %else
@@ -200,6 +230,7 @@ echo '#!%{__python2}' > %{name}.req
 %endif
 tail -n +2 %{SOURCE4} >> %{name}.prov
 tail -n +2 %{SOURCE5} >> %{name}.req
+%endif
 
 
 %build
@@ -208,18 +239,17 @@ export CXXFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 mkdir build
 pushd build
-%if ! 0%{?_module_build}
 ../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
              --docdir=/share/doc/%{name} --mandir=/share/man \
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
-             %{?with_sphinx:--sphinx-man --sphinx-html} \
-             %{?qt_gui};
+%if %{with cmake_enables_sphinx}
+             --sphinx-man --sphinx-html \
 %else
-../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
-             --docdir=/share/doc/%{name} --mandir=/share/man \
-             --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN`
+             --sphinx-build=%{_bindir}false \
 %endif
+             --%{!?with_cmake_enables_gui:no-}qt-gui \
+;
 %make_build VERBOSE=1
 
 
@@ -238,7 +268,7 @@ for f in %{buildroot}%{_datadir}/%{name}/completions/*
 do
   ln -s ../../%{name}/completions/$(basename $f) %{buildroot}%{_datadir}/bash-completion/completions
 done
-%if ! 0%{?_module_build}
+%if %{with cmake_enables_emacs}
 # Install emacs cmake mode
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
 install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
@@ -250,7 +280,7 @@ install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}
 install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" -e "s|@@CMAKE_MAJOR_VERSION@@|%{major_version}|" %{buildroot}%{rpm_macros_dir}/macros.%{name}
 touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
-%if 0%{?_rpmconfigdir:1}
+%if %{with cmake_enables_rpm} && 0%{?_rpmconfigdir:1}
 # RPM auto provides
 install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/%{name}.attr
 install -p -m0755 -D %{name}.prov %{buildroot}%{_prefix}/lib/rpm/%{name}.prov
@@ -266,30 +296,25 @@ do
   cp -p $f ./${fname}_${dname}
 done
 # Cleanup pre-installed documentation
-%if ! 0%{?_module_build}
-%if 0%{?with_sphinx:1}
+%if %{with cmake_enables_sphinx}
 mv %{buildroot}%{_docdir}/%{name}/html .
-%endif
 %endif
 rm -rf %{buildroot}%{_docdir}/%{name}
 # Install documentation to _pkgdocdir
 mkdir -p %{buildroot}%{_pkgdocdir}
 cp -pr %{buildroot}%{_datadir}/%{name}/Help %{buildroot}%{_pkgdocdir}
 mv %{buildroot}%{_pkgdocdir}/Help %{buildroot}%{_pkgdocdir}/rst
-%if ! 0%{?_module_build}
-%if 0%{?with_sphinx:1}
+%if %{with cmake_enables_sphinx}
 mv html %{buildroot}%{_pkgdocdir}
 %endif
-%endif
 
-%if ! 0%{?_module_build}
-%if %{with gui}
+%if %{with cmake_enables_gui}
 # Desktop file
 desktop-file-install --delete-original \
   --dir=%{buildroot}%{_datadir}/applications \
   %{buildroot}%{_datadir}/applications/%{name}-gui.desktop
 
-%if %{with appdata}
+%if %{with cmake_enables_appdata}
 # Register as an application to be visible in the software center
 #
 # NOTE: It would be *awesome* if this file was maintained by the upstream
@@ -328,7 +353,6 @@ SentUpstream: 2014-09-17
 EOF
 %endif
 %endif
-%endif
 
 # create manifests for splitting files and directories for filesystem-package
 find %{buildroot}%{_datadir}/%{name} -type d | \
@@ -343,7 +367,7 @@ find %{buildroot}%{_bindir} -type f -or -type l -or -xtype l | \
   sed -e '/.*-gui$/d' -e '/^$/d' -e 's!^%{buildroot}!"!g' -e 's!$!"!g' >> lib_files.mf
 
 
-%if ! 0%{?_module_build}
+%if %{with cmake_enables_test}
 %check
 %if 0%{?rhel} && 0%{?rhel} <= 6
 mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
@@ -364,7 +388,7 @@ mv -f Modules/FindLibArchive.disabled Modules/FindLibArchive.cmake
 %endif
 
 
-%if %{with gui}
+%if %{with cmake_enables_gui}
 %post gui
 update-desktop-database &> /dev/null || :
 /bin/touch --no-create %{_datadir}/mime || :
@@ -389,21 +413,19 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %doc %dir %{_pkgdocdir}
 %license Copyright.txt*
 %license COPYING*
-%if ! 0%{?_module_build}
-%if 0%{?with_sphinx:1}
+%if %{with cmake_enables_sphinx}
 %{_mandir}/man1/c%{name}.1.*
 %{_mandir}/man1/%{name}.1.*
 %{_mandir}/man1/cpack%{?name_suffix}.1.*
 %{_mandir}/man1/ctest%{?name_suffix}.1.*
 %{_mandir}/man7/*.7.*
 %endif
-%endif
 
 
 %files data -f data_files.mf
 %{_datadir}/aclocal/%{name}.m4
 %{_datadir}/bash-completion
-%if ! 0%{?_module_build}
+%if %{with cmake_enables_emacs}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 %{_emacs_sitelispdir}/%{name}
 %{_emacs_sitestartdir}/%{name}-init.el
@@ -413,7 +435,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 %endif
 %{rpm_macros_dir}/macros.%{name}
-%if 0%{?_rpmconfigdir:1}
+%if %{with cmake_enables_rpm} && 0%{?_rpmconfigdir:1}
 %{_rpmconfigdir}/fileattrs/%{name}.attr
 %{_rpmconfigdir}/%{name}.prov
 %{_rpmconfigdir}/%{name}.req
@@ -430,19 +452,17 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %files filesystem -f data_dirs.mf -f lib_dirs.mf
 
 
-%if ! 0%{?_module_build}
-%if %{with gui}
+%if %{with cmake_enables_gui}
 %files gui
 %{_bindir}/%{name}-gui
-%if %{with appdata}
+%if %{with cmake_enables_appdata}
 %{_datadir}/appdata/*.appdata.xml
 %endif
 %{_datadir}/applications/%{name}-gui.desktop
 %{_datadir}/mime/packages
 %{_datadir}/icons/hicolor/*/apps/CMake%{?name_suffix}Setup.png
-%if 0%{?with_sphinx:1}
+%if %{with cmake_enables_sphinx}
 %{_mandir}/man1/%{name}-gui.1.*
-%endif
 %endif
 %endif
 
