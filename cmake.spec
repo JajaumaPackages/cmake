@@ -81,7 +81,11 @@ Patch2:      %{name}-libarchive3.patch
 %endif
 %endif
 
+BuildRequires:  coreutils
+BuildRequires:  findutils
+BuildRequires:  gcc-c++
 BuildRequires:  gcc-gfortran
+BuildRequires:  sed
 %if ! 0%{?_module_build}
 BuildRequires:  ncurses-devel, libX11-devel
 BuildRequires:  bzip2-devel
