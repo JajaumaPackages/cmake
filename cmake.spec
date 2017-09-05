@@ -30,13 +30,13 @@
 
 %global major_version 3
 %global minor_version 9
-# Set to RC version if building RC, else %{nil}
+# Set to RC version if building RC, else %%{nil}
 #global rcsuf rc3
 %{?rcsuf:%global relsuf .%{rcsuf}}
 %{?rcsuf:%global versuf -%{rcsuf}}
 
 # Uncomment if building for EPEL
-#global name_suffix %{major_version}
+#global name_suffix %%{major_version}
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
