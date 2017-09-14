@@ -40,7 +40,7 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.1
+Version:        %{major_version}.%{minor_version}.2
 Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
@@ -445,6 +445,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Sep 14 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.2-1
+- Update to latest upstream release
+
 * Sun Aug 13 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.1-1
 - Update to latest upstream release
 - Drop cmake-fix_sphinx_toctree.patch
