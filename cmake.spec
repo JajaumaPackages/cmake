@@ -59,8 +59,8 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.1
-Release:        4%{?relsuf}%{?dist}
+Version:        %{major_version}.%{minor_version}.3
+Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -468,6 +468,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Sep 21 2017 Pete Walter <pwalter@fedoraproject.org> - 3.9.3-1
+- Update to 3.9.3
+
 * Fri Sep 01 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.1-4
 - Rebuilt for jsoncpp-1.8.3
 
