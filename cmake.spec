@@ -40,7 +40,7 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.2
+Version:        %{major_version}.%{minor_version}.3
 Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
@@ -445,6 +445,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Sep 26 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.3-1
+- Update to latest upstream release
+
 * Thu Sep 14 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.2-1
 - Update to latest upstream release
 
