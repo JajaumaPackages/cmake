@@ -12,6 +12,9 @@
 # Build with Emacs support
 %bcond_without cmake_enables_emacs
 
+# Run git tests
+%bcond_without cmake_enables_git_test
+
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without cmake_enables_gui
 
@@ -105,6 +108,12 @@ BuildRequires:  findutils
 BuildRequires:  gcc-c++
 BuildRequires:  gcc-gfortran
 BuildRequires:  sed
+%if %{with cmake_enables_git_test}
+# Tests fail if only git-core is installed, bug #1488830
+BuildRequires:  git
+%else
+BuildConflicts: git-core
+%endif
 %if %{with cmake_enables_X11_test}
 BuildRequires:  libX11-devel
 %endif
