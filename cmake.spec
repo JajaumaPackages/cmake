@@ -122,6 +122,8 @@ BuildRequires:  ncurses-devel
 %endif
 %if %{without bootstrap}
 BuildRequires:  bzip2-devel
+# for generating cmake() Provides, bug #1498894
+BuildRequires:  cmake-data
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
