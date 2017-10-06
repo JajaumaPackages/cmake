@@ -398,7 +398,8 @@ mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
 %endif
 pushd build
 #CMake.FileDownload, CTestTestUpload, and curl require internet access
-NO_TEST="CMake.FileDownload|CTestTestUpload|curl"
+# RunCMake.CPack_RPM is broken if disttag contains "+", bug #1499151
+NO_TEST="CMake.FileDownload|CTestTestUpload|curl|RunCMake.CPack_RPM"
 # RunCMake.File_Generate fails on S390X
 %ifarch s390x
 NO_TEST="$NO_TEST|RunCMake.File_Generate"
