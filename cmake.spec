@@ -397,8 +397,8 @@ find %{buildroot}%{_bindir} -type f -or -type l -or -xtype l | \
 mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
 %endif
 pushd build
-#CMake.FileDownload, and CTestTestUpload require internet access
-NO_TEST="CMake.FileDownload|CTestTestUpload"
+#CMake.FileDownload, CTestTestUpload, and curl require internet access
+NO_TEST="CMake.FileDownload|CTestTestUpload|curl"
 # RunCMake.File_Generate fails on S390X
 %ifarch s390x
 NO_TEST="$NO_TEST|RunCMake.File_Generate"
