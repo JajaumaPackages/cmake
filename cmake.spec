@@ -201,7 +201,7 @@ Requires:       %{name}-filesystem = %{version}-%{release}
 %endif
 %if %{with cmake_enables_emacs}
 %if 0%{?fedora} || 0%{?rhel} >= 7
-Requires:       emacs-filesystem >= %{_emacs_version}
+Requires:       emacs-filesystem%{?_emacs_version: >= %{_emacs_version}}
 %endif
 %endif
 
