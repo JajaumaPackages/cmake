@@ -65,7 +65,7 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.5
+Version:        %{major_version}.%{minor_version}.6
 Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
@@ -495,6 +495,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Nov 10 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.9.6-1
+- Update to 3.9.6
+
 * Wed Nov 08 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.9.5-1
 - Update to 3.9.5 (#1498688)
 
