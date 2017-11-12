@@ -41,7 +41,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.6
-Release:        1%{?relsuf}%{?dist}
+Release:        2%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -445,6 +445,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Nov 12 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.6-2
+- Force rebuild
+
 * Fri Nov 10 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.6-1
 - Update to latest upstream release
 
