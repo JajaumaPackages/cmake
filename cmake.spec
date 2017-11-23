@@ -54,7 +54,7 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 %global major_version 3
-%global minor_version 9
+%global minor_version 10
 # Set to RC version if building RC, else %%{nil}
 #global rcsuf rc3
 %{?rcsuf:%global relsuf .%{rcsuf}}
@@ -65,7 +65,7 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.6
+Version:        %{major_version}.%{minor_version}.0
 Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
@@ -94,9 +94,6 @@ Source5:        %{name}.req
 Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch101:         %{name}-fedora-flag_release.patch
-# restore old style debuginfo creation for rpm >= 4.14 in CPackRPM
-# https://gitlab.kitware.com/cmake/cmake/merge_requests/1099
-Patch102:         https://gitlab.kitware.com/cmake/cmake/merge_requests/1099.patch#/%{name}-CPackRPM_rpm_4_14_old_debuginfo.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -495,6 +492,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Nov 23 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.0-1
+- Update to 3.10.0 (#1515793)
+
 * Fri Nov 10 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.9.6-1
 - Update to 3.9.6
 
