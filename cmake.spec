@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        2%{?relsuf}%{?dist}
+Release:        3%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -158,6 +158,9 @@ BuildRequires: qt-devel
 %endif
 BuildRequires: desktop-file-utils
 %endif
+
+# Ensure we have our own rpm-macros in place during build.
+BuildRequires:  %{name}-rpm-macros
 
 Requires:       %{name}-data = %{version}-%{release}
 
@@ -498,6 +501,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-3
+- Ensure we have our own rpm-macros in place during build
+
 * Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-2
 - Move rpm macros to own subpackage (#1498894)
 
