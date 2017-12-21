@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        3%{?relsuf}%{?dist}
+Release:        4%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -163,6 +163,13 @@ BuildRequires: desktop-file-utils
 BuildRequires:  %{name}-rpm-macros
 
 Requires:       %{name}-data = %{version}-%{release}
+Requires:       %{name}-rpm-macros = %{version}-%{release}
+
+%if %{with cmake_enables_foreign_filesystem}
+Requires:       %{name}-filesystem%{?_isa}
+%else
+Requires:       %{name}-filesystem%{?_isa} = %{version}-%{release}
+%endif
 
 # Provide the major version name
 Provides: %{orig_name}%{major_version} = %{version}-%{release}
@@ -501,6 +508,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-4
+- Re-add arched requires on filesystem sub-package
+
 * Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-3
 - Ensure we have our own rpm-macros in place during build
 
