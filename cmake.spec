@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        1%{?relsuf}%{?dist}
+Release:        2%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -122,8 +122,6 @@ BuildRequires:  ncurses-devel
 %endif
 %if %{without bootstrap}
 BuildRequires:  bzip2-devel
-# for generating cmake() Provides, bug #1498894
-BuildRequires:  cmake-data
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
@@ -162,12 +160,6 @@ BuildRequires: desktop-file-utils
 %endif
 
 Requires:       %{name}-data = %{version}-%{release}
-%if %{with cmake_enables_foreign_filesystem}
-Requires:       %{name}-filesystem%{?_isa}
-%else
-Requires:       %{name}-filesystem%{?_isa} = %{version}-%{release}
-%endif
-Requires:       rpm
 
 # Provide the major version name
 Provides: %{orig_name}%{major_version} = %{version}-%{release}
@@ -196,6 +188,7 @@ Requires:       %{name}-filesystem
 %else
 Requires:       %{name}-filesystem = %{version}-%{release}
 %endif
+Requires:       %{name}-rpm-macros = %{version}-%{release}
 %if %{with cmake_enables_emacs}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 Requires:       emacs-filesystem%{?_emacs_version: >= %{_emacs_version}}
@@ -236,6 +229,16 @@ Requires:       shared-mime-info%{?_isa}
 %description    gui
 The %{name}-gui package contains the Qt based GUI for %{name}.
 %endif
+
+
+%package        rpm-macros
+Summary:        Common RPM macros for %{name}
+Requires:       rpm
+
+BuildArch:      noarch
+
+%description    rpm-macros
+This package contains common RPM macros for %{name}.
 
 
 %prep
@@ -456,12 +459,6 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_emacs_sitestartdir}
 %endif
 %endif
-%{rpm_macros_dir}/macros.%{name}
-%if %{with cmake_enables_rpm} && 0%{?_rpmconfigdir:1}
-%{_rpmconfigdir}/fileattrs/%{name}.attr
-%{_rpmconfigdir}/%{name}.prov
-%{_rpmconfigdir}/%{name}.req
-%endif
 
 
 %files doc
@@ -491,7 +488,19 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %endif
 
 
+%files rpm-macros
+%{rpm_macros_dir}/macros.%{name}
+%if %{with cmake_enables_rpm} && 0%{?_rpmconfigdir:1}
+%{_rpmconfigdir}/fileattrs/%{name}.attr
+%{_rpmconfigdir}/%{name}.prov
+%{_rpmconfigdir}/%{name}.req
+%endif
+
+
 %changelog
+* Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-2
+- Move rpm macros to own subpackage (#1498894)
+
 * Sat Dec 16 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-1
 - Update to 3.10.1 (#1526648)
 
