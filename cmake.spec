@@ -19,7 +19,7 @@
 %bcond_without cmake_enables_git_test
 
 # Set to bcond_with or use --without gui to disable qt4 gui build
-%bcond_without cmake_enables_gui
+%bcond_with cmake_enables_gui
 
 # Use ncurses for colorful output
 %bcond_without cmake_enables_ncurses
@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        4%{?relsuf}%{?dist}
+Release:        5%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -508,6 +508,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Dec 26 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-5
+- Bootstrapping for jsoncpp-1.8.4
+
 * Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-4
 - Re-add arched requires on filesystem sub-package
 
