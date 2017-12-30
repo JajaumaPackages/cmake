@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        6%{?relsuf}%{?dist}
+Release:        7%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -94,6 +94,9 @@ Source5:        %{name}.req
 Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch101:         %{name}-fedora-flag_release.patch
+
+# Patch to fix RISC-V support.  Sent upstream 2017-12-30.
+Patch102:         cmake-3.10.1-fix-riscv.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -508,6 +511,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Dec 30 2017 Richard W.M. Jones <rjones@redhat.com> - 3.10.1-7
+- Add small fix for RISC-V support.
+
 * Tue Dec 26 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-6
 - Rebuilt for jsoncpp.so.20
 
