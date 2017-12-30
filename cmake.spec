@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        7%{?relsuf}%{?dist}
+Release:        8%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -97,6 +97,10 @@ Patch101:         %{name}-fedora-flag_release.patch
 
 # Patch to fix RISC-V support.  Sent upstream 2017-12-30.
 Patch102:         cmake-3.10.1-fix-riscv.patch
+
+# Add dl to CMAKE_DL_LIBS on MINGW
+# https://gitlab.kitware.com/cmake/cmake/issues/17600
+Patch103:         cmake-mingw-dl.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -511,6 +515,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jan 02 2018 Sandro Mani <manisandro@gmail.com> - 3.10.1-8
+- Add dl to CMAKE_DL_LIBS on MINGW
+
 * Sat Dec 30 2017 Richard W.M. Jones <rjones@redhat.com> - 3.10.1-7
 - Add small fix for RISC-V support.
 
