@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        8%{?relsuf}%{?dist}
+Release:        9%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -251,6 +251,8 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 %package        rpm-macros
 Summary:        Common RPM macros for %{name}
 Requires:       rpm
+# when subpkg introduced
+Conflicts:      cmake < 3.10.1-2
 
 BuildArch:      noarch
 
@@ -515,6 +517,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Jan 13 2018 Rex Dieter <rdieter@fedoraproject.org> 3.10.1-9
+- -rpm-macros: Conflicts: cmake < 3.10.1-2 (#1532293)
+
 * Tue Jan 02 2018 Sandro Mani <manisandro@gmail.com> - 3.10.1-8
 - Add dl to CMAKE_DL_LIBS on MINGW
 
