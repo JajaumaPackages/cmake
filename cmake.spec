@@ -252,7 +252,7 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 Summary:        Common RPM macros for %{name}
 Requires:       rpm
 # when subpkg introduced
-Conflicts:      cmake < 3.10.1-2
+Conflicts:      cmake-data < 3.10.1-2
 
 BuildArch:      noarch
 
@@ -518,7 +518,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %changelog
 * Sat Jan 13 2018 Rex Dieter <rdieter@fedoraproject.org> 3.10.1-9
-- -rpm-macros: Conflicts: cmake < 3.10.1-2 (#1532293)
+- -rpm-macros: Conflicts: cmake-data < 3.10.1-2 (#1532293)
 
 * Tue Jan 02 2018 Sandro Mani <manisandro@gmail.com> - 3.10.1-8
 - Add dl to CMAKE_DL_LIBS on MINGW
