@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        9%{?relsuf}%{?dist}
+Release:        10%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -251,8 +251,10 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 %package        rpm-macros
 Summary:        Common RPM macros for %{name}
 Requires:       rpm
-# when subpkg introduced
-Conflicts:      cmake-data < 3.10.1-2
+# when subpkg introduced, works on new distros only
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:       (%{name}-data = %{version}-%{release} if %{name}-data < 3.10.1-2)
+%endif
 
 BuildArch:      noarch
 
@@ -517,6 +519,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Jan 14 2018 Björn Esser <besser82@fedoraproject.org> - 3.10.1-10
+- rpm-macros: Use rich boolean Requires instead of Conflicts (#1532293)
+
 * Sat Jan 13 2018 Rex Dieter <rdieter@fedoraproject.org> 3.10.1-9
 - -rpm-macros: Conflicts: cmake-data < 3.10.1-2 (#1532293)
 
