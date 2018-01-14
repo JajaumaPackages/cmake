@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        10%{?relsuf}%{?dist}
+Release:        11%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -253,7 +253,8 @@ Summary:        Common RPM macros for %{name}
 Requires:       rpm
 # when subpkg introduced, works on new distros only
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:       (%{name}-data = %{version}-%{release} if %{name}-data < 3.10.1-2)
+Requires:       (%{name} = %{version}-%{release} if %{name} < %{version}-%{release})
+Requires:       (%{name}-data = %{version}-%{release} if %{name}-data < %{version}-%{release})
 %endif
 
 BuildArch:      noarch
@@ -519,6 +520,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Jan 14 2018 Björn Esser <besser82@fedoraproject.org> - 3.10.1-11
+- rpm-macros: Keep cmake{,-data} in evr-lock, if they are installed
+
 * Sun Jan 14 2018 Björn Esser <besser82@fedoraproject.org> - 3.10.1-10
 - rpm-macros: Use rich boolean Requires instead of Conflicts (#1532293)
 
