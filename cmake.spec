@@ -166,8 +166,10 @@ BuildRequires: qt-devel
 BuildRequires: desktop-file-utils
 %endif
 
+%if %{without bootstrap}
 # Ensure we have our own rpm-macros in place during build.
 BuildRequires:  %{name}-rpm-macros
+%endif
 
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       %{name}-rpm-macros = %{version}-%{release}
