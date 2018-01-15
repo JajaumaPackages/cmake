@@ -66,7 +66,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.1
-Release:        11%{?relsuf}%{?dist}
+Release:        12%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -251,11 +251,8 @@ The %{name}-gui package contains the Qt based GUI for %{name}.
 %package        rpm-macros
 Summary:        Common RPM macros for %{name}
 Requires:       rpm
-# when subpkg introduced, works on new distros only
-%if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:       (%{name} = %{version}-%{release} if %{name} < %{version}-%{release})
-Requires:       (%{name}-data = %{version}-%{release} if %{name}-data < %{version}-%{release})
-%endif
+# when subpkg introduced
+Conflicts:      cmake-data < 3.10.1-2
 
 BuildArch:      noarch
 
@@ -520,6 +517,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jan 16 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.10.1-12
+- Conflicts was the right choice
+
 * Sun Jan 14 2018 Björn Esser <besser82@fedoraproject.org> - 3.10.1-11
 - rpm-macros: Keep cmake{,-data} in evr-lock, if they are installed
 
