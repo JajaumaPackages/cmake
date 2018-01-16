@@ -35,10 +35,10 @@
 %bcond_without cmake_enables_rpm
 
 # Sphinx-build cannot import CMakeLexer on EPEL <= 6
-%if 0%{?fedora} || 0%{?rhel} >= 7
-%bcond_without cmake_enables_sphinx
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%bcond_with cmake_enables_sphin
 %else
-%bcond_with cmake_enables_sphinx
+%bcond_without cmake_enables_sphinx
 %endif
 
 # Run tests
