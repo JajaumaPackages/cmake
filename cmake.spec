@@ -12,9 +12,6 @@
 # Build with Emacs support
 %bcond_without emacs
 
-# Use foreign cmake-filesystem package instead of building it here
-%bcond_with foreign_filesystem
-
 # Run git tests
 %bcond_without git_test
 
@@ -173,12 +170,7 @@ BuildRequires:  %{name}-rpm-macros
 
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       %{name}-rpm-macros = %{version}-%{release}
-
-%if %{with foreign_filesystem}
-Requires:       %{name}-filesystem%{?_isa}
-%else
 Requires:       %{name}-filesystem%{?_isa} = %{version}-%{release}
-%endif
 
 # Provide the major version name
 Provides: %{orig_name}%{major_version} = %{version}-%{release}
@@ -202,11 +194,7 @@ generation, code generation, and template instantiation.
 %package        data
 Summary:        Common data-files for %{name}
 Requires:       %{name} = %{version}-%{release}
-%if %{with foreign_filesystem}
-Requires:       %{name}-filesystem
-%else
 Requires:       %{name}-filesystem = %{version}-%{release}
-%endif
 Requires:       %{name}-rpm-macros = %{version}-%{release}
 %if %{with emacs}
 %if 0%{?fedora} || 0%{?rhel} >= 7
@@ -228,13 +216,11 @@ BuildArch:      noarch
 This package contains documentation for %{name}.
 
 
-%if !%{with foreign_filesystem}
 %package        filesystem
 Summary:        Directories used by CMake modules
 
 %description    filesystem
 This package owns all directories used by CMake modules.
-%endif
 
 
 %if %{with gui}
@@ -489,9 +475,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %doc %{_pkgdocdir}
 
 
-%if !%{with foreign_filesystem}
 %files filesystem -f data_dirs.mf -f lib_dirs.mf
-%endif
 
 
 %if %{with gui}
