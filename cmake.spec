@@ -291,7 +291,7 @@ pushd build
 %if %{with cmake_enables_sphinx}
              --sphinx-man --sphinx-html \
 %else
-             --sphinx-build=%{_bindir}false \
+             --sphinx-build=%{_bindir}/false \
 %endif
              --%{!?with_cmake_enables_gui:no-}qt-gui \
 ;
