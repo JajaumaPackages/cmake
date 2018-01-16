@@ -127,6 +127,9 @@ BuildRequires:  libX11-devel
 %if %{with cmake_enables_ncurses}
 BuildRequires:  ncurses-devel
 %endif
+%if %{with cmake_enables_sphinx}
+BuildRequires:  %{_bindir}/sphinx-build
+%endif
 %if %{without bootstrap}
 BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
@@ -134,9 +137,6 @@ BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
 %if 0%{?fedora} || 0%{?rhel} >= 7
 BuildRequires:  libarchive-devel
-%if %{with cmake_enables_sphinx}
-BuildRequires:  /usr/bin/sphinx-build
-%endif
 %else
 BuildRequires:  libarchive3-devel
 %endif
