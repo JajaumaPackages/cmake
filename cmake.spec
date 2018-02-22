@@ -62,8 +62,8 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.1
-Release:        13%{?relsuf}%{?dist}
+Version:        %{major_version}.%{minor_version}.2
+Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -91,10 +91,8 @@ Source5:        %{name}.req
 Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch101:         %{name}-fedora-flag_release.patch
-
-# Patch to fix RISC-V support.  Sent upstream 2017-12-30.
-Patch102:         cmake-3.10.1-fix-riscv.patch
-
+# Fix C17 handling
+Patch102:        https://gitlab.kitware.com/cmake/cmake/merge_requests/1785.patch
 # Add dl to CMAKE_DL_LIBS on MINGW
 # https://gitlab.kitware.com/cmake/cmake/issues/17600
 Patch103:         cmake-mingw-dl.patch
@@ -503,6 +501,10 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Feb 22 2018 Orion Poplawski <orion@nwra.com> - 3.10.2-1
+- Update to 3.10.2
+- Add patch to fix test failure with gcc 8
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
