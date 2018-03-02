@@ -63,7 +63,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        1%{?relsuf}%{?dist}
+Release:        2%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -352,7 +352,7 @@ desktop-file-install --delete-original \
 # See http://www.freedesktop.org/software/appstream/docs/ for more details.
 #
 mkdir -p %{buildroot}%{_datadir}/appdata
-cat > %{buildroot}%{_datadir}/appdata/CMake.appdata.xml <<EOF
+cat > %{buildroot}%{_datadir}/appdata/cmake-gui.appdata.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Ryan Lerch <rlerch@redhat.com> -->
 <!--
@@ -360,7 +360,7 @@ EmailAddress: kitware@kitware.com
 SentUpstream: 2014-09-17
 -->
 <application>
-  <id type="desktop">CMake.desktop</id>
+  <id type="desktop">cmake-gui.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>CMake GUI</name>
   <summary>Create new CMake projects</summary>
@@ -501,6 +501,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Mar 02 2018 Kalev Lember <klember@redhat.com> - 3.10.2-2
+- Fix appdata file to match with desktop file name
+
 * Thu Feb 22 2018 Orion Poplawski <orion@nwra.com> - 3.10.2-1
 - Update to 3.10.2
 - Add patch to fix test failure with gcc 8
