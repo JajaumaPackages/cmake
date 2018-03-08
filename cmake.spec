@@ -63,7 +63,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        2%{?relsuf}%{?dist}
+Release:        3%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -154,9 +154,9 @@ BuildRequires:  python2-devel
 #BuildRequires: xmlrpc-c-devel
 %if %{with gui}
 %if 0%{?fedora} || 0%{?rhel} > 7
-BuildRequires: pkgconfig(Qt5)
+BuildRequires: pkgconfig(Qt5Widgets)
 %else
-BuildRequires: qt-devel
+BuildRequires: pkgconfig(QtGui)
 %endif
 BuildRequires: desktop-file-utils
 %endif
@@ -501,6 +501,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Mar 08 2018 Rex Dieter <rdieter@fedoraproject.org> - 3.10.2-3
+- better Qt dependencies
+
 * Fri Mar 02 2018 Kalev Lember <klember@redhat.com> - 3.10.2-2
 - Fix appdata file to match with desktop file name
 
