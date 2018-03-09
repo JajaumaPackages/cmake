@@ -63,7 +63,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        3%{?relsuf}%{?dist}
+Release:        4%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -504,7 +504,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
-* Thu Mar 8 2018 Orion Poplawski <orion@nwra.com> - 3.10.2-4
+* Thu Mar 08 2018 Orion Poplawski <orion@nwra.com> - 3.10.2-4
 - Add patch to fix autogen with empty files (bug #1551147)
 
 * Thu Mar 08 2018 Rex Dieter <rdieter@fedoraproject.org> - 3.10.2-3
