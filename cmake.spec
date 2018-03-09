@@ -96,6 +96,9 @@ Patch102:        https://gitlab.kitware.com/cmake/cmake/merge_requests/1785.patc
 # Add dl to CMAKE_DL_LIBS on MINGW
 # https://gitlab.kitware.com/cmake/cmake/issues/17600
 Patch103:         cmake-mingw-dl.patch
+# Fix autogen crash with empty files
+# https://bugzilla.redhat.com/show_bug.cgi?id=1551147
+Patch104:       cmake-automoc.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -501,6 +504,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Mar 8 2018 Orion Poplawski <orion@nwra.com> - 3.10.2-4
+- Add patch to fix autogen with empty files (bug #1551147)
+
 * Thu Mar 08 2018 Rex Dieter <rdieter@fedoraproject.org> - 3.10.2-3
 - better Qt dependencies
 
