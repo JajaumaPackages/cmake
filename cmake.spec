@@ -1,5 +1,25 @@
+# Do we add appdata-files?
+%if 0%{?fedora} || 0%{?rhel} > 7
+%bcond_without appdata
+%else
+%bcond_with appdata
+%endif
+
+# Set to bcond_without or use --with bootstrap if bootstrapping a new release
+# or architecture
+%bcond_with bootstrap
+
+# Build with Emacs support
+%bcond_without emacs
+
+# Run git tests
+%bcond_without git_test
+
 # Set to bcond_with or use --without gui to disable qt4 gui build
 %bcond_without gui
+
+# Use ncurses for colorful output
+%bcond_without ncurses
 
 # Setting the Python-version used by default
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -8,19 +28,21 @@
 %bcond_without python3
 %endif
 
-# Do we add appdata-files?
-%if 0%{?fedora} || 0%{?rhel} > 7
-%bcond_without appdata
-%else
-%bcond_with appdata
-%endif
+# Enable RPM dependency generators for cmake files written in Python
+%bcond_without rpm
 
 # Sphinx-build cannot import CMakeLexer on EPEL <= 6
-%if 0%{?fedora} || 0%{?rhel} > 7
-%bcond_without sphinx
-%else
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %bcond_with sphinx
+%else
+%bcond_without sphinx
 %endif
+
+# Run tests
+%bcond_without test
+
+# Enable X11 tests
+%bcond_without X11_test
 
 # Place rpm-macros into proper location
 %global rpm_macros_dir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
@@ -29,19 +51,19 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 %global major_version 3
-%global minor_version 9
-# Set to RC version if building RC, else %{nil}
+%global minor_version 10
+# Set to RC version if building RC, else %%{nil}
 #global rcsuf rc3
 %{?rcsuf:%global relsuf .%{rcsuf}}
 %{?rcsuf:%global versuf -%{rcsuf}}
 
 # Uncomment if building for EPEL
-#global name_suffix %{major_version}
+#global name_suffix %%{major_version}
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.6
-Release:        3%{?relsuf}%{?dist}
+Version:        %{major_version}.%{minor_version}.2
+Release:        4%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -69,6 +91,14 @@ Source5:        %{name}.req
 Patch100:         %{name}-findruby.patch
 # replace release flag -O3 with -O2 for fedora
 Patch101:         %{name}-fedora-flag_release.patch
+# Fix C17 handling
+Patch102:        https://gitlab.kitware.com/cmake/cmake/merge_requests/1785.patch
+# Add dl to CMAKE_DL_LIBS on MINGW
+# https://gitlab.kitware.com/cmake/cmake/issues/17600
+Patch103:         cmake-mingw-dl.patch
+# Fix autogen crash with empty files
+# https://bugzilla.redhat.com/show_bug.cgi?id=1551147
+Patch104:       cmake-automoc.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -78,16 +108,33 @@ Patch2:      %{name}-libarchive3.patch
 %endif
 %endif
 
+BuildRequires:  coreutils
+BuildRequires:  findutils
+BuildRequires:  gcc-c++
 BuildRequires:  gcc-gfortran
-%if ! 0%{?_module_build}
-BuildRequires:  ncurses-devel, libX11-devel
+BuildRequires:  sed
+%if %{with git_test}
+# Tests fail if only git-core is installed, bug #1488830
+BuildRequires:  git
+%else
+BuildConflicts: git-core
+%endif
+%if %{with X11_test}
+BuildRequires:  libX11-devel
+%endif
+%if %{with ncurses}
+BuildRequires:  ncurses-devel
+%endif
+%if %{with sphinx}
+BuildRequires:  %{_bindir}/sphinx-build
+%endif
+%if %{without bootstrap}
 BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
 BuildRequires:  expat-devel
 BuildRequires:  jsoncpp-devel
 %if 0%{?fedora} || 0%{?rhel} >= 7
 BuildRequires:  libarchive-devel
-BuildRequires:  /usr/bin/sphinx-build
 %else
 BuildRequires:  libarchive3-devel
 %endif
@@ -95,30 +142,36 @@ BuildRequires:  libuv-devel
 BuildRequires:  rhash-devel
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
+%endif
+%if %{with emacs}
 BuildRequires:  emacs
 %endif
-%if ! 0%{?_module_build}
+%if %{with rpm}
 %if %{with python3}
 %{!?python3_pkgversion: %global python3_pkgversion 3}
 BuildRequires:  python%{python3_pkgversion}-devel
 %else
 BuildRequires:  python2-devel
 %endif
+%endif
 #BuildRequires: xmlrpc-c-devel
 %if %{with gui}
 %if 0%{?fedora} || 0%{?rhel} > 7
-BuildRequires: pkgconfig(Qt5)
+BuildRequires: pkgconfig(Qt5Widgets)
 %else
-BuildRequires: qt-devel
+BuildRequires: pkgconfig(QtGui)
 %endif
 BuildRequires: desktop-file-utils
-%global qt_gui --qt-gui
 %endif
+
+%if %{without bootstrap}
+# Ensure we have our own rpm-macros in place during build.
+BuildRequires:  %{name}-rpm-macros
 %endif
 
 Requires:       %{name}-data = %{version}-%{release}
+Requires:       %{name}-rpm-macros = %{version}-%{release}
 Requires:       %{name}-filesystem%{?_isa} = %{version}-%{release}
-Requires:       rpm
 
 # Provide the major version name
 Provides: %{orig_name}%{major_version} = %{version}-%{release}
@@ -143,9 +196,10 @@ generation, code generation, and template instantiation.
 Summary:        Common data-files for %{name}
 Requires:       %{name} = %{version}-%{release}
 Requires:       %{name}-filesystem = %{version}-%{release}
-%if ! 0%{?_module_build}
+Requires:       %{name}-rpm-macros = %{version}-%{release}
+%if %{with emacs}
 %if 0%{?fedora} || 0%{?rhel} >= 7
-Requires:       emacs-filesystem >= %{_emacs_version}
+Requires:       emacs-filesystem%{?_emacs_version: >= %{_emacs_version}}
 %endif
 %endif
 
@@ -170,6 +224,7 @@ Summary:        Directories used by CMake modules
 This package owns all directories used by CMake modules.
 
 
+%if %{with gui}
 %package        gui
 Summary:        Qt GUI for %{name}
 
@@ -179,11 +234,25 @@ Requires:       shared-mime-info%{?_isa}
 
 %description    gui
 The %{name}-gui package contains the Qt based GUI for %{name}.
+%endif
+
+
+%package        rpm-macros
+Summary:        Common RPM macros for %{name}
+Requires:       rpm
+# when subpkg introduced
+Conflicts:      cmake-data < 3.10.1-2
+
+BuildArch:      noarch
+
+%description    rpm-macros
+This package contains common RPM macros for %{name}.
 
 
 %prep
 %autosetup -n %{orig_name}-%{version}%{?versuf} -p 1
 
+%if %{with rpm}
 %if %{with python3}
 echo '#!%{__python3}' > %{name}.prov
 echo '#!%{__python3}' > %{name}.req
@@ -193,6 +262,7 @@ echo '#!%{__python2}' > %{name}.req
 %endif
 tail -n +2 %{SOURCE4} >> %{name}.prov
 tail -n +2 %{SOURCE5} >> %{name}.req
+%endif
 
 
 %build
@@ -201,18 +271,17 @@ export CXXFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 mkdir build
 pushd build
-%if ! 0%{?_module_build}
 ../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
              --docdir=/share/doc/%{name} --mandir=/share/man \
              --%{?with_bootstrap:no-}system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
-             %{?with_sphinx:--sphinx-man --sphinx-html} \
-             %{?qt_gui};
+%if %{with sphinx}
+             --sphinx-man --sphinx-html \
 %else
-../bootstrap --prefix=%{_prefix} --datadir=/share/%{name} \
-             --docdir=/share/doc/%{name} --mandir=/share/man \
-             --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN`
+             --sphinx-build=%{_bindir}/false \
 %endif
+             --%{!?with_gui:no-}qt-gui \
+;
 %make_build VERBOSE=1
 
 
@@ -231,7 +300,7 @@ for f in %{buildroot}%{_datadir}/%{name}/completions/*
 do
   ln -s ../../%{name}/completions/$(basename $f) %{buildroot}%{_datadir}/bash-completion/completions
 done
-%if ! 0%{?_module_build}
+%if %{with emacs}
 # Install emacs cmake mode
 mkdir -p %{buildroot}%{_emacs_sitelispdir}/%{name}
 install -p -m 0644 Auxiliary/cmake-mode.el %{buildroot}%{_emacs_sitelispdir}/%{name}/%{name}-mode.el
@@ -243,7 +312,7 @@ install -p -m 0644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}
 install -p -m0644 -D %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
 sed -i -e "s|@@CMAKE_VERSION@@|%{version}|" -e "s|@@CMAKE_MAJOR_VERSION@@|%{major_version}|" %{buildroot}%{rpm_macros_dir}/macros.%{name}
 touch -r %{SOURCE2} %{buildroot}%{rpm_macros_dir}/macros.%{name}
-%if 0%{?_rpmconfigdir:1}
+%if %{with rpm} && 0%{?_rpmconfigdir:1}
 # RPM auto provides
 install -p -m0644 -D %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/fileattrs/%{name}.attr
 install -p -m0755 -D %{name}.prov %{buildroot}%{_prefix}/lib/rpm/%{name}.prov
@@ -259,23 +328,18 @@ do
   cp -p $f ./${fname}_${dname}
 done
 # Cleanup pre-installed documentation
-%if ! 0%{?_module_build}
-%if 0%{?with_sphinx:1}
+%if %{with sphinx}
 mv %{buildroot}%{_docdir}/%{name}/html .
-%endif
 %endif
 rm -rf %{buildroot}%{_docdir}/%{name}
 # Install documentation to _pkgdocdir
 mkdir -p %{buildroot}%{_pkgdocdir}
 cp -pr %{buildroot}%{_datadir}/%{name}/Help %{buildroot}%{_pkgdocdir}
 mv %{buildroot}%{_pkgdocdir}/Help %{buildroot}%{_pkgdocdir}/rst
-%if ! 0%{?_module_build}
-%if 0%{?with_sphinx:1}
+%if %{with sphinx}
 mv html %{buildroot}%{_pkgdocdir}
 %endif
-%endif
 
-%if ! 0%{?_module_build}
 %if %{with gui}
 # Desktop file
 desktop-file-install --delete-original \
@@ -291,7 +355,7 @@ desktop-file-install --delete-original \
 # See http://www.freedesktop.org/software/appstream/docs/ for more details.
 #
 mkdir -p %{buildroot}%{_datadir}/appdata
-cat > %{buildroot}%{_datadir}/appdata/CMake.appdata.xml <<EOF
+cat > %{buildroot}%{_datadir}/appdata/cmake-gui.appdata.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Ryan Lerch <rlerch@redhat.com> -->
 <!--
@@ -299,7 +363,7 @@ EmailAddress: kitware@kitware.com
 SentUpstream: 2014-09-17
 -->
 <application>
-  <id type="desktop">CMake.desktop</id>
+  <id type="desktop">cmake-gui.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>CMake GUI</name>
   <summary>Create new CMake projects</summary>
@@ -321,7 +385,6 @@ SentUpstream: 2014-09-17
 EOF
 %endif
 %endif
-%endif
 
 # create manifests for splitting files and directories for filesystem-package
 find %{buildroot}%{_datadir}/%{name} -type d | \
@@ -336,18 +399,15 @@ find %{buildroot}%{_bindir} -type f -or -type l -or -xtype l | \
   sed -e '/.*-gui$/d' -e '/^$/d' -e 's!^%{buildroot}!"!g' -e 's!$!"!g' >> lib_files.mf
 
 
-%if ! 0%{?_module_build}
+%if %{with test}
 %check
 %if 0%{?rhel} && 0%{?rhel} <= 6
 mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
 %endif
 pushd build
-#CMake.FileDownload, and CTestTestUpload require internet access
-NO_TEST="CMake.FileDownload|CTestTestUpload"
-# RunCMake.CPack_RPM fails for the new way RPM handles debug-stuff
-%if 0%{?fedora} >= 27
-NO_TEST="$NO_TEST|RunCMake.CPack_RPM"
-%endif
+#CMake.FileDownload, CTestTestUpload, and curl require internet access
+# RunCMake.CPack_RPM is broken if disttag contains "+", bug #1499151
+NO_TEST="CMake.FileDownload|CTestTestUpload|curl|RunCMake.CPack_RPM"
 # RunCMake.File_Generate fails on S390X
 %ifarch s390x
 NO_TEST="$NO_TEST|RunCMake.File_Generate"
@@ -386,21 +446,19 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %doc %dir %{_pkgdocdir}
 %license Copyright.txt*
 %license COPYING*
-%if ! 0%{?_module_build}
-%if 0%{?with_sphinx:1}
+%if %{with sphinx}
 %{_mandir}/man1/c%{name}.1.*
 %{_mandir}/man1/%{name}.1.*
 %{_mandir}/man1/cpack%{?name_suffix}.1.*
 %{_mandir}/man1/ctest%{?name_suffix}.1.*
 %{_mandir}/man7/*.7.*
 %endif
-%endif
 
 
 %files data -f data_files.mf
 %{_datadir}/aclocal/%{name}.m4
 %{_datadir}/bash-completion
-%if ! 0%{?_module_build}
+%if %{with emacs}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 %{_emacs_sitelispdir}/%{name}
 %{_emacs_sitestartdir}/%{name}-init.el
@@ -408,12 +466,6 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_emacs_sitelispdir}
 %{_emacs_sitestartdir}
 %endif
-%endif
-%{rpm_macros_dir}/macros.%{name}
-%if 0%{?_rpmconfigdir:1}
-%{_rpmconfigdir}/fileattrs/%{name}.attr
-%{_rpmconfigdir}/%{name}.prov
-%{_rpmconfigdir}/%{name}.req
 %endif
 
 
@@ -427,7 +479,6 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %files filesystem -f data_dirs.mf -f lib_dirs.mf
 
 
-%if ! 0%{?_module_build}
 %if %{with gui}
 %files gui
 %{_bindir}/%{name}-gui
@@ -437,41 +488,98 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_datadir}/applications/%{name}-gui.desktop
 %{_datadir}/mime/packages
 %{_datadir}/icons/hicolor/*/apps/CMake%{?name_suffix}Setup.png
-%if 0%{?with_sphinx:1}
+%if %{with sphinx}
 %{_mandir}/man1/%{name}-gui.1.*
 %endif
 %endif
+
+
+%files rpm-macros
+%{rpm_macros_dir}/macros.%{name}
+%if %{with rpm} && 0%{?_rpmconfigdir:1}
+%{_rpmconfigdir}/fileattrs/%{name}.attr
+%{_rpmconfigdir}/%{name}.prov
+%{_rpmconfigdir}/%{name}.req
 %endif
 
 
 %changelog
-* Mon Nov 13 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.6-3
-- Force rebuild
+* Thu Mar 08 2018 Orion Poplawski <orion@nwra.com> - 3.10.2-4
+- Add patch to fix autogen with empty files (bug #1551147)
 
-* Sun Nov 12 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.6-2
-- Force rebuild
+* Thu Mar 08 2018 Rex Dieter <rdieter@fedoraproject.org> - 3.10.2-3
+- better Qt dependencies
 
-* Fri Nov 10 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.6-1
-- Update to latest upstream release
+* Fri Mar 02 2018 Kalev Lember <klember@redhat.com> - 3.10.2-2
+- Fix appdata file to match with desktop file name
 
-* Sun Nov 05 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.5-1
-- Update to latest upstream release
+* Thu Feb 22 2018 Orion Poplawski <orion@nwra.com> - 3.10.2-1
+- Update to 3.10.2
+- Add patch to fix test failure with gcc 8
 
-* Sat Oct 14 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.4-1
-- Update to latest upstream release
+* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
-* Tue Sep 26 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.3-1
-- Update to latest upstream release
+* Tue Jan 16 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.10.1-12
+- Conflicts was the right choice
 
-* Thu Sep 14 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.2-1
-- Update to latest upstream release
+* Sun Jan 14 2018 Björn Esser <besser82@fedoraproject.org> - 3.10.1-11
+- rpm-macros: Keep cmake{,-data} in evr-lock, if they are installed
 
-* Sun Aug 13 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.1-1
-- Update to latest upstream release
-- Drop cmake-fix_sphinx_toctree.patch
+* Sun Jan 14 2018 Björn Esser <besser82@fedoraproject.org> - 3.10.1-10
+- rpm-macros: Use rich boolean Requires instead of Conflicts (#1532293)
 
-* Sun Aug 06 2017 Jajauma's Packages <jajauma@yandex.ru> - 3.9.0-10
-- Skip sphinx on RHEL7
+* Sat Jan 13 2018 Rex Dieter <rdieter@fedoraproject.org> 3.10.1-9
+- -rpm-macros: Conflicts: cmake-data < 3.10.1-2 (#1532293)
+
+* Tue Jan 02 2018 Sandro Mani <manisandro@gmail.com> - 3.10.1-8
+- Add dl to CMAKE_DL_LIBS on MINGW
+
+* Sat Dec 30 2017 Richard W.M. Jones <rjones@redhat.com> - 3.10.1-7
+- Add small fix for RISC-V support.
+
+* Tue Dec 26 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-6
+- Rebuilt for jsoncpp.so.20
+
+* Tue Dec 26 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-5
+- Bootstrapping for jsoncpp-1.8.4
+
+* Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-4
+- Re-add arched requires on filesystem sub-package
+
+* Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-3
+- Ensure we have our own rpm-macros in place during build
+
+* Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-2
+- Move rpm macros to own subpackage (#1498894)
+
+* Sat Dec 16 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.1-1
+- Update to 3.10.1 (#1526648)
+
+* Thu Nov 23 2017 Björn Esser <besser82@fedoraproject.org> - 3.10.0-1
+- Update to 3.10.0 (#1515793)
+
+* Fri Nov 10 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.9.6-1
+- Update to 3.9.6
+
+* Wed Nov 08 2017 Rex Dieter <rdieter@fedoraproject.org> - 3.9.5-1
+- Update to 3.9.5 (#1498688)
+
+* Thu Sep 21 2017 Pete Walter <pwalter@fedoraproject.org> - 3.9.3-1
+- Update to 3.9.3
+
+* Fri Sep 01 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.1-4
+- Rebuilt for jsoncpp-1.8.3
+
+* Fri Sep 01 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.1-3
+- Bootstrapping for jsoncpp-1.8.3
+
+* Sun Aug 13 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.1-2
+- Add patch to restore old style debuginfo creation for rpm >= 4.14
+  in CPackRPM
+
+* Sat Aug 12 2017 Pete Walter <pwalter@fedoraproject.org> - 3.9.1-1
+- Update to 3.9.1
 
 * Thu Aug 03 2017 Björn Esser <besser82@fedoraproject.org> - 3.9.0-9
 - RunCMake.File_Generate fails on S390X, skip it temporarily
