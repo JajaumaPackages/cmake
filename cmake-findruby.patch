@@ -1,8 +1,7 @@
-Index: cmake-3.10.0/Modules/FindRuby.cmake
-===================================================================
---- cmake-3.10.0.orig/Modules/FindRuby.cmake
-+++ cmake-3.10.0/Modules/FindRuby.cmake
-@@ -106,14 +106,8 @@ if(RUBY_EXECUTABLE  AND NOT  RUBY_VERSIO
+diff -uNr cmake-3.11.0.orig/Modules/FindRuby.cmake cmake-3.11.0/Modules/FindRuby.cmake
+--- cmake-3.11.0.orig/Modules/FindRuby.cmake	2018-03-31 11:23:59.548941044 +0300
++++ cmake-3.11.0/Modules/FindRuby.cmake	2018-03-31 11:27:39.394429038 +0300
+@@ -109,14 +109,8 @@
     _RUBY_CONFIG_VAR("sitearchdir" RUBY_SITEARCH_DIR)
     _RUBY_CONFIG_VAR("sitelibdir" RUBY_SITELIB_DIR)
  
