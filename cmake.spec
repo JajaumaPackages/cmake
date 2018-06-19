@@ -63,7 +63,7 @@
 
 Name:           %{orig_name}%{?name_suffix}
 Version:        %{major_version}.%{minor_version}.2
-Release:        1%{?relsuf}%{?dist}
+Release:        2%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -499,6 +499,9 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 3.11.2-2
+- Rebuilt for Python 3.7
+
 * Fri May 18 2018 Björn Esser <besser82@fedoraproject.org> - 3.11.2-1
 - Update to 3.11.2 (#1568630)
 
