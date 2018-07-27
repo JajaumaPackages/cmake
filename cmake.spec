@@ -1,4 +1,5 @@
 # Do we add appdata-files?
+# consider conditional on whether %%_metainfodir is defined or not instead -- rex
 %if 0%{?fedora} || 0%{?rhel} > 7
 %bcond_without appdata
 %else
@@ -51,7 +52,7 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 %global major_version 3
-%global minor_version 11
+%global minor_version 12
 # Set to RC version if building RC, else %%{nil}
 #global rcsuf rc3
 %{?rcsuf:%global relsuf .%{rcsuf}}
@@ -62,8 +63,8 @@
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.2
-Release:        3%{?relsuf}%{?dist}
+Version:        %{major_version}.%{minor_version}.0
+Release:        1%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -349,8 +350,8 @@ desktop-file-install --delete-original \
 #
 # See http://www.freedesktop.org/software/appstream/docs/ for more details.
 #
-mkdir -p %{buildroot}%{_datadir}/appdata
-cat > %{buildroot}%{_datadir}/appdata/cmake-gui.appdata.xml <<EOF
+mkdir -p %{buildroot}%{_metainfodir}
+cat > %{buildroot}%{_metainfodir}/cmake-gui.appdata.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Ryan Lerch <rlerch@redhat.com> -->
 <!--
@@ -478,7 +479,7 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %files gui
 %{_bindir}/%{name}-gui
 %if %{with appdata}
-%{_datadir}/appdata/*.appdata.xml
+%{_metainfodir}/*.appdata.xml
 %endif
 %{_datadir}/applications/%{name}-gui.desktop
 %{_datadir}/mime/packages
@@ -499,6 +500,11 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jul 27 2018 Rex Dieter <rdieter@fedoraproject.org> - 3.12.0-1
+- Update to 3.12.0 (#1584925)
+- fixes libuv-related FTBFS (#1603661)
+- use %%_metainfodir
+
 * Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
